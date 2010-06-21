@@ -1,3 +1,0 @@
-= Requirements =
-
->= JRE 1.6
