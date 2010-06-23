@@ -1,0 +1,8 @@
+= Why didn't you integrate your changes into Paros Proxy? =
+
+We asked Chinotec to integrate our changes into Paros Proxy, but the request was rejected. Therefore, we created a fork of the software.
+
+
+= Is there any documentation? =
+
+We are sorry, there is no documentation of Andiparos yet.
