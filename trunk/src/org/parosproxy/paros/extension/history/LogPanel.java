@@ -39,6 +39,8 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JTextField;
@@ -70,7 +72,10 @@ public class LogPanel extends AbstractPanel implements Runnable {
 	private HttpPanel requestPanel = null;
 	private HttpPanel responsePanel = null;
 	private JPanel jPanel = null;
+	private JLabel uriFilterLabel = null;
 	private JTextField uriFilter = null;
+	private JLabel methodLabel = null;
+	private JComboBox methodList = null;
 	private JCheckBox filterInverse = null;
 	private ExtensionHistory extension = null;
 
@@ -118,7 +123,13 @@ public class LogPanel extends AbstractPanel implements Runnable {
 	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
-
+			
+			methodLabel = new JLabel("HTTP Method: ");
+			String[] methods = {"ALL", "POST", "GET", "HEAD"};
+			methodList = new JComboBox(methods);
+			methodList.setSelectedIndex(0);
+			
+			uriFilterLabel = new JLabel("URI: ");
 			uriFilter = new JTextField();
 			uriFilter.setColumns(50);
 			filterInverse = new JCheckBox("Filter inverse");
@@ -127,36 +138,57 @@ public class LogPanel extends AbstractPanel implements Runnable {
 			jPanel = new JPanel();
 			jPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			
+			jPanel.add(methodLabel);
+			jPanel.add(methodList);
+			jPanel.add(uriFilterLabel);
 			jPanel.add(uriFilter);
 			jPanel.add(filterInverse);
 			jPanel.add(jButton);
 
-			filterInverse.addActionListener(new ActionListener() {
+			
+			// HTTP Method Filter
+			methodList.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String filter = uriFilter.getText();
+					String filter[] = { (String)methodList.getSelectedItem(), uriFilter.getText() };
 					boolean inverseFilter = filterInverse.isSelected();
 					extension.getProxyListenerLog().setUriFilter(filter, inverseFilter);
 					extension.searchHistoryByURI(filter, inverseFilter);
 				}
 			});
 			
-			jButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String filter = uriFilter.getText();
-					boolean inverseFilter = filterInverse.isSelected();
-					extension.getProxyListenerLog().setUriFilter(filter, inverseFilter);
-					extension.searchHistoryByURI(filter, inverseFilter);
-				}
-			});
-			     
+			
+			// URI Filter
 			uriFilter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String filter = uriFilter.getText();
+					String filter[] = { (String)methodList.getSelectedItem(), uriFilter.getText() };
 					boolean inverseFilter = filterInverse.isSelected();
 					extension.getProxyListenerLog().setUriFilter(filter, inverseFilter);
 					extension.searchHistoryByURI(filter, inverseFilter);
 				}
 			});
+			
+			// Filter inversion
+			filterInverse.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String filter[] = { (String)methodList.getSelectedItem(), uriFilter.getText() };
+					boolean inverseFilter = filterInverse.isSelected();
+					extension.getProxyListenerLog().setUriFilter(filter, inverseFilter);
+					extension.searchHistoryByURI(filter, inverseFilter);
+				}
+			});
+			
+			// Filter Button
+			jButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String filter[] = { (String)methodList.getSelectedItem(), uriFilter.getText() };
+					boolean inverseFilter = filterInverse.isSelected();
+					extension.getProxyListenerLog().setUriFilter(filter, inverseFilter);
+					extension.searchHistoryByURI(filter, inverseFilter);
+				}
+			});
+			
+			
+			
 
 		}
 		return jPanel;

@@ -45,6 +45,7 @@ public class ProxyListenerLog implements ProxyListener {
 	private HistoryList historyList = null;
 	private Pattern pattern = null;
 	private Pattern uriFilterPattern = null;
+	private Pattern methodFilterPattern = null;
 	private boolean uriFilterPatternInverse = false;
 	private boolean isFirstAccess = true;
 
@@ -62,14 +63,24 @@ public class ProxyListenerLog implements ProxyListener {
 		}
 	}
 
-	// AXEL: new filter
-	public void setUriFilter(String uriFilter, boolean uriFilterInverse) {
-		if (uriFilter == null || uriFilter.equals("")) {
+	// AXEL: New HTTP method and URI filter
+	
+	public void setUriFilter(String[] filter, boolean uriFilterInverse) {
+		// HTTP method filter
+		if (filter[0] == "ALL" || filter[0].equals("")) {
+			methodFilterPattern = null;
+		} else {
+			methodFilterPattern = Pattern.compile(filter[0]);
+		}
+		
+		// URI filter
+		if (filter[1] == null || filter[1].equals("")) {
 			uriFilterPattern = null;
 		} else {
-			uriFilterPattern = Pattern.compile(uriFilter, Pattern.CASE_INSENSITIVE);
+			uriFilterPattern = Pattern.compile(filter[1], Pattern.CASE_INSENSITIVE);
 		}
 
+		// Pattern inversion
 		if (uriFilterInverse == true) {
 			uriFilterPatternInverse = true;
 		} else {
