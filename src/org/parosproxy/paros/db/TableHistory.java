@@ -252,12 +252,15 @@ public class TableHistory extends AbstractTable {
 	}
 
 	/* Axel: URI filter */
-	public List<Integer> getFilteredHistoryList(long sessionId, int histType, String uriFilter, boolean uriFilterInverse) throws SQLException {
+	public List<Integer> getFilteredHistoryList(long sessionId, int histType, String methodFilter, String uriFilter, boolean uriFilterInverse) throws SQLException {
 		PreparedStatement psReadSearch = getConnection().prepareStatement("SELECT * FROM HISTORY WHERE " + SESSIONID + " = ? AND " + HISTTYPE + " = ? ORDER BY " + HISTORYID);
 
-		Pattern pattern = Pattern.compile(uriFilter, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
-		Matcher matcher = null;
-
+		Pattern uriPattern = Pattern.compile(uriFilter, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+		Matcher uriMatcher = null;
+		
+		Pattern methodPattern = Pattern.compile(methodFilter, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+		Matcher methodMatcher = null;
+		
 		Vector<Integer> v = new Vector<Integer>();
 		psReadSearch.setLong(1, sessionId);
 		psReadSearch.setInt(2, histType);
@@ -265,17 +268,35 @@ public class TableHistory extends AbstractTable {
 
 		ResultSet rs = psReadSearch.getResultSet();
 		while (rs.next()) {
-			matcher = pattern.matcher(rs.getString(URI));
+			methodMatcher = methodPattern.matcher(rs.getString(METHOD));
+			uriMatcher = uriPattern.matcher(rs.getString(URI));
 
-			if (uriFilterInverse == true) {
-				if (!matcher.find()) {
-					v.add(new Integer(rs.getInt(HISTORYID)));
-					continue;
+			// Check if ALL methods should be displayed
+			if (methodFilter.equals("ALL") || methodFilter.equals("")) {
+				
+				if (uriFilterInverse == true) {
+					if (!uriMatcher.find()) {
+						v.add(new Integer(rs.getInt(HISTORYID)));
+						continue;
+					}
+				} else {
+					if (uriMatcher.find()) {
+						v.add(new Integer(rs.getInt(HISTORYID)));
+						continue;
+					}
 				}
-			} else {
-				if (matcher.find()) {
-					v.add(new Integer(rs.getInt(HISTORYID)));
-					continue;
+			
+			} else { // In this case, a certain HTTP method has been selected
+				if (uriFilterInverse == true) {
+					if (!uriMatcher.find() && methodMatcher.find()) {
+						v.add(new Integer(rs.getInt(HISTORYID)));
+						continue;
+					}
+				} else {
+					if (uriMatcher.find() && methodMatcher.find()) {
+						v.add(new Integer(rs.getInt(HISTORYID)));
+						continue;
+					}
 				}
 			}
 

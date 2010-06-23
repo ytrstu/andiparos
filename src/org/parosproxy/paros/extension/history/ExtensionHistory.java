@@ -203,12 +203,15 @@ public class ExtensionHistory extends ExtensionAdaptor implements SessionChanged
 
 	}
 
-	public void searchHistoryByURI(String uriFilter, boolean uriFilterInverse) {
+	public void searchHistoryByURI(String[] filter, boolean uriFilterInverse) {
 		Session session = getModel().getSession();
+		
+		String methodFilter = filter[0];
+		String uriFilter = filter[1];
 
 		synchronized (historyList) {
 			try {
-				List<Integer> list = getModel().getDb().getTableHistory().getFilteredHistoryList(session.getSessionId(), HistoryReference.TYPE_MANUAL, uriFilter, uriFilterInverse);
+				List<Integer> list = getModel().getDb().getTableHistory().getFilteredHistoryList(session.getSessionId(), HistoryReference.TYPE_MANUAL, methodFilter, uriFilter, uriFilterInverse);
 				buildHistory(getHistoryList(), list);
 			} catch (SQLException e) {
 			}
