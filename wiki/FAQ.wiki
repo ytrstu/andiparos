@@ -6,3 +6,8 @@ We asked Chinotec to integrate our changes into Paros Proxy, but the request was
 = Is there any documentation? =
 
 We are sorry, there is no documentation of Andiparos yet.
+
+
+= Does Andiparos offer full smartcard support? =
+
+To be honest, smartcard support has only been tested on Windows systems, yet. Smartcard support on different systems than Windows was not a requirement when the feature was developed. We would enjoy getting feedback about your testing results.
