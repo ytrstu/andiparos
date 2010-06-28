@@ -23,7 +23,7 @@ package org.parosproxy.paros.control;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.parosproxy.paros.core.scanner.PluginFactory;
-import org.parosproxy.paros.extension.autoupdate.ExtensionAutoUpdate;
+import org.parosproxy.paros.extension.update.ExtensionUpdate;
 import org.parosproxy.paros.extension.edit.ExtensionEdit;
 import org.parosproxy.paros.extension.encoder.ExtensionEncoder;
 import org.parosproxy.paros.extension.filter.ExtensionFilter;
@@ -101,7 +101,7 @@ public class Control extends AbstractControl {
 		getExtensionLoader().addExtension(new ExtensionScanner());
 		getExtensionLoader().addExtension(new ExtensionReport());
 		getExtensionLoader().addExtension(new ExtensionManualRequestEditor());
-		getExtensionLoader().addExtension(new ExtensionAutoUpdate());
+		getExtensionLoader().addExtension(new ExtensionUpdate());
 
 	}
 
