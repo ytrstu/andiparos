@@ -1,0 +1,6 @@
+= Devices that are known to work with Andiparos =
+* Gemalto - Reflex 20 V2
+* SwissStick
+
+= Devices that were reported to work with Andiparos =
+* Omnikey - Cardman 4040
