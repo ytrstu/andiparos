@@ -1,8 +1,7 @@
 = Devices that are known to work with Andiparos =
 
 * Gemalto - Reflex 20 V2
-
-* SwissStick
+* Swiss Stick
 
 = Devices that were reported to work with Andiparos =
 
