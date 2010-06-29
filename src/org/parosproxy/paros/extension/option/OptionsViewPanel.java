@@ -21,10 +21,12 @@
 package org.parosproxy.paros.extension.option;
 
 import java.awt.CardLayout;
-import java.awt.GridLayout;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.parosproxy.paros.model.OptionsParam;
 import org.parosproxy.paros.view.AbstractParamPanel;
@@ -40,6 +42,7 @@ public class OptionsViewPanel extends AbstractParamPanel {
 
 	private JPanel panelMisc = null;
 	private JCheckBox chkProcessImages = null;
+	private JCheckBox chkHttpResponseToSitemap = null;
 
 	public OptionsViewPanel() {
 		super();
@@ -66,35 +69,46 @@ public class OptionsViewPanel extends AbstractParamPanel {
 	private JPanel getPanelMisc() {
 		if (panelMisc == null) {
 			panelMisc = new JPanel();
-			java.awt.GridLayout gridLayout2 = new GridLayout();
-
-			panelMisc.setLayout(gridLayout2);
+			panelMisc.setLayout(new BoxLayout(panelMisc,BoxLayout.Y_AXIS));
 			panelMisc.setSize(114, 132);
 			panelMisc.setName("Miscellenous");
-			gridLayout2.setRows(1);
-			panelMisc.add(getChkProcessImages(), null);
+			
+			Box box = Box.createVerticalBox();
+			box.add(getChkProcessImages());
+			box.add(getChkHttpResponseToSitemap());
+
+			panelMisc.add(box);
 		}
 		return panelMisc;
 	}
 
-	/**
-	 * This method initializes chkProcessImages
-	 * 
-	 * @return javax.swing.JCheckBox
-	 */
+	// Button for enabling/disabling processing of images
 	private JCheckBox getChkProcessImages() {
 		if (chkProcessImages == null) {
 			chkProcessImages = new JCheckBox();
 			chkProcessImages.setText("Process images in HTTP requests/responses");
-			chkProcessImages.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-			chkProcessImages.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+			chkProcessImages.setVerticalAlignment(SwingConstants.TOP);
+			chkProcessImages.setVerticalTextPosition(SwingConstants.TOP);
 		}
 		return chkProcessImages;
 	}
-
+	
+	// Button for enabling/disabling HTTP reponse code in the sitemap
+	private JCheckBox getChkHttpResponseToSitemap() {
+		if (chkHttpResponseToSitemap == null) {
+			chkHttpResponseToSitemap = new JCheckBox();
+			chkHttpResponseToSitemap.setText("Add HTTP response codes to sitemap nodes (just affects newly added nodes)");
+			chkHttpResponseToSitemap.setVerticalAlignment(SwingConstants.TOP);
+			chkHttpResponseToSitemap.setVerticalTextPosition(SwingConstants.TOP);
+		}
+		return chkHttpResponseToSitemap;
+	}
+	
+	
 	public void initParam(Object obj) {
 		OptionsParam options = (OptionsParam) obj;
 		getChkProcessImages().setSelected(options.getViewParam().getProcessImages() > 0);
+		getChkHttpResponseToSitemap().setSelected(options.getViewParam().getHttpResponseToSitemap() > 0);
 	}
 
 	public void validateParam(Object obj) {
@@ -104,7 +118,7 @@ public class OptionsViewPanel extends AbstractParamPanel {
 	public void saveParam(Object obj) throws Exception {
 		OptionsParam options = (OptionsParam) obj;
 		options.getViewParam().setProcessImages((getChkProcessImages().isSelected()) ? 1 : 0);
-
+		options.getViewParam().setHttpResponseToSitemap((getChkHttpResponseToSitemap().isSelected()) ? 1 : 0);
 	}
 
-} // @jve:decl-index=0:visual-constraint="10,10"
+}

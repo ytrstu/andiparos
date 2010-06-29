@@ -164,11 +164,6 @@ public class OptionsParam extends AbstractParam {
 		getProxyParam().load(getConfig());
 		getCertificateParam().load(getConfig());
 		getViewParam().load(getConfig());
-
-		// for (int i=0; i<paramSetList.size(); i++) {
-		// AbstractParam param = (AbstractParam) paramSetList.get(i);
-		// param.load(getConfig());
-		// }
 	}
 
 	public boolean isGUI() {

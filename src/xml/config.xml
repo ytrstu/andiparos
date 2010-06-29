@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<version>100000</version>
+	<version>100001</version>
 	
 	<connection>
 		<proxyChain>
@@ -27,6 +27,7 @@
 	
 	<view>
 		<processImages>0</processImages>
+		<httpResponseToSitemap>0</httpResponseToSitemap>
 	</view>
 	
 	<certificate>

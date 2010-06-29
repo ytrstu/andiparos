@@ -43,7 +43,7 @@ import org.parosproxy.paros.network.HttpStatusCode;
 public class SiteMap extends DefaultTreeModel {
 
 	private static final long serialVersionUID = -546533808259599779L;
-	
+
 	private Model model = null;
 
 	public static SiteMap createTree(Model model) {
@@ -292,11 +292,13 @@ public class SiteMap extends DefaultTreeModel {
 
 		// also handle POST method query in body
 		query = "";
-		if (msg.getRequestHeader().getMethod().equalsIgnoreCase(
-				HttpRequestHeader.POST)) {
+		if (msg.getRequestHeader().getMethod().equalsIgnoreCase(HttpRequestHeader.POST)) {
 			query = msg.getRequestBody().toString();
-			leafName = leafName
-					+ getQueryParamString(msg.getParamNameSet(query));
+			leafName = leafName + getQueryParamString(msg.getParamNameSet(query));
+		}
+		
+		if (model.getOptionsParam().getViewParam().isHttpResponseToSitemap()) {
+			leafName = leafName + " [" + msg.getResponseHeader().getStatusCode() + "]";
 		}
 
 		return leafName;
