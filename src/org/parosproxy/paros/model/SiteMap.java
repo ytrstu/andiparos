@@ -298,7 +298,15 @@ public class SiteMap extends DefaultTreeModel {
 		}
 		
 		if (model.getOptionsParam().getViewParam().isHttpResponseToSitemap()) {
-			leafName = leafName + " [" + msg.getResponseHeader().getStatusCode() + "]";
+			
+			if(model.getOptionsParam().getViewParam().isHttpResponseToSitemapNo200Ok()) {
+				if( msg.getResponseHeader().getStatusCode() != 200) {
+					leafName = leafName + " [" + msg.getResponseHeader().getStatusCode() + "]";
+				}
+			} else {
+				leafName = leafName + " [" + msg.getResponseHeader().getStatusCode() + "]";
+			}
+			
 		}
 
 		return leafName;

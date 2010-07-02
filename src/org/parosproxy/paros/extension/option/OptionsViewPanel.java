@@ -43,6 +43,8 @@ public class OptionsViewPanel extends AbstractParamPanel {
 	private JPanel panelMisc = null;
 	private JCheckBox chkProcessImages = null;
 	private JCheckBox chkHttpResponseToSitemap = null;
+	private JCheckBox chkHttpResponseToSitemapNo200Ok = null;
+	private JCheckBox chkShowSplash = null;
 
 	public OptionsViewPanel() {
 		super();
@@ -58,7 +60,6 @@ public class OptionsViewPanel extends AbstractParamPanel {
 		this.setLayout(new CardLayout());
 		this.setName("View");
 		this.add(getPanelMisc(), getPanelMisc().getName());
-
 	}
 
 	/**
@@ -75,7 +76,9 @@ public class OptionsViewPanel extends AbstractParamPanel {
 			
 			Box box = Box.createVerticalBox();
 			box.add(getChkProcessImages());
+			box.add(getChkShowSplash());
 			box.add(getChkHttpResponseToSitemap());
+			box.add(getChkHttpResponseToSitemapNo200Ok());
 
 			panelMisc.add(box);
 		}
@@ -93,7 +96,18 @@ public class OptionsViewPanel extends AbstractParamPanel {
 		return chkProcessImages;
 	}
 	
-	// Button for enabling/disabling HTTP reponse code in the sitemap
+	// Button for enabling/disabling splash screen
+	private JCheckBox getChkShowSplash() {
+		if (chkShowSplash == null) {
+			chkShowSplash = new JCheckBox();
+			chkShowSplash.setText("Show splash screen");
+			chkShowSplash.setVerticalAlignment(SwingConstants.TOP);
+			chkShowSplash.setVerticalTextPosition(SwingConstants.TOP);
+		}
+		return chkShowSplash;
+	}
+	
+	// Button for enabling/disabling HTTP response codes in the sitemap
 	private JCheckBox getChkHttpResponseToSitemap() {
 		if (chkHttpResponseToSitemap == null) {
 			chkHttpResponseToSitemap = new JCheckBox();
@@ -104,11 +118,24 @@ public class OptionsViewPanel extends AbstractParamPanel {
 		return chkHttpResponseToSitemap;
 	}
 	
+	// Button for enabling/disabling HTTP response codes other than 200OK in the  sitemap 
+	private JCheckBox getChkHttpResponseToSitemapNo200Ok() {
+		if (chkHttpResponseToSitemapNo200Ok == null) {
+			chkHttpResponseToSitemapNo200Ok = new JCheckBox();
+			chkHttpResponseToSitemapNo200Ok.setText("Only add HTTP response codes other than 200 OK to sitemap nodes");
+			chkHttpResponseToSitemapNo200Ok.setVerticalAlignment(SwingConstants.TOP);
+			chkHttpResponseToSitemapNo200Ok.setVerticalTextPosition(SwingConstants.TOP);
+		}
+		return chkHttpResponseToSitemapNo200Ok;
+	}
+	
 	
 	public void initParam(Object obj) {
 		OptionsParam options = (OptionsParam) obj;
 		getChkProcessImages().setSelected(options.getViewParam().getProcessImages() > 0);
+		getChkShowSplash().setSelected(options.getViewParam().getShowSplash() > 0);
 		getChkHttpResponseToSitemap().setSelected(options.getViewParam().getHttpResponseToSitemap() > 0);
+		getChkHttpResponseToSitemapNo200Ok().setSelected(options.getViewParam().getHttpResponseToSitemapNo200Ok() > 0);
 	}
 
 	public void validateParam(Object obj) {
@@ -118,7 +145,9 @@ public class OptionsViewPanel extends AbstractParamPanel {
 	public void saveParam(Object obj) throws Exception {
 		OptionsParam options = (OptionsParam) obj;
 		options.getViewParam().setProcessImages((getChkProcessImages().isSelected()) ? 1 : 0);
+		options.getViewParam().setShowSplash((getChkShowSplash().isSelected()) ? 1 : 0);
 		options.getViewParam().setHttpResponseToSitemap((getChkHttpResponseToSitemap().isSelected()) ? 1 : 0);
+		options.getViewParam().setHttpResponseToSitemapNo200Ok((getChkHttpResponseToSitemapNo200Ok().isSelected()) ? 1 : 0);
 	}
 
 }

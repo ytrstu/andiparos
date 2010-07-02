@@ -27,9 +27,14 @@ import org.parosproxy.paros.common.AbstractParam;
 public class OptionsParamView extends AbstractParam {
 
 	private static final String PROCESS_IMAGES = "view.processImages";
-	private static final String HTTP_RESPONSE_TO_SITEMAP = "view.httpResponseToSitemap";
+	private static final String SHOW_SPLASH = "view.showSplash";
+	private static final String HTTP_RESPONSE_TO_SITEMAP = "view.sitemap.httpResponseToSitemap";
+	private static final String HTTP_RESPONSE_TO_SITEMAP_NO_200OK = "view.sitemap.httpResponseToSitemapNo200Ok";
+	
 	private int processImages = 0;
+	private int showSplash = 0;
 	private int httpResponseToSitemap = 0;
+	private int httpResponseToSitemapNo200Ok = 0;
 
 
 	public OptionsParamView() { }
@@ -37,7 +42,9 @@ public class OptionsParamView extends AbstractParam {
 	protected void parse() {
 		// use temp variable to check. Exception will be flagged if any error.
 		processImages = getConfig().getInt(PROCESS_IMAGES, 0);
+		showSplash = getConfig().getInt(SHOW_SPLASH, 0);
 		httpResponseToSitemap = getConfig().getInt(HTTP_RESPONSE_TO_SITEMAP, 0);
+		httpResponseToSitemapNo200Ok = getConfig().getInt(HTTP_RESPONSE_TO_SITEMAP_NO_200OK, 0);
 	}
 
 	/**
@@ -48,10 +55,25 @@ public class OptionsParamView extends AbstractParam {
 	}
 	
 	/**
-	 * @return Returns whether HTTP Response should be added to the sitemap
+	 * @return Returns show splash
+	 */
+	public int getShowSplash() {
+		return showSplash;
+	}
+	
+	/**
+	 * @return Returns whether HTTP Response code should be added to the sitemap
 	 */
 	public int getHttpResponseToSitemap() {
 		return httpResponseToSitemap;
+	}
+	
+	/**
+	 * @return Returns whether only HTTP Response code other than 200 should be
+	 * added to the sitemap
+	 */
+	public int getHttpResponseToSitemapNo200Ok() {
+		return httpResponseToSitemapNo200Ok;
 	}
 
 
@@ -66,6 +88,16 @@ public class OptionsParamView extends AbstractParam {
 	}
 	
 	/**
+	 * @param showSplash
+	 *        0 = Do not show the splash screen
+	 *    Other = Show the splash screen
+	 */
+	public void setShowSplash(int showSplash) {
+		this.showSplash = showSplash;
+		getConfig().setProperty(SHOW_SPLASH, Integer.toString(showSplash));
+	}
+	
+	/**
 	 * @param httpResponseToSitemap
 	 *        0 = Do not add reponse code to the sitemap
 	 *    Other = Add the response code to the sitemap
@@ -74,13 +106,35 @@ public class OptionsParamView extends AbstractParam {
 		this.httpResponseToSitemap = httpResponseToSitemap;
 		getConfig().setProperty(HTTP_RESPONSE_TO_SITEMAP, httpResponseToSitemap);
 	}
+	
+	
+	/**
+	 * @param httpResponseToSitemapNo200Ok
+	 *        0 = Add all response codes to the sitemap
+	 *    Other = Only add response codes other than 200 OK to the sitemap
+	 */
+	public void setHttpResponseToSitemapNo200Ok(int httpResponseToSitemapNo200Ok) {
+		this.httpResponseToSitemapNo200Ok = httpResponseToSitemapNo200Ok;
+		getConfig().setProperty(HTTP_RESPONSE_TO_SITEMAP_NO_200OK, httpResponseToSitemapNo200Ok);
+	}
+	
 
 	public boolean isProcessImages() {
 		return !(processImages == 0);
 	}
 	
+	public boolean isShowSplash() {
+		return !(showSplash == 0);
+	}
+	
 	public boolean isHttpResponseToSitemap() {
 		return !(httpResponseToSitemap == 0);
 	}
+	
+	public boolean isHttpResponseToSitemapNo200Ok() {
+		return !(httpResponseToSitemapNo200Ok == 0);
+	}
+	
+	
 
 }
