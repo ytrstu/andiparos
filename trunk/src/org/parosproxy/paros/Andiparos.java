@@ -109,20 +109,28 @@ public class Andiparos {
 	}
 
 	private void run() throws Exception {
+		Model.getSingleton().init();
+		boolean showSplash = Model.getSingleton().getOptionsParam().getViewParam().isShowSplash();
 
 		AboutWindow aboutWindow = null;
+		
 		if (cmdLine.isGUI()) {
 			showLicense();
-			aboutWindow = new AboutWindow();
-			aboutWindow.setVisible(true);
+			if (showSplash) {
+				aboutWindow = new AboutWindow();
+				aboutWindow.setVisible(true);
+				Thread.sleep(1000);
+			}
 		}
 
-		Model.getSingleton().init();
 		Model.getSingleton().getOptionsParam().setGUI(cmdLine.isGUI());
 
 		if (Model.getSingleton().getOptionsParam().isGUI()) {
 			runGUI();
-			aboutWindow.dispose();
+			
+			if (showSplash) {	
+				aboutWindow.dispose();
+			}
 		} else {
 			runCommandLine();
 		}
@@ -195,7 +203,7 @@ public class Andiparos {
 			FileWriter fo = new FileWriter(Constant.getInstance().ACCEPTED_LICENSE);
 			fo.close();
 		} catch (IOException ie) {
-			JOptionPane.showMessageDialog(new JFrame(), "Unknown Error. Please report to the author.");
+			JOptionPane.showMessageDialog(new JFrame(), "Unknown Error. Please report this to the project.");
 			System.exit(1);
 		}
 	}
