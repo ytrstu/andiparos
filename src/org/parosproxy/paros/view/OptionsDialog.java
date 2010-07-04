@@ -23,11 +23,6 @@ package org.parosproxy.paros.view;
 import java.awt.Frame;
 import java.awt.HeadlessException;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class OptionsDialog extends AbstractParamDialog {
 
 	private static final long serialVersionUID = -4374132178769109917L;
@@ -43,8 +38,7 @@ public class OptionsDialog extends AbstractParamDialog {
 	 * @param title
 	 * @throws HeadlessException
 	 */
-	public OptionsDialog(Frame parent, boolean modal, String title)
-			throws HeadlessException {
+	public OptionsDialog(Frame parent, boolean modal, String title) throws HeadlessException {
 		super(parent, modal, title, "Options");
 		initialize();
 	}
@@ -55,8 +49,7 @@ public class OptionsDialog extends AbstractParamDialog {
 	 * @return void
 	 */
 	private void initialize() {
-
 		this.setSize(600, 470);
 	}
 
-} // @jve:decl-index=0:visual-constraint="10,10"
+}

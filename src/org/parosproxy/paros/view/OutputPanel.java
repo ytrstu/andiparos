@@ -23,17 +23,16 @@ package org.parosproxy.paros.view;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.parosproxy.paros.extension.AbstractPanel;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
+
 public class OutputPanel extends AbstractPanel {
 
 	private static final long serialVersionUID = -8380280214740704908L;
@@ -41,9 +40,7 @@ public class OutputPanel extends AbstractPanel {
 	private JScrollPane jScrollPane = null;
 	private JTextArea txtOutput = null;
 
-	/**
-     * 
-     */
+
 	public OutputPanel() {
 		super();
 		initialize();
@@ -72,10 +69,8 @@ public class OutputPanel extends AbstractPanel {
 			jScrollPane = new JScrollPane();
 			jScrollPane.setViewportView(getTxtOutput());
 			jScrollPane.setName("jScrollPane");
-			jScrollPane
-					.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			jScrollPane.setFont(new java.awt.Font("Dialog",
-					java.awt.Font.PLAIN, 11));
+			jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			jScrollPane.setFont(new java.awt.Font("Dialog", Font.PLAIN, 11));
 		}
 		return jScrollPane;
 	}
@@ -90,16 +85,13 @@ public class OutputPanel extends AbstractPanel {
 			txtOutput = new JTextArea();
 			txtOutput.setEditable(false);
 			txtOutput.setLineWrap(true);
-			txtOutput.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN,
-					12));
+			txtOutput.setFont(new Font("Dialog", Font.PLAIN, 12));
 			txtOutput.setName("");
-			txtOutput.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mousePressed(java.awt.event.MouseEvent e) {
-					if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) { // right
-																				// mouse
-																				// button
-						View.getSingleton().getPopupMenu().show(
-								e.getComponent(), e.getX(), e.getY());
+			txtOutput.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {
+						// right mouse button
+						View.getSingleton().getPopupMenu().show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
 			});
@@ -112,6 +104,7 @@ public class OutputPanel extends AbstractPanel {
 			getTxtOutput().append(msg);
 			return;
 		}
+		
 		try {
 			EventQueue.invokeAndWait(new Runnable() {
 				public void run() {
@@ -126,4 +119,4 @@ public class OutputPanel extends AbstractPanel {
 		getTxtOutput().setText("");
 	}
 
-} // @jve:decl-index=0:visual-constraint="10,10"
+}

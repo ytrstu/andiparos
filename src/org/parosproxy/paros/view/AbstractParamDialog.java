@@ -21,13 +21,20 @@
 package org.parosproxy.paros.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,6 +43,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.WindowConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -43,11 +54,7 @@ import javax.swing.tree.TreePath;
 
 import org.parosproxy.paros.extension.AbstractDialog;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
+
 public class AbstractParamDialog extends AbstractDialog {
 
 	private static final long serialVersionUID = -6059248908932023624L;
@@ -66,8 +73,8 @@ public class AbstractParamDialog extends AbstractDialog {
 	private JPanel panelParam = null;
 	private JTextField txtHeadline = null;
 
-	private DefaultTreeModel treeModel = null; // @jve:decl-index=0:parse,visual-constraint="14,12"
-	private DefaultMutableTreeNode rootNode = null; // @jve:decl-index=0:parse,visual-constraint="10,50"
+	private DefaultTreeModel treeModel = null;
+	private DefaultMutableTreeNode rootNode = null;
 	private JScrollPane jScrollPane = null;
 	private JScrollPane jScrollPane1 = null;
 
@@ -80,8 +87,9 @@ public class AbstractParamDialog extends AbstractDialog {
 	 * @param arg0
 	 * @throws HeadlessException
 	 */
-	public AbstractParamDialog(Frame parent, boolean modal, String title,
-			String rootName) throws HeadlessException {
+	public AbstractParamDialog(Frame parent, boolean modal, String title, String rootName)
+	throws HeadlessException
+	{
 		super(parent, modal);
 		initialize();
 		this.setTitle(title);
@@ -94,34 +102,27 @@ public class AbstractParamDialog extends AbstractDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+		this.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.setSize(500, 375);
-		this
-				.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setContentPane(getJContentPane());
 	}
 
 	/**
-	 * 
 	 * This method initializes jContentPane
-	 * 
-	 * 
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private javax.swing.JPanel getJContentPane() {
+	private JPanel getJContentPane() {
 		if (jContentPane == null) {
-			java.awt.GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints14 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints13 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints12 = new GridBagConstraints();
 
-			java.awt.GridBagConstraints gridBagConstraints14 = new GridBagConstraints();
+			JLabel jLabel = new JLabel();
 
-			java.awt.GridBagConstraints gridBagConstraints13 = new GridBagConstraints();
-
-			java.awt.GridBagConstraints gridBagConstraints12 = new GridBagConstraints();
-
-			javax.swing.JLabel jLabel = new JLabel();
-
-			jContentPane = new javax.swing.JPanel();
+			jContentPane = new JPanel();
 			jContentPane.setLayout(new GridBagLayout());
 			jLabel.setName("jLabel");
 			jLabel.setText("");
@@ -129,27 +130,28 @@ public class AbstractParamDialog extends AbstractDialog {
 			gridBagConstraints12.gridy = 1;
 			gridBagConstraints12.ipadx = 0;
 			gridBagConstraints12.ipady = 0;
-			gridBagConstraints12.anchor = java.awt.GridBagConstraints.WEST;
-			gridBagConstraints12.fill = java.awt.GridBagConstraints.HORIZONTAL;
-			gridBagConstraints12.insets = new java.awt.Insets(2, 2, 2, 2);
+			gridBagConstraints12.anchor = GridBagConstraints.WEST;
+			gridBagConstraints12.fill = GridBagConstraints.HORIZONTAL;
+			gridBagConstraints12.insets = new Insets(2, 2, 2, 2);
 			gridBagConstraints12.weightx = 1.0D;
+			
 			gridBagConstraints13.gridx = 1;
 			gridBagConstraints13.gridy = 1;
 			gridBagConstraints13.ipadx = 0;
 			gridBagConstraints13.ipady = 0;
-			gridBagConstraints13.fill = java.awt.GridBagConstraints.NONE;
-			gridBagConstraints13.anchor = java.awt.GridBagConstraints.EAST;
-			gridBagConstraints13.insets = new java.awt.Insets(2, 2, 2, 2);
+			gridBagConstraints13.fill = GridBagConstraints.NONE;
+			gridBagConstraints13.anchor = GridBagConstraints.EAST;
+			gridBagConstraints13.insets = new Insets(2, 2, 2, 2);
 			gridBagConstraints14.gridx = 2;
 			gridBagConstraints14.gridy = 1;
 			gridBagConstraints14.ipadx = 0;
 			gridBagConstraints14.ipady = 0;
-			gridBagConstraints14.anchor = java.awt.GridBagConstraints.EAST;
-			gridBagConstraints14.insets = new java.awt.Insets(2, 2, 2, 2);
+			gridBagConstraints14.anchor = GridBagConstraints.EAST;
+			gridBagConstraints14.insets = new Insets(2, 2, 2, 2);
 			gridBagConstraints1.weightx = 1.0;
 			gridBagConstraints1.weighty = 1.0;
-			gridBagConstraints1.fill = java.awt.GridBagConstraints.BOTH;
-			gridBagConstraints1.anchor = java.awt.GridBagConstraints.NORTHWEST;
+			gridBagConstraints1.fill = GridBagConstraints.BOTH;
+			gridBagConstraints1.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints1.gridwidth = 3;
 			gridBagConstraints1.gridx = 0;
 			gridBagConstraints1.gridy = 0;
@@ -171,17 +173,14 @@ public class AbstractParamDialog extends AbstractDialog {
 			btnOK = new JButton();
 			btnOK.setName("btnOK");
 			btnOK.setText("OK");
-			btnOK.addActionListener(new java.awt.event.ActionListener() {
-
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-
+			btnOK.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
 					try {
 						validateParam();
 						saveParam();
 						exitResult = JOptionPane.OK_OPTION;
-
 						AbstractParamDialog.this.setVisible(false);
-
 					} catch (Exception ex) {
 						View.getSingleton().showWarningDialog(ex.getMessage());
 					}
@@ -203,9 +202,9 @@ public class AbstractParamDialog extends AbstractDialog {
 			btnCancel = new JButton();
 			btnCancel.setName("btnCancel");
 			btnCancel.setText("Cancel");
-			btnCancel.addActionListener(new java.awt.event.ActionListener() {
+			btnCancel.addActionListener(new ActionListener() {
 
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+				public void actionPerformed(ActionEvent e) {
 
 					exitResult = JOptionPane.CANCEL_OPTION;
 					AbstractParamDialog.this.setVisible(false);
@@ -223,33 +222,31 @@ public class AbstractParamDialog extends AbstractDialog {
 	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
-			java.awt.GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
-
-			java.awt.GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
-
-			java.awt.GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 
 			jPanel = new JPanel();
 			jPanel.setLayout(new GridBagLayout());
 			jPanel.setName("jPanel");
 			gridBagConstraints2.weightx = 1.0;
 			gridBagConstraints2.weighty = 1.0;
-			gridBagConstraints2.fill = java.awt.GridBagConstraints.BOTH;
+			gridBagConstraints2.fill = GridBagConstraints.BOTH;
 			gridBagConstraints5.gridx = 0;
 			gridBagConstraints5.gridy = 1;
 			gridBagConstraints5.ipadx = 0;
 			gridBagConstraints5.ipady = 0;
-			gridBagConstraints5.fill = java.awt.GridBagConstraints.BOTH;
+			gridBagConstraints5.fill = GridBagConstraints.BOTH;
 			gridBagConstraints5.weightx = 1.0D;
 			gridBagConstraints5.weighty = 1.0D;
-			gridBagConstraints5.insets = new java.awt.Insets(2, 5, 2, 5);
-			gridBagConstraints5.anchor = java.awt.GridBagConstraints.NORTHWEST;
+			gridBagConstraints5.insets = new Insets(2, 5, 2, 5);
+			gridBagConstraints5.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints7.weightx = 1.0;
-			gridBagConstraints7.fill = java.awt.GridBagConstraints.HORIZONTAL;
-			gridBagConstraints7.anchor = java.awt.GridBagConstraints.NORTHWEST;
+			gridBagConstraints7.fill = GridBagConstraints.HORIZONTAL;
+			gridBagConstraints7.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints7.gridx = 0;
 			gridBagConstraints7.gridy = 0;
-			gridBagConstraints7.insets = new java.awt.Insets(2, 5, 2, 5);
+			gridBagConstraints7.insets = new Insets(2, 5, 2, 5);
 			jPanel.add(getTxtHeadline(), gridBagConstraints7);
 			jPanel.add(getPanelParam(), gridBagConstraints5);
 		}
@@ -270,9 +267,7 @@ public class AbstractParamDialog extends AbstractDialog {
 			jSplitPane.setDividerLocation(175);
 			jSplitPane.setDividerSize(3);
 			jSplitPane.setResizeWeight(0.3D);
-			jSplitPane
-					.setBorder(javax.swing.BorderFactory
-							.createEtchedBorder(javax.swing.border.EtchedBorder.LOWERED));
+			jSplitPane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 			jSplitPane.setLeftComponent(getJScrollPane());
 		}
 		return jSplitPane;
@@ -289,20 +284,15 @@ public class AbstractParamDialog extends AbstractDialog {
 			treeParam.setModel(getTreeModel());
 			treeParam.setShowsRootHandles(true);
 			treeParam.setRootVisible(true);
-			treeParam
-					.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+			treeParam.addTreeSelectionListener(new TreeSelectionListener() {
+				public void valueChanged(TreeSelectionEvent e) {
 
-						public void valueChanged(
-								javax.swing.event.TreeSelectionEvent e) {
-
-							DefaultMutableTreeNode node = (DefaultMutableTreeNode) getTreeParam()
-									.getLastSelectedPathComponent();
-							if (node == null)
-								return;
-							String name = (String) node.getUserObject();
-							showParamPanel(name);
-						}
-					});
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) getTreeParam().getLastSelectedPathComponent();
+				if (node == null) return;
+					String name = (String) node.getUserObject();
+					showParamPanel(name);
+				}
+			});
 			DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 			renderer.setLeafIcon(null);
 			renderer.setOpenIcon(null);
@@ -323,8 +313,7 @@ public class AbstractParamDialog extends AbstractDialog {
 		if (jPanel1 == null) {
 			jPanel1 = new JPanel();
 			jPanel1.setLayout(new CardLayout());
-			jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-					0, 0));
+			jPanel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 			jPanel1.add(getJScrollPane1(), getJScrollPane1().getName());
 		}
 		return jPanel1;
@@ -339,9 +328,8 @@ public class AbstractParamDialog extends AbstractDialog {
 		if (panelParam == null) {
 			panelParam = new JPanel();
 			panelParam.setLayout(new CardLayout());
-			panelParam.setPreferredSize(new java.awt.Dimension(300, 300));
-			panelParam.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,
-					0, 0, 0));
+			panelParam.setPreferredSize(new Dimension(300, 300));
+			panelParam.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		}
 		return panelParam;
 	}
@@ -354,14 +342,11 @@ public class AbstractParamDialog extends AbstractDialog {
 	private JTextField getTxtHeadline() {
 		if (txtHeadline == null) {
 			txtHeadline = new JTextField();
-			txtHeadline
-					.setBorder(javax.swing.BorderFactory
-							.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+			txtHeadline.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			txtHeadline.setEditable(false);
 			txtHeadline.setEnabled(false);
-			txtHeadline.setBackground(java.awt.Color.white);
-			txtHeadline.setFont(new java.awt.Font("Default",
-					java.awt.Font.BOLD, 12));
+			txtHeadline.setBackground(Color.white);
+			txtHeadline.setFont(new Font("Default", Font.BOLD, 12));
 		}
 		return txtHeadline;
 	}
@@ -427,8 +412,7 @@ public class AbstractParamDialog extends AbstractDialog {
 	 * @param name
 	 * @param panel
 	 */
-	public void addParamPanel(String[] parentParams, String name,
-			AbstractParamPanel panel) {
+	public void addParamPanel(String[] parentParams, String name, AbstractParamPanel panel) {
 		if (parentParams != null) {
 			DefaultMutableTreeNode parent = addParamNode(parentParams);
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(name);
@@ -446,13 +430,11 @@ public class AbstractParamDialog extends AbstractDialog {
 	}
 
 	protected void showParamPanel(String name) {
-		if (name == null || name.equals(""))
-			return;
+		if (name == null || name.equals("")) return;
 
 		// exit if panel name not found.
 		JPanel panel = (JPanel) tablePanel.get(name);
-		if (panel == null)
-			return;
+		if (panel == null) return;
 
 		getTxtHeadline().setText(name);
 		CardLayout card = (CardLayout) getPanelParam().getLayout();
@@ -508,8 +490,7 @@ public class AbstractParamDialog extends AbstractDialog {
 			if (showRoot) {
 				firstNode = (DefaultMutableTreeNode) getTreeModel().getRoot();
 			} else {
-				firstNode = (DefaultMutableTreeNode) ((DefaultMutableTreeNode) getTreeModel()
-						.getRoot()).getChildAt(0);
+				firstNode = (DefaultMutableTreeNode) ((DefaultMutableTreeNode) getTreeModel().getRoot()).getChildAt(0);
 			}
 			showParamPanel(firstNode.toString());
 			getTreeParam().setSelectionPath(new TreePath(firstNode.getPath()));
@@ -530,8 +511,7 @@ public class AbstractParamDialog extends AbstractDialog {
 		if (jScrollPane == null) {
 			jScrollPane = new JScrollPane();
 			jScrollPane.setViewportView(getTreeParam());
-			jScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(
-					0, 0, 0, 0));
+			jScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		}
 		return jScrollPane;
 	}
@@ -546,11 +526,9 @@ public class AbstractParamDialog extends AbstractDialog {
 			jScrollPane1 = new JScrollPane();
 			jScrollPane1.setName("jScrollPane1");
 			jScrollPane1.setViewportView(getJPanel());
-			jScrollPane1
-					.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			jScrollPane1
-					.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+			jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		}
 		return jScrollPane1;
 	}
-} // @jve:decl-index=0:visual-constraint="73,11"
+}
