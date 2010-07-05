@@ -35,11 +35,6 @@ import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpRequestHeader;
 import org.parosproxy.paros.network.HttpStatusCode;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class SiteMap extends DefaultTreeModel {
 
 	private static final long serialVersionUID = -546533808259599779L;
@@ -155,6 +150,10 @@ public class SiteMap extends DefaultTreeModel {
 	 * @return
 	 */
 	public synchronized void addPath(HistoryReference ref, HttpMessage msg) {
+		if (model.getOptionsParam().getViewParam().isHttpResponseHide404NotFound()
+			&& msg.getResponseHeader().getStatusCode() == 404) {
+			return;
+		}
 
 		URI uri = msg.getRequestHeader().getURI();
 
@@ -204,9 +203,8 @@ public class SiteMap extends DefaultTreeModel {
 
 	}
 
-	private SiteNode findAndAddChild(SiteNode parent, String nodeName,
-			HistoryReference baseRef, HttpMessage baseMsg) throws URIException,
-			HttpMalformedHeaderException, NullPointerException, SQLException {
+	private SiteNode findAndAddChild(SiteNode parent, String nodeName, HistoryReference baseRef, HttpMessage baseMsg)
+	throws URIException, HttpMalformedHeaderException, NullPointerException, SQLException {
 		SiteNode result = findChild(parent, nodeName);
 		if (result == null) {
 			SiteNode newNode = new SiteNode(nodeName);
@@ -219,10 +217,7 @@ public class SiteMap extends DefaultTreeModel {
 			}
 			insertNodeInto(newNode, parent, pos);
 			result = newNode;
-			result
-					.setHistoryReference(createReference(result, baseRef,
-							baseMsg));
-
+			result.setHistoryReference(createReference(result, baseRef, baseMsg));
 		}
 		return result;
 	}
@@ -273,11 +268,7 @@ public class SiteMap extends DefaultTreeModel {
 	}
 
 	private String getLeafName(String nodeName, HttpMessage msg) {
-		// add \u007f to make GET/POST node appear at the end.
-		// String leafName = "\u007f" +
-		// msg.getRequestHeader().getMethod()+":"+nodeName;
 		String leafName = msg.getRequestHeader().getMethod() + ":" + nodeName;
-
 		String query = "";
 
 		try {
@@ -333,10 +324,8 @@ public class SiteMap extends DefaultTreeModel {
 		return result;
 	}
 
-	private HistoryReference createReference(SiteNode node,
-			HistoryReference baseRef, HttpMessage base)
-			throws HttpMalformedHeaderException, SQLException, URIException,
-			NullPointerException {
+	private HistoryReference createReference(SiteNode node, HistoryReference baseRef, HttpMessage base)
+	throws HttpMalformedHeaderException, SQLException, URIException, NullPointerException {
 		TreeNode[] path = node.getPath();
 		StringBuffer sb = new StringBuffer();
 		for (int i = 1; i < path.length; i++) {
@@ -353,9 +342,6 @@ public class SiteMap extends DefaultTreeModel {
 		newMsg.getRequestBody().setBody("");
 		newMsg.getRequestHeader().setContentLength(0);
 
-		// HistoryReference historyRef = new
-		// HistoryReference(model.getSession(), baseRef.getHistoryType(),
-		// newMsg);
 		HistoryReference historyRef = new HistoryReference(model.getSession(),
 				HistoryReference.TYPE_TEMPORARY, newMsg);
 
