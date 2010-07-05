@@ -42,9 +42,10 @@ public class OptionsViewPanel extends AbstractParamPanel {
 
 	private JPanel panelMisc = null;
 	private JCheckBox chkProcessImages = null;
-	private JCheckBox chkHttpResponseToSitemap = null;
-	private JCheckBox chkHttpResponseToSitemapNo200Ok = null;
 	private JCheckBox chkShowSplash = null;
+	private JCheckBox chkHttpResponseCodeToSitemap = null;
+	private JCheckBox chkHttpResponseCodeToSitemapNo200Ok = null;
+	private JCheckBox chkHttpResponseHide404NotFound = null;
 
 	public OptionsViewPanel() {
 		super();
@@ -79,6 +80,7 @@ public class OptionsViewPanel extends AbstractParamPanel {
 			box.add(getChkShowSplash());
 			box.add(getChkHttpResponseToSitemap());
 			box.add(getChkHttpResponseToSitemapNo200Ok());
+			box.add(getChkHttpResponseHide404NotFound());
 
 			panelMisc.add(box);
 		}
@@ -109,24 +111,35 @@ public class OptionsViewPanel extends AbstractParamPanel {
 	
 	// Button for enabling/disabling HTTP response codes in the sitemap
 	private JCheckBox getChkHttpResponseToSitemap() {
-		if (chkHttpResponseToSitemap == null) {
-			chkHttpResponseToSitemap = new JCheckBox();
-			chkHttpResponseToSitemap.setText("Add HTTP response codes to sitemap nodes (just affects newly added nodes)");
-			chkHttpResponseToSitemap.setVerticalAlignment(SwingConstants.TOP);
-			chkHttpResponseToSitemap.setVerticalTextPosition(SwingConstants.TOP);
+		if (chkHttpResponseCodeToSitemap == null) {
+			chkHttpResponseCodeToSitemap = new JCheckBox();
+			chkHttpResponseCodeToSitemap.setText("Add HTTP response codes to sitemap nodes (just affects newly added nodes)");
+			chkHttpResponseCodeToSitemap.setVerticalAlignment(SwingConstants.TOP);
+			chkHttpResponseCodeToSitemap.setVerticalTextPosition(SwingConstants.TOP);
 		}
-		return chkHttpResponseToSitemap;
+		return chkHttpResponseCodeToSitemap;
 	}
 	
-	// Button for enabling/disabling HTTP response codes other than 200OK in the  sitemap 
+	// Button for enabling/disabling HTTP response codes other than 200OK in the sitemap 
 	private JCheckBox getChkHttpResponseToSitemapNo200Ok() {
-		if (chkHttpResponseToSitemapNo200Ok == null) {
-			chkHttpResponseToSitemapNo200Ok = new JCheckBox();
-			chkHttpResponseToSitemapNo200Ok.setText("Only add HTTP response codes other than 200 OK to sitemap nodes");
-			chkHttpResponseToSitemapNo200Ok.setVerticalAlignment(SwingConstants.TOP);
-			chkHttpResponseToSitemapNo200Ok.setVerticalTextPosition(SwingConstants.TOP);
+		if (chkHttpResponseCodeToSitemapNo200Ok == null) {
+			chkHttpResponseCodeToSitemapNo200Ok = new JCheckBox();
+			chkHttpResponseCodeToSitemapNo200Ok.setText("Only add HTTP response codes other than 200 OK to sitemap nodes");
+			chkHttpResponseCodeToSitemapNo200Ok.setVerticalAlignment(SwingConstants.TOP);
+			chkHttpResponseCodeToSitemapNo200Ok.setVerticalTextPosition(SwingConstants.TOP);
 		}
-		return chkHttpResponseToSitemapNo200Ok;
+		return chkHttpResponseCodeToSitemapNo200Ok;
+	}
+	
+	// Button for enabling/disabling hiding HTTP 404 response codes from the sitemap 
+	private JCheckBox getChkHttpResponseHide404NotFound() {
+		if (chkHttpResponseHide404NotFound == null) {
+			chkHttpResponseHide404NotFound = new JCheckBox();
+			chkHttpResponseHide404NotFound.setText("Hide sitemap nodes with a 404 - Not found HTTP response code");
+			chkHttpResponseHide404NotFound.setVerticalAlignment(SwingConstants.TOP);
+			chkHttpResponseHide404NotFound.setVerticalTextPosition(SwingConstants.TOP);
+		}
+		return chkHttpResponseHide404NotFound;
 	}
 	
 	
@@ -136,6 +149,7 @@ public class OptionsViewPanel extends AbstractParamPanel {
 		getChkShowSplash().setSelected(options.getViewParam().getShowSplash() > 0);
 		getChkHttpResponseToSitemap().setSelected(options.getViewParam().getHttpResponseToSitemap() > 0);
 		getChkHttpResponseToSitemapNo200Ok().setSelected(options.getViewParam().getHttpResponseToSitemapNo200Ok() > 0);
+		getChkHttpResponseHide404NotFound().setSelected(options.getViewParam().getHttpResponseHide404NotFound() > 0);
 	}
 
 	public void validateParam(Object obj) {
@@ -148,6 +162,7 @@ public class OptionsViewPanel extends AbstractParamPanel {
 		options.getViewParam().setShowSplash((getChkShowSplash().isSelected()) ? 1 : 0);
 		options.getViewParam().setHttpResponseToSitemap((getChkHttpResponseToSitemap().isSelected()) ? 1 : 0);
 		options.getViewParam().setHttpResponseToSitemapNo200Ok((getChkHttpResponseToSitemapNo200Ok().isSelected()) ? 1 : 0);
+		options.getViewParam().setHttpResponseHide404NotFound((getChkHttpResponseHide404NotFound().isSelected()) ? 1 : 0);
 	}
 
 }

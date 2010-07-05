@@ -9,6 +9,7 @@
 <!ELEMENT httpPort ( #PCDATA ) >
 <!ELEMENT httpResponseToSitemap ( #PCDATA ) >
 <!ELEMENT httpResponseToSitemapNo200Ok ( #PCDATA ) >
+<!ELEMENT httpResponseHide404NotFound ( #PCDATA ) >
 <!ELEMENT httpsPort ( #PCDATA ) >
 <!ELEMENT inclusiveFilter EMPTY >
 <!ELEMENT ip ( #PCDATA ) >
@@ -24,7 +25,7 @@
 <!ELEMENT scanner ( hostPerScan, threadPerHost ) >
 <!ELEMENT scope EMPTY >
 <!ELEMENT showSplash ( #PCDATA ) >
-<!ELEMENT sitemap ( httpResponseToSitemap, httpResponseToSitemapNo200Ok ) >
+<!ELEMENT sitemap ( httpResponseToSitemap, httpResponseToSitemapNo200Ok, httpResponseHide404NotFound ) >
 <!ELEMENT skipName EMPTY >
 <!ELEMENT skipurl EMPTY >
 <!ELEMENT spider ( thread, maxDepth, scope, postform, skipurl ) >
