@@ -192,8 +192,7 @@ public class HttpPanel extends AbstractPanel {
 				public void mousePressed(MouseEvent e) {
 					// right mouse button
 					if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {
-						View.getSingleton().getPopupMenu().show(e.getComponent(), e.getX(),
-								e.getY());
+						View.getSingleton().getPopupMenu().show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
 			});
@@ -255,8 +254,7 @@ public class HttpPanel extends AbstractPanel {
 				public void mousePressed(MouseEvent e) {
 					// right mouse button
 					if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) { 
-						View.getSingleton().getPopupMenu().show(e.getComponent(), e.getX(),
-								e.getY());
+						View.getSingleton().getPopupMenu().show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
 			});

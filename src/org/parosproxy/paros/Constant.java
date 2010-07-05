@@ -58,7 +58,7 @@ public final class Constant {
 	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
 	public static final String FILE_CONFIG_DEFAULT = "xml/config.xml";
-	public String FILE_CONFIG = "config.xml";
+	public static String FILE_CONFIG = "config.xml";
 	public static final String FOLDER_PLUGIN = "plugin";
 	public static final String FOLDER_FILTER = "filter";
 	public static final String FOLDER_SESSION_DEFAULT = "session";

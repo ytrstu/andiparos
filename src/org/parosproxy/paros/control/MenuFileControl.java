@@ -120,7 +120,7 @@ public class MenuFileControl implements SessionListener {
 			}
 
 			public String getDescription() {
-				return "Paros session";
+				return "Andiparos session";
 			}
 		});
 		int rc = chooser.showOpenDialog(view.getMainFrame());
@@ -133,7 +133,7 @@ public class MenuFileControl implements SessionListener {
 				model.getOptionsParam().setUserDirectory(chooser.getCurrentDirectory());
 				Session session = model.getSession();
 				log.info("opening session file " + file.getAbsolutePath());
-				waitMessageDialog = view.getWaitMessageDialog("Loading session file.  Please wait ...");
+				waitMessageDialog = view.getWaitMessageDialog("Loading session file. Please wait ...");
 				session.open(file, this);
 				waitMessageDialog.setVisible(true);
 			} catch (Exception e) {
@@ -146,7 +146,7 @@ public class MenuFileControl implements SessionListener {
 		Session session = model.getSession();
 
 		if (session.isNewState()) {
-			view.showWarningDialog("Please use Save As...");
+			view.showWarningDialog("Please use \"Save As...\"");
 			return;
 		}
 

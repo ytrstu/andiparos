@@ -25,8 +25,13 @@ import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 import org.parosproxy.paros.Constant;
@@ -69,6 +74,7 @@ public abstract class AbstractDialog extends JDialog {
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setSize(300, 200);
 		this.setTitle(Constant.PROGRAM_NAME);
+		addEscapeListener(this);
 	}
 
 	/**
@@ -93,5 +99,29 @@ public abstract class AbstractDialog extends JDialog {
 			centreDialog();
 		}
 		super.setVisible(show);
+	}
+	
+
+	/**
+	 * Add an Escape Listener to the JDialog
+	 * 
+	 * @param	dialog
+	 * @return	void
+	 */
+	public static void addEscapeListener(final JDialog dialog) {
+	    ActionListener escListener = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            
+	        	// Default closing action is dispose, therefore we do not
+	        	// just set dialog.setVisible(false);
+	        	
+	            dialog.dispose();
+	        }
+	    };
+
+	    dialog.getRootPane().registerKeyboardAction(escListener,
+	    		KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+	            JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 }
