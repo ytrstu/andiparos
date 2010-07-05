@@ -26,6 +26,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import org.parosproxy.paros.Constant;
+import org.parosproxy.paros.extension.ExtensionPopupMenu;
 import org.parosproxy.paros.extension.ViewDelegate;
 
 /**
@@ -134,8 +135,7 @@ public class View implements ViewDelegate {
 	public SessionDialog getSessionDialog(String title) {
 		String[] ROOT = {};
 		if (sessionDialog == null) {
-			sessionDialog = new SessionDialog(getMainFrame(), true, title,
-					"Session");
+			sessionDialog = new SessionDialog(getMainFrame(), true, title, "Session");
 			sessionDialog.addParamPanel(ROOT, new SessionGeneralPanel());
 
 		}

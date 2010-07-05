@@ -1,1 +1,1 @@
-javaw -jar andiparos.jar
+java -jar andiparos.jar
