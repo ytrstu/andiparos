@@ -45,8 +45,8 @@ public final class Constant {
 	// the version String in the config.xml MUST be set to be the same
 	// as the version_tag otherwise the config.xml will be overwritten everytime.
 	// ************************************************************
-	public static final String PROGRAM_VERSION = "1.0";
-	public static final long VERSION_TAG = 100002;
+	public static final String PROGRAM_VERSION = "1.0.2";
+	public static final long VERSION_TAG = 1000002;
 	// ************************************************************
 	// note the above
 	// ************************************************************
