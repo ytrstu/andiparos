@@ -196,7 +196,7 @@ public class ExtensionUpdate extends ExtensionAdaptor {
 				int ver_major = Integer.parseInt(matcher.group(1));
 				int ver_minor = Integer.parseInt(matcher.group(2));
 				int ver_release = Integer.parseInt(matcher.group(3));
-				long version = 10000000 * ver_major + 10000 * ver_minor + ver_release;
+				long version = 1000000 * ver_major + 1000 * ver_minor + ver_release;
 				if (version > Constant.VERSION_TAG) {
 					newVersionName = matcher.group(0);
 				}

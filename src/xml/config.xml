@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<version>100002</version>
+	<version>1000002</version>
 	
 	<connection>
 		<proxyChain>
