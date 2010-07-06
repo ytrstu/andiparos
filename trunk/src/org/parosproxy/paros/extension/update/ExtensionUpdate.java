@@ -48,8 +48,8 @@ public class ExtensionUpdate extends ExtensionAdaptor {
 	private static final String ANDIPAROS_FILES = "http://code.google.com/p/andiparos/downloads/list";
 	private HttpSender httpSender = null;
 	
-	private Pattern patternNewestVersionArchive = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.tar\\.gz", Pattern.MULTILINE);
-	private Pattern patternNewestVersionMacOsX = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.dmg", Pattern.MULTILINE);
+	private Pattern patternNewestVersionArchive = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.(\\d+)\\.tar\\.gz", Pattern.MULTILINE);
+	private Pattern patternNewestVersionMacOsX = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.(\\d+)\\.dmg", Pattern.MULTILINE);
 
 
 	String newestVersionName = null;
@@ -195,7 +195,8 @@ public class ExtensionUpdate extends ExtensionAdaptor {
 			if (matcher.find()) {
 				int ver_major = Integer.parseInt(matcher.group(1));
 				int ver_minor = Integer.parseInt(matcher.group(2));
-				long version = 100000 * ver_major + 100 * ver_minor;
+				int ver_release = Integer.parseInt(matcher.group(3));
+				long version = 10000000 * ver_major + 10000 * ver_minor + ver_release;
 				if (version > Constant.VERSION_TAG) {
 					newVersionName = matcher.group(0);
 				}
