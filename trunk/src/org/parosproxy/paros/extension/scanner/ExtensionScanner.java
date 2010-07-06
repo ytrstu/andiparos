@@ -45,7 +45,6 @@ import org.parosproxy.paros.extension.CommandLineListener;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.parosproxy.paros.extension.SessionChangedListener;
-import org.parosproxy.paros.extension.history.ExtensionHistory;
 import org.parosproxy.paros.extension.history.ManualRequestEditorDialog;
 import org.parosproxy.paros.model.HistoryReference;
 import org.parosproxy.paros.model.Session;
@@ -76,6 +75,7 @@ public class ExtensionScanner extends ExtensionAdaptor implements ScannerListene
 
 	private ManualRequestEditorDialog manualRequestEditorDialog = null;
 	private PopupMenuResend popupMenuResend = null;
+	private PopupMenuScan popupMenuScan = null;
 	private OptionsScannerPanel optionsScannerPanel = null;
 	private ScannerParam scannerParam = null;
 	private CommandLineArgument[] arguments = new CommandLineArgument[1];
@@ -139,6 +139,8 @@ public class ExtensionScanner extends ExtensionAdaptor implements ScannerListene
 			extensionHook.getHookMenu().addAnalyseMenuItem(getMenuItemScan());
 			extensionHook.getHookMenu().addAnalyseMenuItem(getMenuItemPolicy());
 
+			extensionHook.getHookMenu().addPopupMenuItem(getPopupMenuScan());
+			
 			extensionHook.getHookMenu().addPopupMenuItem(getPopupMenuResend());
 			extensionHook.getHookMenu().addPopupMenuItem(getPopupMenuScanHistory());
 
@@ -526,6 +528,20 @@ public class ExtensionScanner extends ExtensionAdaptor implements ScannerListene
 			popupMenuScanHistory.setExtension(this);
 		}
 		return popupMenuScanHistory;
+	}
+	
+	/**
+	 * This method initializes popupMenuSpider
+	 * 
+	 * @return com.proofsecure.paros.plugin.Spider.PopupMenuSpider
+	 */
+	PopupMenuScan getPopupMenuScan() {
+		if (popupMenuScan == null) {
+			popupMenuScan = new PopupMenuScan();
+
+			popupMenuScan.setExtension(this);
+		}
+		return popupMenuScan;
 	}
 
 }
