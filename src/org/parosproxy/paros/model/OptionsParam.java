@@ -30,21 +30,16 @@ import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.common.AbstractParam;
 import org.parosproxy.paros.core.proxy.ProxyParam;
 import org.parosproxy.paros.extension.option.OptionsParamCertificate;
+import org.parosproxy.paros.extension.option.OptionsParamHttpHeader;
 import org.parosproxy.paros.extension.option.OptionsParamView;
 import org.parosproxy.paros.network.ConnectionParam;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class OptionsParam extends AbstractParam {
-
-	// private static final String ROOT = "Options";
 
 	private ProxyParam proxyParam = new ProxyParam();
 	private ConnectionParam connectionParam = new ConnectionParam();
 	private OptionsParamView viewParam = new OptionsParamView();
+	private OptionsParamHttpHeader httpHeaderParam = new OptionsParamHttpHeader();
 	private OptionsParamCertificate certificateParam = new OptionsParamCertificate();
 
 	private Vector<AbstractParam> paramSetList = new Vector<AbstractParam>();
@@ -93,12 +88,27 @@ public class OptionsParam extends AbstractParam {
 	public void setViewParam(OptionsParamView viewParam) {
 		this.viewParam = viewParam;
 	}
+	
+	/**
+	 * @param httpHeaderParam
+	 *            The httpHeaderParam to set.
+	 */
+	public void setHttpHeaderParam(OptionsParamHttpHeader httpHeaderParam) {
+		this.httpHeaderParam = httpHeaderParam;
+	}
 
 	/**
 	 * @return Returns the viewParam.
 	 */
 	public OptionsParamView getViewParam() {
 		return viewParam;
+	}
+	
+	/**
+	 * @return Returns the httpHeaderParam.
+	 */
+	public OptionsParamHttpHeader getHttpHeaderParam() {
+		return httpHeaderParam;
 	}
 
 	/**

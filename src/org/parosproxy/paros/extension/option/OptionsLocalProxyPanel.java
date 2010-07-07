@@ -59,6 +59,8 @@ public class OptionsLocalProxyPanel extends AbstractParamPanel {
 	private JLabel jLabel5 = null;
 	private JTextField txtReverseProxyHttpsPort = null;
 	private JLabel jLabel7 = null;
+	
+	
     public OptionsLocalProxyPanel() {
         super();
  		initialize();

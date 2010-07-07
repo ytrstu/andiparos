@@ -57,4 +57,10 @@
 		<hostPerScan>2</hostPerScan>
 		<threadPerHost>2</threadPerHost>
 	</scanner>
+	
+	<filter>
+		<httpHeaders>
+			<customUserAgent>Andiparos/1.0 (Macintosh)</customUserAgent>
+		</httpHeaders>
+	</filter>
 </config>
