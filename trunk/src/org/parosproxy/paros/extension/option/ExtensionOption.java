@@ -20,16 +20,15 @@
  */
 package org.parosproxy.paros.extension.option;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JCheckBoxMenuItem;
 
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 
-/**
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
+
 public class ExtensionOption extends ExtensionAdaptor {
 
 	private JCheckBoxMenuItem menuViewImage = null;
@@ -38,9 +37,9 @@ public class ExtensionOption extends ExtensionAdaptor {
 	private OptionsCertificatePanel optionsCertificatePanel = null;
 	private OptionsLocalProxyPanel optionsLocalProxyPanel = null;
 	private OptionsViewPanel optionsViewPanel = null;
-    /**
-     * 
-     */
+	private OptionsHttpHeaderPanel optionsHttpHeaderPanel = null;
+	
+
     public ExtensionOption() {
         super();
  		initialize();
@@ -60,7 +59,6 @@ public class ExtensionOption extends ExtensionAdaptor {
 	 */
 	private void initialize() {
         this.setName("ExtensionViewOption");
-			
 	}
 	
 
@@ -74,84 +72,62 @@ public class ExtensionOption extends ExtensionAdaptor {
 	        extensionHook.getHookView().addOptionPanel(getOptionsAuthenticationPanel());
 	        extensionHook.getHookView().addOptionPanel(getOptionsCertificatePanel());
 	        extensionHook.getHookView().addOptionPanel(getOptionsViewPanel());
+	        extensionHook.getHookView().addOptionPanel(getOptionsHttpHeaderPanel());
 	    }
 	}
 
-	
-	/**
-	 * This method initializes menuViewImage	
-	 * 	
-	 * @return javax.swing.JCheckBoxMenuItem	
-	 */    
 	private JCheckBoxMenuItem getMenuViewImage() {
 		if (menuViewImage == null) {
 			menuViewImage = new JCheckBoxMenuItem();
 			menuViewImage.setText("Enable Image in History");
-			menuViewImage.addItemListener(new java.awt.event.ItemListener() { 
-
-				public void itemStateChanged(java.awt.event.ItemEvent e) {    
-
+			menuViewImage.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
 					getModel().getOptionsParam().getViewParam().setProcessImages(getMenuViewImage().getState() ? 1 : 0);
-					
 				}
 			});
-
 		}
 		return menuViewImage;
 	}
-	/**
-	 * This method initializes optionsConnectionPanel	
-	 * 	
-	 * @return org.parosproxy.paros.extension.viewOption.OptionsConnectionPanel	
-	 */    
+	 
 	private OptionsConnectionPanel getOptionsConnectionPanel() {
 		if (optionsConnectionPanel == null) {
 			optionsConnectionPanel = new OptionsConnectionPanel();
 		}
 		return optionsConnectionPanel;
 	}
-	/**
-	 * This method initializes optionsAuthenticationPanel	
-	 * 	
-	 * @return org.parosproxy.paros.extension.viewOption.OptionsAuthenticationPanel	
-	 */    
+  
 	private OptionsAuthenticationPanel getOptionsAuthenticationPanel() {
 		if (optionsAuthenticationPanel == null) {
 			optionsAuthenticationPanel = new OptionsAuthenticationPanel();
 		}
 		return optionsAuthenticationPanel;
 	}
-	/**
-	 * This method initializes optionsCertificatePanel	
-	 * 	
-	 * @return org.parosproxy.paros.extension.viewOption.OptionsCertificatePanel	
-	 */    
+  
 	private OptionsCertificatePanel getOptionsCertificatePanel() {
 		if (optionsCertificatePanel == null) {
 			optionsCertificatePanel = new OptionsCertificatePanel();
 		}
 		return optionsCertificatePanel;
 	}
-	/**
-	 * This method initializes optionsLocalProxyPanel	
-	 * 	
-	 * @return org.parosproxy.paros.extension.viewOption.OptionsLocalProxyPanel	
-	 */    
+  
 	private OptionsLocalProxyPanel getOptionsLocalProxyPanel() {
 		if (optionsLocalProxyPanel == null) {
 			optionsLocalProxyPanel = new OptionsLocalProxyPanel();
 		}
 		return optionsLocalProxyPanel;
 	}
-	/**
-	 * This method initializes optionsViewPanel	
-	 * 	
-	 * @return org.parosproxy.paros.extension.viewOption.OptionsViewPanel	
-	 */    
+ 
 	private OptionsViewPanel getOptionsViewPanel() {
 		if (optionsViewPanel == null) {
 			optionsViewPanel = new OptionsViewPanel();
 		}
 		return optionsViewPanel;
 	}
-        }
+	  
+	private OptionsHttpHeaderPanel getOptionsHttpHeaderPanel() {
+		if (optionsHttpHeaderPanel == null) {
+			optionsHttpHeaderPanel = new OptionsHttpHeaderPanel();
+		}
+		return optionsHttpHeaderPanel;
+	}
+}
