@@ -45,8 +45,8 @@ public final class Constant {
 	// the version String in the config.xml MUST be set to be the same
 	// as the version_tag otherwise the config.xml will be overwritten everytime.
 	// ************************************************************
-	public static final String PROGRAM_VERSION = "1.0.2";
-	public static final long VERSION_TAG = 1000002;
+	public static final String PROGRAM_VERSION = "1.0.3";
+	public static final long VERSION_TAG = 1000003;
 	// ************************************************************
 	// note the above
 	// ************************************************************
@@ -74,8 +74,8 @@ public final class Constant {
 	private static Constant instance = null;
 
 	public static final int MAX_HOST_CONNECTION = 5;
-	public static boolean ADD_PROGRAM_NAME_TO_USER_AGENT = false;
-	public static final String USER_AGENT = PROGRAM_NAME + "/" + PROGRAM_VERSION;
+	
+	public static final String USER_AGENT_DEFAULT = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0;)";
 
 	private static String staticEyeCatcher = PROGRAM_NAME;
 	private static boolean staticSP = false;

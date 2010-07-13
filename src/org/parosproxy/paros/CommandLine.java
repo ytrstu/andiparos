@@ -174,7 +174,6 @@ public class CommandLine {
 			HttpSender.setUserAgent("");
 			Constant.setEyeCatcher("");
 			result = true;
-
 		} else if (checkSwitch(args, SP, i)) {
 			Constant.setSP(true);
 			result = true;

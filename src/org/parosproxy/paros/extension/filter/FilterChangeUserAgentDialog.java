@@ -34,11 +34,6 @@ import javax.swing.JPanel;
 import org.parosproxy.paros.extension.AbstractDialog;
 import org.parosproxy.paros.extension.ViewDelegate;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class FilterChangeUserAgentDialog extends AbstractDialog {
 
 	private static final long serialVersionUID = 4545879143584446163L;
@@ -69,7 +64,8 @@ public class FilterChangeUserAgentDialog extends AbstractDialog {
 	 * @throws HeadlessException
 	 */
 	public FilterChangeUserAgentDialog(Frame arg0, boolean arg1)
-			throws HeadlessException {
+	throws HeadlessException
+	{
 		super(arg0, arg1);
 		initialize();
 	}

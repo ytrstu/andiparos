@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import org.parosproxy.paros.model.OptionsParam;
-import org.parosproxy.paros.network.ConnectionParam;
+import org.parosproxy.paros.network.HttpSender;
 import org.parosproxy.paros.view.AbstractParamPanel;
 
 public class OptionsHttpHeaderPanel extends AbstractParamPanel {
@@ -107,8 +107,11 @@ public class OptionsHttpHeaderPanel extends AbstractParamPanel {
 
 	public void saveParam(Object obj) throws Exception {
 		OptionsParam options = (OptionsParam) obj;
-		options.getHttpHeaderParam().setCustomUserAgent(getTxtCustomUserAgent().getText());
+		String userAgent = getTxtCustomUserAgent().getText();
+		options.getHttpHeaderParam().setCustomUserAgent(userAgent);
 		
+		// Reset the user-agent
+		HttpSender.setUserAgent(userAgent);
 	}
 
 }

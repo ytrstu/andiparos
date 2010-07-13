@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<version>1000002</version>
+	<version>1000003</version>
 	
 	<connection>
 		<proxyChain>
@@ -59,8 +59,8 @@
 	</scanner>
 	
 	<filter>
-		<httpHeaders>
-			<customUserAgent>Andiparos/1.0 (Macintosh)</customUserAgent>
-		</httpHeaders>
+		<httpHeader>
+			<customUserAgent></customUserAgent>
+		</httpHeader>
 	</filter>
 </config>

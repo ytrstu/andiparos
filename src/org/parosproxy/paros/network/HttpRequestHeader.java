@@ -29,8 +29,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 
+import org.parosproxy.paros.Constant;
+
+
 /**
- * Respresent a HTTP request header. A request header begins with method uri
+ * Represent a HTTP request header. A request header begins with method uri
  * http-version
  */
 public class HttpRequestHeader extends HttpHeader {
@@ -38,24 +41,23 @@ public class HttpRequestHeader extends HttpHeader {
 	private static final long serialVersionUID = 9158519004965702082L;
 	
 	// method list
-	public final static String OPTIONS = "OPTIONS";
-	public final static String GET = "GET";
-	public final static String HEAD = "HEAD";
-	public final static String POST = "POST";
-	public final static String PUT = "PUT";
-	public final static String DELETE = "DELETE";
-	public final static String TRACE = "TRACE";
-	public final static String CONNECT = "CONNECT";
+	public final static String OPTIONS	= "OPTIONS";
+	public final static String GET		= "GET";
+	public final static String HEAD		= "HEAD";
+	public final static String POST		= "POST";
+	public final static String PUT		= "PUT";
+	public final static String DELETE	= "DELETE";
+	public final static String TRACE	= "TRACE";
+	public final static String CONNECT	= "CONNECT";
 
 	public final static String HOST = "Host";
 
-	private static final Pattern patternRequestLine = Pattern.compile(p_METHOD
-			+ p_SP + p_URI + p_SP + p_VERSION, Pattern.CASE_INSENSITIVE);
-	private static final Pattern patternImage = Pattern.compile(
-			"\\.(jpg|jpeg|gif|tiff|tif|png)\\z", Pattern.CASE_INSENSITIVE);
-	private static final Pattern patternPartialRequestLine = Pattern.compile(
-			"\\A *(OPTIONS|GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT)\\b",
-			Pattern.CASE_INSENSITIVE);
+	private static final Pattern patternRequestLine =
+		Pattern.compile(p_METHOD + p_SP + p_URI + p_SP + p_VERSION, Pattern.CASE_INSENSITIVE);
+	private static final Pattern patternImage =
+		Pattern.compile("\\.(jpg|jpeg|gif|tiff|tif|png)\\z", Pattern.CASE_INSENSITIVE);
+	private static final Pattern patternPartialRequestLine =
+		Pattern.compile("\\A *(OPTIONS|GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT)\\b", Pattern.CASE_INSENSITIVE);
 
 	private String mMethod = "";
 	private URI mUri = null;
@@ -81,7 +83,8 @@ public class HttpRequestHeader extends HttpHeader {
 	 * @throws HttpMalformedHeaderException
 	 */
 	public HttpRequestHeader(String data, boolean isSecure)
-			throws HttpMalformedHeaderException {
+	throws HttpMalformedHeaderException
+	{
 		this();
 		setMessage(data, isSecure);
 	}
@@ -94,7 +97,9 @@ public class HttpRequestHeader extends HttpHeader {
 	 * @throws HttpMalformedHeaderException
 	 */
 
-	public HttpRequestHeader(String data) throws HttpMalformedHeaderException {
+	public HttpRequestHeader(String data)
+	throws HttpMalformedHeaderException
+	{
 		this();
 		setMessage(data);
 	}
@@ -111,18 +116,15 @@ public class HttpRequestHeader extends HttpHeader {
 	}
 
 	public HttpRequestHeader(String method, URI uri, String version)
-			throws HttpMalformedHeaderException {
-		this(method + " " + uri.toString() + " " + version.toUpperCase() + CRLF
-				+ CRLF);
+	throws HttpMalformedHeaderException
+	{
+		this(method + " " + uri.toString() + " " + version.toUpperCase() + CRLF + CRLF);
 		try {
-			setHeader(HOST, uri.getHost()
-					+ (uri.getPort() > 0 ? ":"
-							+ Integer.toString(uri.getPort()) : ""));
+			setHeader(HOST, uri.getHost() + (uri.getPort() > 0 ? ":" + Integer.toString(uri.getPort()) : ""));
 		} catch (URIException e) {
 			e.printStackTrace();
 		}
-		setHeader(USER_AGENT,
-				"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0;)");
+		setHeader(USER_AGENT, Constant.USER_AGENT_DEFAULT);
 		setHeader(PRAGMA, "no-cache");
 		setHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
 		setHeader(ACCEPT_ENCODING, null);
@@ -141,12 +143,11 @@ public class HttpRequestHeader extends HttpHeader {
 	 * @throws HttpMalformedHeaderException
 	 */
 	public void setMessage(String data, boolean isSecure)
-			throws HttpMalformedHeaderException {
+	throws HttpMalformedHeaderException
+	{
 		super.setMessage(data);
 		try {
-			if (!parse(isSecure)) {
-				mMalformedHeader = true;
-			}
+			if (!parse(isSecure)) mMalformedHeader = true;
 		} catch (Exception e) {
 			mMalformedHeader = true;
 		}
@@ -202,8 +203,7 @@ public class HttpRequestHeader extends HttpHeader {
 	public void setURI(URI uri) throws URIException, NullPointerException {
 
 		if (uri.getScheme() == null || uri.getScheme().equals("")) {
-			mUri = new URI(HTTP + "://" + getHeader(HOST) + "/"
-					+ mUri.toString(), true);
+			mUri = new URI(HTTP + "://" + getHeader(HOST) + "/" + mUri.toString(), true);
 		} else {
 			mUri = uri;
 		}
@@ -231,8 +231,9 @@ public class HttpRequestHeader extends HttpHeader {
 	 * @throws URIException
 	 * @throws NullPointerException
 	 */
-	public void setSecure(boolean isSecure) throws URIException,
-			NullPointerException {
+	public void setSecure(boolean isSecure)
+	throws URIException, NullPointerException
+	{
 		mIsSecure = isSecure;
 
 		if (mUri == null) {
@@ -279,10 +280,9 @@ public class HttpRequestHeader extends HttpHeader {
 	 * @throws URIException
 	 * @throws NullPointerException
 	 */
-	protected boolean parse(boolean isSecure) throws URIException,
-			NullPointerException {
-		// throws Exception {
-
+	protected boolean parse(boolean isSecure)
+	throws URIException, NullPointerException
+	{
 		mIsSecure = isSecure;
 		Matcher matcher = patternRequestLine.matcher(mStartLine);
 		if (!matcher.find()) {
@@ -304,8 +304,7 @@ public class HttpRequestHeader extends HttpHeader {
 		mUri = parseURI(sUri);
 
 		if (mUri.getScheme() == null || mUri.getScheme().equals("")) {
-			mUri = new URI(HTTP + "://" + getHeader(HOST) + mUri.toString(),
-					true);
+			mUri = new URI(HTTP + "://" + getHeader(HOST) + mUri.toString(), true);
 		}
 
 		if (getSecure() && mUri.getScheme().equalsIgnoreCase(HTTP)) {
@@ -332,6 +331,7 @@ public class HttpRequestHeader extends HttpHeader {
 		if (hostHeader == null) {
 			return;
 		}
+		
 		int pos = 0;
 		if ((pos = hostHeader.indexOf(':', 2)) > -1) {
 			mHostName = hostHeader.substring(0, pos).trim();
@@ -415,7 +415,6 @@ public class HttpRequestHeader extends HttpHeader {
 
 		for (int i = 0; i < len; i++) {
 			char ch = sUri.charAt(i);
-			// String ch = sUri.substring(i, i+1);
 			if (DELIM_UNWISE.indexOf(ch) >= 0) {
 				// check if unwise or delim in RFC. If so, encode it.
 				charray[0] = ch;
@@ -426,16 +425,6 @@ public class HttpRequestHeader extends HttpHeader {
 				}
 				sb.append(s);
 			} else if (ch == '%') {
-
-				// % is exception - no encoding to be done because some server
-				// may not handle
-				// correctly when % is invalid.
-				// 
-
-				// sb.append(ch);
-
-				// if % followed by hex, no encode.
-
 				try {
 					String hex = sUri.substring(i + 1, i + 3);
 					Integer.parseInt(hex, 16);
