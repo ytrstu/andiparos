@@ -35,11 +35,13 @@ public class ExtensionOption extends ExtensionAdaptor {
 	private OptionsConnectionPanel optionsConnectionPanel = null;
 	private OptionsAuthenticationPanel optionsAuthenticationPanel = null;
 	private OptionsCertificatePanel optionsCertificatePanel = null;
+	private OptionsHttpHeaderPanel optionsHttpHeaderPanel = null;
 	private OptionsLocalProxyPanel optionsLocalProxyPanel = null;
 	private OptionsViewPanel optionsViewPanel = null;
-	private OptionsHttpHeaderPanel optionsHttpHeaderPanel = null;
-	
 
+    /**
+     * 
+     */
     public ExtensionOption() {
         super();
  		initialize();

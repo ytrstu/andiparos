@@ -24,35 +24,38 @@ package org.parosproxy.paros.extension.option;
 import org.parosproxy.paros.common.AbstractParam;
 
 
-public class OptionsParamHttpHeader extends AbstractParam {
+public class OptionsHttpHeader extends AbstractParam {
 
-	private static final String HTTP_HEADER_CUSTOM_USER_AGENT = "filter.httpHeader.customUserAgent";
-	private String txtCustomUserAgent = null;
+	private static final String CUSTOM_HTTP_HEADER_USER_AGENT = "filter.httpHeader.customUserAgent";
+	private String customUserAgent = null;
+	
 
-	public OptionsParamHttpHeader() { }
+	public OptionsHttpHeader() { }
 
 	protected void parse() {
-		txtCustomUserAgent = getConfig().getString(HTTP_HEADER_CUSTOM_USER_AGENT, "");
-		setCustomUserAgent(txtCustomUserAgent);
+		// use temp variable to check. Exception will be flagged if any error.
+		customUserAgent = getConfig().getString(CUSTOM_HTTP_HEADER_USER_AGENT, "");
 	}
 
 	/**
-	 * @return Returns the custom User-Agent string
+	 * @return Returns the User-Agent
 	 */
 	public String getCustomUserAgent() {
-		return txtCustomUserAgent;
+		return customUserAgent;
 	}
-	
+
+
 	/**
-	 * @param txtCustomUserAgent
+	 * @param customUserAgent
 	 */
-	public void setCustomUserAgent(String txtCustomUserAgent) {
-		this.txtCustomUserAgent = txtCustomUserAgent.trim();
-		getConfig().setProperty(HTTP_HEADER_CUSTOM_USER_AGENT, txtCustomUserAgent);
+	public void setCustomUserAgent(String customUserAgent) {
+		this.customUserAgent = customUserAgent;
+		getConfig().setProperty(CUSTOM_HTTP_HEADER_USER_AGENT, customUserAgent);
 	}
 	
+
 	public boolean isCustomUserAgent() {
-		return !(txtCustomUserAgent.equals(""));
+		return !(customUserAgent != "");
 	}
 
 }

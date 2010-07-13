@@ -105,8 +105,7 @@ public class FilterChangeUserAgent extends FilterAdaptor {
 	 */
 	private FilterChangeUserAgentDialog getFilterChangeUserAgentDialog() {
 		if (filterChangeUserAgentDialog == null) {
-			filterChangeUserAgentDialog = new FilterChangeUserAgentDialog(
-					getView().getMainFrame(), true);
+			filterChangeUserAgentDialog = new FilterChangeUserAgentDialog(getView().getMainFrame(), true);
 		}
 		return filterChangeUserAgentDialog;
 	}

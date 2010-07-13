@@ -153,10 +153,7 @@ public class OptionsParam extends AbstractParam {
 	public FileConfiguration getConfig() {
 		if (config == null) {
 			try {
-				// config = new XMLConfiguration(Constant.FILE_CONFIG);
-				config = new XMLConfiguration(
-						Constant.getInstance().FILE_CONFIG);
-
+				config = new XMLConfiguration(Constant.getInstance().FILE_CONFIG);
 			} catch (ConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -164,16 +161,12 @@ public class OptionsParam extends AbstractParam {
 		return config;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.parosproxy.paros.common.AbstractParam#parse()
-	 */
 	protected void parse() {
 		getConnectionParam().load(getConfig());
 		getProxyParam().load(getConfig());
 		getCertificateParam().load(getConfig());
 		getViewParam().load(getConfig());
+		getHttpHeaderParam().load(getConfig());
 	}
 
 	public boolean isGUI() {

@@ -91,8 +91,7 @@ public class Andiparos {
 	 * @param args
 	 */
 	private void init(String[] args) {
-
-		HttpSender.setUserAgent(Constant.USER_AGENT);
+		
 		try {
 			cmdLine = new CommandLine(args);
 		} catch (Exception e) {
@@ -110,6 +109,10 @@ public class Andiparos {
 
 	private void run() throws Exception {
 		Model.getSingleton().init();
+		
+		String userAgent = Model.getSingleton().getOptionsParam().getHttpHeaderParam().getCustomUserAgent();
+		HttpSender.setUserAgent(userAgent);
+		
 		boolean showSplash = Model.getSingleton().getOptionsParam().getViewParam().isShowSplash();
 
 		AboutWindow aboutWindow = null;

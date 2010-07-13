@@ -37,12 +37,8 @@ import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.parosproxy.paros.Constant;
+import org.parosproxy.paros.model.Model;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class HttpSender {
 
 	private static ProtocolSocketFactory sslFactory = null;
@@ -55,6 +51,7 @@ public class HttpSender {
 			sslFactory = protocol.getSocketFactory();
 		} catch (Exception e) {
 		}
+		
 		// avoid init again if already initialized
 		if (sslFactory == null || !(sslFactory instanceof SSLConnector)) {
 			Protocol.registerProtocol("https", new Protocol("https",
@@ -63,8 +60,9 @@ public class HttpSender {
 	}
 
 	private static HttpMethodHelper helper = new HttpMethodHelper();
+	
 	private static String userAgent = "";
-
+	
 	private HttpClient client = null;
 	private HttpClient clientViaProxy = null;
 	private ConnectionParam param = null;
@@ -95,14 +93,11 @@ public class HttpSender {
 		if (param.isHttpStateEnabled()) {
 			client.setState(param.getHttpState());
 			clientViaProxy.setState(param.getHttpState());
-			client.getParams().setCookiePolicy(
-					CookiePolicy.BROWSER_COMPATIBILITY);
-			clientViaProxy.getParams().setCookiePolicy(
-					CookiePolicy.BROWSER_COMPATIBILITY);
+			client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
+			clientViaProxy.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
 		} else {
 			client.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-			clientViaProxy.getParams().setCookiePolicy(
-					CookiePolicy.IGNORE_COOKIES);
+			clientViaProxy.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		}
 	}
 
@@ -122,27 +117,26 @@ public class HttpSender {
 		httpConnManagerProxy = new MultiThreadedHttpConnectionManager();
 		setCommonManagerParams(httpConnManagerProxy);
 		HttpClient clientProxy = new HttpClient(httpConnManagerProxy);
-		clientProxy.getHostConfiguration().setProxy(param.getProxyChainName(),
-				param.getProxyChainPort());
+		clientProxy.getHostConfiguration().setProxy(param.getProxyChainName(), param.getProxyChainPort());
 
 		if (!param.getProxyChainUserName().equals("")) {
 
 			// NTCredentials credentials = new NTCredentials(
 			// param.getProxyChainUserName(), param.getProxyChainPassword(),
 			// param.getProxyChainName(), param.getProxyChainName());
-			NTCredentials credentials = new NTCredentials(param
-					.getProxyChainUserName(), param.getProxyChainPassword(),
-					"", param.getProxyChainRealm().equals("") ? "" : param
-							.getProxyChainRealm());
+			NTCredentials credentials = new NTCredentials(
+					param.getProxyChainUserName(),
+					param.getProxyChainPassword(), "", param
+							.getProxyChainRealm().equals("") ? ""
+							: param.getProxyChainRealm());
 			// Below is the original code, but user reported that above code
 			// works.
 			// UsernamePasswordCredentials credentials = new
 			// UsernamePasswordCredentials(
 			// param.getProxyChainUserName(), param.getProxyChainPassword());
 			AuthScope authScope = new AuthScope(param.getProxyChainName(),
-					param.getProxyChainPort(), param.getProxyChainRealm()
-							.equals("") ? AuthScope.ANY_REALM : param
-							.getProxyChainRealm());
+					param.getProxyChainPort(),
+					param.getProxyChainRealm().equals("") ? AuthScope.ANY_REALM : param.getProxyChainRealm());
 
 			clientProxy.getState().setProxyCredentials(authScope, credentials);
 		}
@@ -150,12 +144,11 @@ public class HttpSender {
 		return clientProxy;
 	}
 
-	public int executeMethod(HttpMethod method) throws HttpException,
-			IOException {
-		String hostName;
-		hostName = method.getURI().getHost();
+	public int executeMethod(HttpMethod method)
+	throws HttpException, IOException
+	{
+		String hostName = method.getURI().getHost();
 		method.setDoAuthentication(true);
-
 
 		if (param.isUseProxy(hostName)) {
 			return clientViaProxy.executeMethod(method);
@@ -180,14 +173,10 @@ public class HttpSender {
 			AuthScope authScope = null;
 			NTCredentials credentials = null;
 			try {
-				authScope = new AuthScope(
-						auth.getHostName(),
-						auth.getPort(),
-						(auth.getRealm() == null || auth.getRealm().equals("")) ? AuthScope.ANY_REALM
-								: auth.getRealm());
-				credentials = new NTCredentials(auth.getUserName(), auth
-						.getPassword(), InetAddress.getLocalHost()
-						.getCanonicalHostName(), auth.getHostName());
+				authScope = new AuthScope(auth.getHostName(), auth.getPort(),
+					(auth.getRealm() == null || auth.getRealm().equals("")) ? AuthScope.ANY_REALM : auth.getRealm());
+				credentials = new NTCredentials(auth.getUserName(), auth.getPassword(),
+					InetAddress.getLocalHost().getCanonicalHostName(), auth.getHostName());
 				client.getState().setCredentials(authScope, credentials);
 			} catch (UnknownHostException e1) {
 				e1.printStackTrace();
@@ -195,10 +184,9 @@ public class HttpSender {
 		}
 	}
 
-	public void sendAndReceive(HttpMessage msg) throws HttpException,
-			IOException {
+	public void sendAndReceive(HttpMessage msg)
+	throws HttpException, IOException {
 		sendAndReceive(msg, followRedirect);
-
 	}
 
 	/**
@@ -211,10 +199,10 @@ public class HttpSender {
 	 * @throws HttpException
 	 * @throws IOException
 	 */
-	public void sendAndReceive(HttpMessage msg, HttpOutputStream pipe,
-			byte[] buf) throws HttpException, IOException {
+	public void sendAndReceive(HttpMessage msg, HttpOutputStream pipe, byte[] buf)
+	throws HttpException, IOException
+	{
 		sendAndReceive(msg, followRedirect, pipe, buf);
-
 	}
 
 	/**
@@ -226,14 +214,15 @@ public class HttpSender {
 	 * @throws IOException
 	 */
 	public void sendAndReceive(HttpMessage msg, boolean isFollowRedirect)
-			throws HttpException, IOException {
+	throws HttpException, IOException {
 
 		msg.setTimeSentMillis(System.currentTimeMillis());
 
 		try {
 			if (!isFollowRedirect
-					|| !(msg.getRequestHeader().getMethod().equalsIgnoreCase(HttpRequestHeader.POST)
-					|| msg.getRequestHeader().getMethod().equalsIgnoreCase(HttpRequestHeader.PUT))) {
+				|| !(msg.getRequestHeader().getMethod().equalsIgnoreCase(HttpRequestHeader.POST)
+				|| msg.getRequestHeader().getMethod().equalsIgnoreCase(HttpRequestHeader.PUT))) {
+				
 				send(msg, isFollowRedirect);
 				return;
 			} else {
@@ -243,12 +232,12 @@ public class HttpSender {
 			HttpMessage temp = msg.cloneAll();
 			// POST/PUT method cannot be redirected by library. Need to follow
 			// by code
-			
+
 			// loop 1 time only because httpclient can handle redirect itself
 			// after first GET.
 			for (int i = 0; i < 1 && (HttpStatusCode.isRedirection(temp.getResponseHeader().getStatusCode())
-					&& temp.getResponseHeader().getStatusCode() != HttpStatusCode.NOT_MODIFIED); i++) {
-				
+				&& temp.getResponseHeader().getStatusCode() != HttpStatusCode.NOT_MODIFIED); i++) {
+
 				String location = temp.getResponseHeader().getHeader(HttpHeader.LOCATION);
 				URI baseUri = temp.getRequestHeader().getURI();
 				URI newLocation = new URI(baseUri, location, false);
@@ -290,7 +279,7 @@ public class HttpSender {
 	}
 
 	private HttpMethod runMethod(HttpMessage msg, boolean isFollowRedirect)
-			throws HttpException, IOException {
+	throws HttpException, IOException {
 		HttpMethod method = null;
 		// no more retry
 		modifyUserAgent(msg);
@@ -310,34 +299,25 @@ public class HttpSender {
 	}
 
 	private void modifyUserAgent(HttpMessage msg) {
-
+		
 		try {
+			userAgent = getUserAgent();
+			
 			// no modification to user agent if empty
 			if (userAgent.equals("") || msg.getRequestHeader().isEmpty()) {
 				return;
 			}
-
-			// append new user agent to existing user agent
+			
 			String currentUserAgent = msg.getRequestHeader().getHeader(HttpHeader.USER_AGENT);
-			if (currentUserAgent == null) {
-				currentUserAgent = "";
-			}
-
+			if (currentUserAgent == null) currentUserAgent = "";
+			
 			if (currentUserAgent.indexOf(userAgent) >= 0) {
 				// user agent already in place, exit
 				return;
 			}
 
-			String delimiter = "";
-			if (!currentUserAgent.equals("") && !currentUserAgent.endsWith(" ")) {
-				delimiter = " ";
-			}
+			msg.getRequestHeader().setHeader(HttpHeader.USER_AGENT, userAgent);
 
-			if(Constant.ADD_PROGRAM_NAME_TO_USER_AGENT == true) {
-	        	currentUserAgent = currentUserAgent + delimiter + userAgent;
-	    }
-			msg.getRequestHeader().setHeader(HttpHeader.USER_AGENT, currentUserAgent);
-			
 		} catch (Exception e) {
 		}
 	}
@@ -353,14 +333,15 @@ public class HttpSender {
 	 * @param userAgent
 	 *            The userAgent to set.
 	 */
-	public static void setUserAgent(String userAgent) {
+	public static void setUserAgent(String userAgent) {;
 		HttpSender.userAgent = userAgent;
 	}
 
 	private void setCommonManagerParams(MultiThreadedHttpConnectionManager mgr) {
 		mgr.getParams().setSoTimeout(40000);
 		mgr.getParams().setStaleCheckingEnabled(true);
-		mgr.getParams().setDefaultMaxConnectionsPerHost((Constant.MAX_HOST_CONNECTION > 5) ? 10 : 5 * Constant.MAX_HOST_CONNECTION);
+		mgr.getParams().setDefaultMaxConnectionsPerHost(
+				(Constant.MAX_HOST_CONNECTION > 5) ? 10 : 5 * Constant.MAX_HOST_CONNECTION);
 	}
 
 	/**
@@ -371,9 +352,9 @@ public class HttpSender {
 	 * @throws HttpException
 	 * @throws IOException
 	 */
-	public void sendAndReceive(HttpMessage msg, boolean isFollowRedirect,
-			HttpOutputStream pipe, byte[] buf) throws HttpException,
-			IOException {
+	public void sendAndReceive(HttpMessage msg, boolean isFollowRedirect, HttpOutputStream pipe, byte[] buf)
+	throws HttpException, IOException
+	{
 
 		msg.setTimeSentMillis(System.currentTimeMillis());
 
@@ -394,9 +375,9 @@ public class HttpSender {
 			// loop 1 time only because httpclient can handle redirect itself
 			// after first GET.
 			for (int i = 0; i < 1
-					&& (HttpStatusCode.isRedirection(temp.getResponseHeader().getStatusCode())
-					&& temp.getResponseHeader().getStatusCode() != HttpStatusCode.NOT_MODIFIED); i++) {
-				
+				&& (HttpStatusCode.isRedirection(temp.getResponseHeader().getStatusCode())
+				&& temp.getResponseHeader().getStatusCode() != HttpStatusCode.NOT_MODIFIED); i++) {
+
 				String location = temp.getResponseHeader().getHeader(HttpHeader.LOCATION);
 				URI baseUri = temp.getRequestHeader().getURI();
 				URI newLocation = new URI(baseUri, location, false);
@@ -425,9 +406,9 @@ public class HttpSender {
 	 * @throws HttpException
 	 * @throws IOException
 	 */
-	private void send(HttpMessage msg, boolean isFollowRedirect,
-			HttpOutputStream pipe, byte[] buf) throws HttpException,
-			IOException {
+	private void send(HttpMessage msg, boolean isFollowRedirect, HttpOutputStream pipe, byte[] buf)
+	throws HttpException, IOException {
+		
 		HttpMethod method = null;
 		HttpResponseHeader resHeader = null;
 
@@ -445,6 +426,7 @@ public class HttpSender {
 
 			if (msg.getResponseHeader().getContentLength() >= 0
 				&& msg.getResponseHeader().getContentLength() < 20480) {
+				
 				// save time expanding buffer in HttpBody
 				if (msg.getResponseHeader().getContentLength() > 0) {
 					msg.getResponseBody().setBody(method.getResponseBody());
