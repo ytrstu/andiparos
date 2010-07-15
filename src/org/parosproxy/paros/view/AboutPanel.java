@@ -46,7 +46,9 @@ public class AboutPanel extends JPanel {
 	private static final long serialVersionUID = 8893525515508199864L;
 	
 	private static final String VERSION = "Version " + Constant.PROGRAM_VERSION;
-	private static final String COPYRIGHT = "<html><body><p>Copyright (C) 2007-2010 Compass Security AG</p>"
+	private static final String COPYRIGHT = "<html><body>"
+				+ "<p>Copyright (C) 2007-2010 Andiparos Project</p>"
+				+ "<p>Copyright (C) 2007-2010 Compass Security AG</p>"
 				+ "<p>Copyright (C) 2003-2005 Chinotec Technologies Company</p></body></html>";
 	private static final String DISCLAIMER = "<html><body><p>Disclaimer: You should only use this software to "
 				+ "test the security of your own web application or those you are authorized to do so. "
