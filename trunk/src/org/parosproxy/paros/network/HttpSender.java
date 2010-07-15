@@ -108,7 +108,7 @@ public class HttpSender {
 		return new HttpClient(httpConnManager);
 	}
 
-	private HttpClient createHttpClientViaProxy() {
+	public HttpClient createHttpClientViaProxy() {
 
 		if (param.getProxyChainName().equals("")) {
 			return createHttpClient();

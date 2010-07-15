@@ -40,6 +40,8 @@ import org.parosproxy.paros.model.Model;
 import org.parosproxy.paros.model.Session;
 import org.parosproxy.paros.view.View;
 
+import org.parosproxy.paros.extension.beanshell.ExtensionBeanShell;
+
 /**
  * 
  * Overall control with interaction on model and view. Window - Preferences -
@@ -101,6 +103,7 @@ public class Control extends AbstractControl {
 		getExtensionLoader().addExtension(new ExtensionScanner());
 		getExtensionLoader().addExtension(new ExtensionReport());
 		getExtensionLoader().addExtension(new ExtensionManualRequestEditor());
+		getExtensionLoader().addExtension(new ExtensionBeanShell());
 		getExtensionLoader().addExtension(new ExtensionUpdate());
 
 	}

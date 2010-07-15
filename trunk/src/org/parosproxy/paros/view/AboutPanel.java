@@ -80,6 +80,8 @@ public class AboutPanel extends JPanel {
 		+ "<a>http://www.apache.org</a> licensed under Apache License 2.0. "
 		+ "HSQLDB is licensed under BSD license."
 		+ "</p><p>"
+		+ "Andiparos also contains BeanShell, which is lisenced unter LGPL."
+		+ "</p><p>"
 		+ "The Copyrights of these software belong to their respective owners."
 		+ "</p></body></html>";
 	
