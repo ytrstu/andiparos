@@ -39,7 +39,6 @@ public class OptionsHttpHeaderPanel extends AbstractParamPanel {
 
 	private static final long serialVersionUID = 2693897440860124754L;
 	private JPanel panelMisc = null;
-	private JLabel labelUserAgent = null;
 	private JTextField txtCustomUserAgent = null;
 
 	public OptionsHttpHeaderPanel() {
@@ -63,43 +62,44 @@ public class OptionsHttpHeaderPanel extends AbstractParamPanel {
 	 */
 	private JPanel getPanelMisc() {
 		if (panelMisc == null) {
+			
 			panelMisc = new JPanel();
 			panelMisc.setName("HTTP Header Panel");
-			
 			panelMisc.setLayout(new GridBagLayout());
-			
-			panelMisc.setBorder(BorderFactory.createTitledBorder(null, "HTTP Header Customization",
+			panelMisc.setBorder(BorderFactory.createTitledBorder(null,
+					"Custom User-Agent",
 					TitledBorder.DEFAULT_JUSTIFICATION,
 					TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.PLAIN, 11),
 					Color.black));
 			
-			labelUserAgent = new JLabel();
-			labelUserAgent.setText("Custom User-Agent");
+			JLabel labelUserAgent = new JLabel();
+			labelUserAgent.setText("User-Agent");
 			
-			GridBagConstraints gbcLabel = new GridBagConstraints();
-			GridBagConstraints gbcTextField = new GridBagConstraints();
+			GridBagConstraints gbcUserAgentLabel = new GridBagConstraints();
+			GridBagConstraints gbcUserAgent = new GridBagConstraints();
 			
-			gbcLabel.gridx = 0;
-			gbcLabel.gridy = 0;
-			gbcLabel.ipadx = 0;
-			gbcLabel.ipady = 0;
-			gbcLabel.anchor = GridBagConstraints.WEST;
-			gbcLabel.insets = new Insets(2,2,2,2);
-			gbcLabel.weightx = 0.5D;
-			gbcLabel.fill = GridBagConstraints.HORIZONTAL;
+			gbcUserAgentLabel.gridx = 0;
+			gbcUserAgentLabel.gridy = 0;
+			gbcUserAgentLabel.ipadx = 0;
+			gbcUserAgentLabel.ipady = 0;
+			gbcUserAgentLabel.weightx = 0.5D;
+			gbcUserAgentLabel.insets = new Insets(2,2,2,2);
+			gbcUserAgentLabel.anchor = GridBagConstraints.WEST;
+			gbcUserAgentLabel.fill = GridBagConstraints.HORIZONTAL;
 			
-			gbcTextField.gridx = 0;
-			gbcTextField.gridy = 1;
-			gbcTextField.weightx = 0.5D;
-			gbcTextField.fill = GridBagConstraints.HORIZONTAL;
-			gbcTextField.ipadx = 100;
-			gbcTextField.ipady = 0;
-			gbcTextField.anchor = GridBagConstraints.EAST;
-			gbcTextField.insets = new Insets(2,2,2,2);
+			gbcUserAgent.gridx = 1;
+			gbcUserAgent.gridy = 0;
+			gbcUserAgent.ipadx = 100;
+			gbcUserAgent.ipady = 0;
+			gbcUserAgent.weightx = 0.5D;
+			gbcUserAgent.insets = new Insets(2,2,2,2);
+			gbcUserAgent.anchor = GridBagConstraints.EAST;
+			gbcUserAgent.fill = GridBagConstraints.HORIZONTAL;
 			
-			panelMisc.add(labelUserAgent, gbcLabel);
-			panelMisc.add(getTxtCustomUserAgent(), gbcTextField);
+			
+			panelMisc.add(labelUserAgent, gbcUserAgentLabel);
+			panelMisc.add(getTxtCustomUserAgent(), gbcUserAgent);
 		}
 		return panelMisc;
 	}
