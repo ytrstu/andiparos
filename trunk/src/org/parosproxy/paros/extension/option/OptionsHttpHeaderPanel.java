@@ -38,7 +38,8 @@ import org.parosproxy.paros.view.AbstractParamPanel;
 public class OptionsHttpHeaderPanel extends AbstractParamPanel {
 
 	private static final long serialVersionUID = 2693897440860124754L;
-	private JPanel panelMisc = null;
+	private JPanel panelUserAgent = null;
+	private JPanel panelHttpHeader = null;
 	private JTextField txtCustomUserAgent = null;
 
 	public OptionsHttpHeaderPanel() {
@@ -54,19 +55,52 @@ public class OptionsHttpHeaderPanel extends AbstractParamPanel {
 	private void initialize() {
 		this.setLayout(new CardLayout());
 		this.setName("HTTP Header");
-		this.add(getPanelMisc(), getPanelMisc().getName()); 
+		this.add(getPanelHttpHeader(), getPanelHttpHeader().getName()); 
 	}
 
+	private JPanel getPanelHttpHeader() {
+		if (panelHttpHeader == null) {
+			panelHttpHeader = new JPanel();
+			panelHttpHeader.setLayout(new GridBagLayout());
+			panelHttpHeader.setName("Http Header Panel");
+	        
+			GridBagConstraints gbcHttpHeaderOptions = new GridBagConstraints();
+	        GridBagConstraints gbcSpace = new GridBagConstraints();
+	        
+	        gbcHttpHeaderOptions.gridx = 0;
+	        gbcHttpHeaderOptions.gridy = 0;
+	        gbcHttpHeaderOptions.weightx = 1.0D;
+	        gbcHttpHeaderOptions.insets = new Insets(2,2,2,2);
+	        gbcHttpHeaderOptions.anchor = GridBagConstraints.NORTHWEST;
+	        gbcHttpHeaderOptions.fill = GridBagConstraints.HORIZONTAL;
+	        
+	        gbcSpace.gridx = 0;
+	        gbcSpace.gridy = 2;
+	        gbcSpace.weightx = 1.0D;
+	        gbcSpace.weighty = 1.0D;
+	        gbcSpace.insets = new Insets(2,2,2,2);
+	        gbcSpace.anchor = GridBagConstraints.NORTHWEST;
+	        gbcSpace.fill = GridBagConstraints.BOTH;
+	        
+	        JLabel spaceLabel = new JLabel();
+	        spaceLabel.setText(" ");
+	        
+	        panelHttpHeader.add(getPanelUserAgent(), gbcHttpHeaderOptions);
+	        panelHttpHeader.add(spaceLabel, gbcSpace);
+		}
+		return panelHttpHeader;
+	}
+	
+	
 	/**
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getPanelMisc() {
-		if (panelMisc == null) {
+	private JPanel getPanelUserAgent() {
+		if (panelUserAgent == null) {
 			
-			panelMisc = new JPanel();
-			panelMisc.setName("HTTP Header Panel");
-			panelMisc.setLayout(new GridBagLayout());
-			panelMisc.setBorder(BorderFactory.createTitledBorder(null,
+			panelUserAgent = new JPanel();
+			panelUserAgent.setLayout(new GridBagLayout());
+			panelUserAgent.setBorder(BorderFactory.createTitledBorder(null,
 					"Custom User-Agent",
 					TitledBorder.DEFAULT_JUSTIFICATION,
 					TitledBorder.DEFAULT_POSITION,
@@ -83,25 +117,24 @@ public class OptionsHttpHeaderPanel extends AbstractParamPanel {
 			gbcUserAgentLabel.gridy = 0;
 			gbcUserAgentLabel.ipadx = 0;
 			gbcUserAgentLabel.ipady = 0;
-			gbcUserAgentLabel.weightx = 0.5D;
+			//gbcUserAgentLabel.weightx = 0.5D;
 			gbcUserAgentLabel.insets = new Insets(2,2,2,2);
 			gbcUserAgentLabel.anchor = GridBagConstraints.WEST;
 			gbcUserAgentLabel.fill = GridBagConstraints.HORIZONTAL;
 			
 			gbcUserAgent.gridx = 1;
 			gbcUserAgent.gridy = 0;
-			gbcUserAgent.ipadx = 100;
+			gbcUserAgent.ipadx = 0;
 			gbcUserAgent.ipady = 0;
-			gbcUserAgent.weightx = 0.5D;
+			gbcUserAgent.weightx = 1.0D;
 			gbcUserAgent.insets = new Insets(2,2,2,2);
-			gbcUserAgent.anchor = GridBagConstraints.EAST;
+			gbcUserAgent.anchor = GridBagConstraints.WEST;
 			gbcUserAgent.fill = GridBagConstraints.HORIZONTAL;
 			
-			
-			panelMisc.add(labelUserAgent, gbcUserAgentLabel);
-			panelMisc.add(getTxtCustomUserAgent(), gbcUserAgent);
+			panelUserAgent.add(labelUserAgent, gbcUserAgentLabel);
+			panelUserAgent.add(getTxtCustomUserAgent(), gbcUserAgent);
 		}
-		return panelMisc;
+		return panelUserAgent;
 	}
 
 
