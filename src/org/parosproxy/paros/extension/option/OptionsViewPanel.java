@@ -21,12 +21,20 @@
 package org.parosproxy.paros.extension.option;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import org.parosproxy.paros.model.OptionsParam;
 import org.parosproxy.paros.view.AbstractParamPanel;
@@ -40,7 +48,10 @@ public class OptionsViewPanel extends AbstractParamPanel {
 
 	private static final long serialVersionUID = 6630367747797602028L;
 
-	private JPanel panelMisc = null;
+	private JPanel panelViewOptionsGeneral = null;
+	private JPanel panelViewOptionsSitemap = null;
+	private JPanel panelView = null;
+	
 	private JCheckBox chkProcessImages = null;
 	private JCheckBox chkShowSplash = null;
 	private JCheckBox chkHttpResponseCodeToSitemap = null;
@@ -60,31 +71,100 @@ public class OptionsViewPanel extends AbstractParamPanel {
 	private void initialize() {
 		this.setLayout(new CardLayout());
 		this.setName("View");
-		this.add(getPanelMisc(), getPanelMisc().getName());
+		this.add(getPanelView(), getPanelView().getName());
 	}
 
+	
+	private JPanel getPanelView() {
+		if (panelView == null) {
+			panelView = new JPanel();
+			panelView.setLayout(new GridBagLayout());
+	        panelView.setName("View");
+	        
+			GridBagConstraints gbcViewOptionsGeneral = new GridBagConstraints();
+	        GridBagConstraints gbcViewOptionsSitemap = new GridBagConstraints();
+	        GridBagConstraints gbcSpace = new GridBagConstraints();
+	        
+	        gbcViewOptionsGeneral.gridx = 0;
+	        gbcViewOptionsGeneral.gridy = 0;
+	        gbcViewOptionsGeneral.weightx = 1.0D;
+	        gbcViewOptionsGeneral.insets = new Insets(2,2,2,2);
+	        gbcViewOptionsGeneral.anchor = GridBagConstraints.NORTHWEST;
+	        gbcViewOptionsGeneral.fill = GridBagConstraints.HORIZONTAL;
+	        
+	        gbcViewOptionsSitemap.gridx = 0;
+	        gbcViewOptionsSitemap.gridy = 1;
+	        gbcViewOptionsSitemap.weightx = 1.0D;
+	        gbcViewOptionsSitemap.insets = new Insets(2,2,2,2);
+	        gbcViewOptionsSitemap.anchor = GridBagConstraints.NORTHWEST;
+	        gbcViewOptionsSitemap.fill = GridBagConstraints.HORIZONTAL;
+	        
+	        gbcSpace.gridx = 0;
+	        gbcSpace.gridy = 2;
+	        gbcSpace.weightx = 1.0D;
+	        gbcSpace.weighty = 1.0D;
+	        gbcSpace.insets = new Insets(2,2,2,2);
+	        gbcSpace.anchor = GridBagConstraints.NORTHWEST;
+	        gbcSpace.fill = GridBagConstraints.BOTH;
+	        
+	        JLabel spaceLabel = new JLabel();
+	        spaceLabel.setText(" ");
+	        
+			panelView.add(getPanelViewOptionsGeneral(), gbcViewOptionsGeneral);
+			panelView.add(getPanelViewOptionsSitemap(), gbcViewOptionsSitemap);
+			panelView.add(spaceLabel, gbcSpace);
+		}
+		return panelView;
+	}
+	
+	
 	/**
 	 * This method initializes panelMisc
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getPanelMisc() {
-		if (panelMisc == null) {
-			panelMisc = new JPanel();
-			panelMisc.setLayout(new BoxLayout(panelMisc,BoxLayout.Y_AXIS));
-			panelMisc.setSize(114, 132);
-			panelMisc.setName("Miscellenous");
+	private JPanel getPanelViewOptionsGeneral() {
+		if (panelViewOptionsGeneral == null) {
+			panelViewOptionsGeneral = new JPanel();
+			panelViewOptionsGeneral.setLayout(new BoxLayout(panelViewOptionsGeneral,BoxLayout.Y_AXIS));
+			panelViewOptionsGeneral.setSize(114, 132);
+			panelViewOptionsGeneral.setBorder(BorderFactory.createTitledBorder(null,
+				"General",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.PLAIN, 11),
+				Color.black));
 			
 			Box box = Box.createVerticalBox();
 			box.add(getChkProcessImages());
 			box.add(getChkShowSplash());
+
+			panelViewOptionsGeneral.add(box);
+		}
+		return panelViewOptionsGeneral;
+	}
+	
+	private JPanel getPanelViewOptionsSitemap() {
+		if (panelViewOptionsSitemap == null) {
+			panelViewOptionsSitemap = new JPanel();
+			panelViewOptionsSitemap.setLayout(new BoxLayout(panelViewOptionsSitemap,BoxLayout.Y_AXIS));
+			panelViewOptionsSitemap.setSize(114, 132);
+			panelViewOptionsSitemap.setName("Miscellenous");
+			panelViewOptionsSitemap.setBorder(BorderFactory.createTitledBorder(null,
+				"Sitemap Options",
+				TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION,
+				new Font("Dialog", Font.PLAIN, 11),
+				Color.black));
+			
+			Box box = Box.createVerticalBox();
 			box.add(getChkHttpResponseToSitemap());
 			box.add(getChkHttpResponseToSitemapNo200Ok());
 			box.add(getChkHttpResponseHide404NotFound());
 
-			panelMisc.add(box);
+			panelViewOptionsSitemap.add(box);
 		}
-		return panelMisc;
+		return panelViewOptionsSitemap;
 	}
 
 	// Button for enabling/disabling processing of images
