@@ -23,7 +23,7 @@ package org.parosproxy.paros.extension.filter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.parosproxy.paros.core.scanner.plugin.TestClientAutocomplete;
+import org.parosproxy.paros.core.scanner.plugin.TestClientBrowserAutocomplete;
 import org.parosproxy.paros.network.HttpMessage;
 
 /**
@@ -114,7 +114,7 @@ public class FilterDetectMalciousContent extends FilterAdaptor {
 		String txtBody = msg.getResponseBody().toString();
 		String txtForm = null;
 		String txtInput = null;
-		Matcher matcherForm = TestClientAutocomplete.patternForm
+		Matcher matcherForm = TestClientBrowserAutocomplete.patternForm
 				.matcher(txtBody);
 		Matcher matcherAutocomplete = null;
 
@@ -123,12 +123,12 @@ public class FilterDetectMalciousContent extends FilterAdaptor {
 			txtInput = matcherForm.group(2);
 
 			if (txtForm != null && txtInput != null) {
-				matcherAutocomplete = TestClientAutocomplete.patternAutocomplete
+				matcherAutocomplete = TestClientBrowserAutocomplete.patternAutocomplete
 						.matcher(txtForm);
 				if (matcherAutocomplete.find()) {
 					continue;
 				}
-				matcherAutocomplete = TestClientAutocomplete.patternAutocomplete
+				matcherAutocomplete = TestClientBrowserAutocomplete.patternAutocomplete
 						.matcher(txtInput);
 				if (matcherAutocomplete.find()) {
 					continue;
