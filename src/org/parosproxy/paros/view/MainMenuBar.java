@@ -20,6 +20,8 @@
  */
 package org.parosproxy.paros.view;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -368,18 +370,12 @@ public class MainMenuBar extends JMenuBar {
 		if (menuHelpAbout == null) {
 			menuHelpAbout = new JMenuItem();
 			menuHelpAbout.setText("About " + Constant.PROGRAM_NAME);
-			menuHelpAbout
-					.addActionListener(new java.awt.event.ActionListener() {
-
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-
-							AboutDialog dialog = new AboutDialog(View
-									.getSingleton().getMainFrame(), true);
-							dialog.setVisible(true);
-
-						}
-					});
-
+			menuHelpAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					AboutDialog dialog = new AboutDialog(View.getSingleton().getMainFrame(), true);
+					dialog.setVisible(true);
+				}
+			});
 		}
 		return menuHelpAbout;
 	}

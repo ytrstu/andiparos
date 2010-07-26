@@ -20,32 +20,22 @@
  */
 package org.parosproxy.paros.view;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
+import java.awt.Cursor;
+
+
 public class AboutWindow extends AbstractFrame {
 
 	private static final long serialVersionUID = 8137677407478367715L;
 	
 	private AboutPanel aboutPanel = null;
 
-	/**
-     * 
-     */
 	public AboutWindow() {
 		super();
 		initialize();
 	}
 
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
 	private void initialize() {
-		this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+		this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		this.setResizable(false);
 		this.setContentPane(getAboutPanel());
 		this.pack();
@@ -53,11 +43,6 @@ public class AboutWindow extends AbstractFrame {
 
 	}
 
-	/**
-	 * This method initializes aboutPanel
-	 * 
-	 * @return org.parosproxy.paros.view.AboutPanel
-	 */
 	private AboutPanel getAboutPanel() {
 		if (aboutPanel == null) {
 			aboutPanel = new AboutPanel();
