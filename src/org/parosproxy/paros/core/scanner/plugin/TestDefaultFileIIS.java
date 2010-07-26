@@ -23,27 +23,12 @@ package org.parosproxy.paros.core.scanner.plugin;
 import org.parosproxy.paros.core.scanner.AbstractDefaultFilePlugin;
 import org.parosproxy.paros.core.scanner.Category;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestDefaultFileIIS extends AbstractDefaultFilePlugin {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getId()
-	 */
 	public int getId() {
-		return 20000;
+		return 30004;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getName()
-	 */
 	public String getName() {
 
 		return "IIS default files";
@@ -53,11 +38,6 @@ public class TestDefaultFileIIS extends AbstractDefaultFilePlugin {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSummary()
-	 */
 	public String getDescription() {
 		return "Microsoft IIS 4.0, 5.0 or 6.0 default files are found.";
 	}

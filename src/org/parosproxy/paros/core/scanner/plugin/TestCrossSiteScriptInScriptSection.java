@@ -35,39 +35,27 @@ import org.parosproxy.paros.network.HttpMessage;
  */
 public class TestCrossSiteScriptInScriptSection extends AbstractAppParamPlugin {
 
-	private static final String XSS4 = "alert('{" + Constant.getEyeCatcher()
-			+ "}');";
+	private static final String XSS4 = "alert('{" + Constant.getEyeCatcher() + "}');";
 
 	private static final Pattern patternXSS4 = Pattern.compile(
-			"<SCRIPT>.*?alert\\('\\{" + Constant.getEyeCatcher()
-					+ "\\}'\\);.*?</SCRIPT>", Pattern.DOTALL);
+			"<SCRIPT>.*?alert\\('\\{" + Constant.getEyeCatcher() + "\\}'\\);.*?</SCRIPT>", Pattern.DOTALL);
 
 	public int getId() {
-		return 40004;
+		return 40002;
 	}
 
 	public String getName() {
 		return "Cross site scripting in SCRIPT section";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDescription()
-	 */
 	public String getDescription() {
 		String msg = "Cross-site scripting or HTML injection is possible within javascript <SCRIPT> and </SCRIPT> section.\r\n"
 				+ "Malicious javacript can be injected into the browser even if the server filtered certain specail characters such as double quotes and <>.\r\n"
-				+ "It will appear to be genuine content from the original site.  "
+				+ "It will appear to be genuine content from the original site. "
 				+ "These scripts can be used to execute arbitrary code or steal customer sensitive information such as user password or cookies.\r\n"
 				+ "Very often this is in the form of a hyperlink with the injected script embeded in the query strings.  However, XSS is possible via FORM POST data, cookies, "
 				+ "user data sent from another user or shared data retrieved from database.\r\n"
@@ -76,20 +64,10 @@ public class TestCrossSiteScriptInScriptSection extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getCategory()
-	 */
 	public int getCategory() {
 		return Category.HTML_INJECTION;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSolution()
-	 */
 	public String getSolution() {
 		String msg = "You should check manually if this is exactly cross-site script in this case."
 				+ "Do not embed dynamic content within <SCRIPT></SCRIPT> sections.  "
@@ -99,11 +77,6 @@ public class TestCrossSiteScriptInScriptSection extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getReference()
-	 */
 	public String getReference() {
 		String msg = "<ul><li>The OWASP guide at http://www.owasp.org/documentation/guide</li>"
 				+ "<li>http://www.technicalinfo.net/papers/CSS.html</li>"
@@ -114,11 +87,6 @@ public class TestCrossSiteScriptInScriptSection extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractTest#init()
-	 */
 	public void init() {
 
 	}
@@ -134,17 +102,11 @@ public class TestCrossSiteScriptInScriptSection extends AbstractAppParamPlugin {
 			e.printStackTrace();
 		}
 
-		// no need to have 200 response
-		// if (getResponseHeader().getStatusCode() != HttpStatusCode.OK) {
-		// return;
-		// }
-
+		
 		StringBuffer sb = new StringBuffer();
-		// String result = msg.getResponseBody().toString();
-		// System.out.println(result);
+		
 		if (matchBodyPattern(msg, patternXSS4, sb)) {
-			bingo(Alert.RISK_MEDIUM, Alert.SUSPICIOUS, null,
-					param + "=" + XSS4, null, msg);
+			bingo(Alert.RISK_MEDIUM, Alert.SUSPICIOUS, null, param + "=" + XSS4, null, msg);
 			return;
 		}
 

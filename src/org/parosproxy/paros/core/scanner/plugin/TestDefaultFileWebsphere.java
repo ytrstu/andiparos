@@ -30,39 +30,19 @@ import org.parosproxy.paros.core.scanner.Category;
  */
 public class TestDefaultFileWebsphere extends AbstractDefaultFilePlugin {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getId()
-	 */
 	public int getId() {
-		return 20005;
+		return 30009;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getName()
-	 */
 	public String getName() {
 
 		return "IBM WebSphere default files";
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
+	
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSummary()
-	 */
 	public String getDescription() {
 		return "IBM WebSphere 4.0/5.0 example files have been found.";
 	}
@@ -99,9 +79,9 @@ public class TestDefaultFileWebsphere extends AbstractDefaultFilePlugin {
 		addTest("servlet", "snoop,snoop2,SnoopServlet,hello,ErrorReporter");
 
 		// examples.ear
-		addTest(
-				"webapp/examples",
+		addTest("webapp/examples",
 				"login.html,simple.jsp,ErrorServlet,ping,showcfg,HitCount,verify,HelloPervasive");
+		
 		addTest("WebSphereSamples", ",YourCo/main.html");
 		addTest("WebSphereSamples/SingleSamples",
 				"Increment/increment.html,AccountAndTransfer/create.html");

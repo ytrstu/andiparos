@@ -30,11 +30,6 @@ import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpStatusCode;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestInjectionSQL extends AbstractAppParamPlugin {
 
 	private static final String[] dependency = { "TestInjectionSQLFingerprint" };
@@ -58,39 +53,19 @@ public class TestInjectionSQL extends AbstractAppParamPlugin {
 
 	private String mResBodyNormal = ""; // normal response for comparison
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getId()
-	 */
 	public int getId() {
-		return 50002;
+		return 50001;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getName()
-	 */
 	public String getName() {
 		return "SQL Injection";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
 	public String[] getDependency() {
 
 		return dependency;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDescription()
-	 */
 	public String getDescription() {
 		String msg = "SQL injection is possible.  User parameters submitted will be formulated into a SQL query for database processing.  "
 				+ "If the query is built by simple 'string concatenation', it is possible to modify the meaning of the query by carefully crafting the parameters.  "
@@ -101,20 +76,10 @@ public class TestInjectionSQL extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getCategory()
-	 */
 	public int getCategory() {
 		return Category.SQL_INJECTION;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSolution()
-	 */
 	public String getSolution() {
 		String msg = "Do not trust client side input even if there is client side validation.  In general, "
 				+ "<ul>"
@@ -128,24 +93,13 @@ public class TestInjectionSQL extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getReference()
-	 */
 	public String getReference() {
 		String msg = "<ul><li>The OWASP guide at http://www.owasp.org/documentation/guide</li>" + "<li>http://www.sqlsecurity.com/DesktopDefault.aspx?tabid=23</li>"
 				+ "<li>http://www.spidynamics.com/whitepapers/WhitepaperSQLInjection.pdf</li>"
 				+ "<li>For Oracle database, refer to http://www.integrigy.com/info/IntegrigyIntrotoSQLInjectionAttacks.pdf</li></ul>";
 		return msg;
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractTest#init()
-	 */
 	public void init() {
 
 	}
@@ -158,17 +112,8 @@ public class TestInjectionSQL extends AbstractAppParamPlugin {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.proofsecure.paros.core.scanner.AbstractAppParamTest#scan(com.proofsecure
-	 * .paros.network.HttpMessage, java.lang.String, java.lang.String)
-	 */
+	
 	public void scanSQL(HttpMessage baseMsg, String param, String value) throws HttpException, IOException {
-
-		// protected void check(boolean isBody, String paramKey, String
-		// paramValue, String query, int insertPos) throws IOException {
 
 		String bingoQuery = null;
 		String displayURI = null;

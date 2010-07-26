@@ -23,16 +23,14 @@ package org.parosproxy.paros.core.scanner.plugin;
 import org.parosproxy.paros.core.scanner.AbstractDefaultFilePlugin;
 import org.parosproxy.paros.core.scanner.Category;
 
-
-public class TestDefaultFileWeblogic extends AbstractDefaultFilePlugin {
+public class TestInformationDisclosureCrossdomainXml extends AbstractDefaultFilePlugin {
 
 	public int getId() {
-		return 30008;
+		return 10000;
 	}
 
 	public String getName() {
-
-		return "BEA WebLogic example files";
+		return "crossdomain.xml file";
 	}
 
 	public String[] getDependency() {
@@ -40,15 +38,15 @@ public class TestDefaultFileWeblogic extends AbstractDefaultFilePlugin {
 	}
 
 	public String getDescription() {
-		return "BEA WebLogic server 8.1 example files have been found.";
+		return "crossdomain.xml file found.";
 	}
 
 	public int getCategory() {
-		return Category.SERVER;
+		return Category.INFO_DISCLOSURE;
 	}
 
 	public String getSolution() {
-		return "Remove example files.";
+		return "";
 	}
 
 	public String getReference() {
@@ -61,36 +59,6 @@ public class TestDefaultFileWeblogic extends AbstractDefaultFilePlugin {
 	}
 
 	private void createURI() {
-		// WebLogic server 8.1 examples
-
-		addTest("/patient", "register.do,login.do");
-		addTest("/admin", "login.do");
-		addTest("/physican", "login.do");
-
-		addTest("/examplesWebApp", "index.jsp");
-		// order parser example
-		addTest("/examplesWebApp",
-				"OrderParser.jsp?xmlfile=C:/bea/weblogic81/samples/server/examples/src/examples/xml/orderParser/order.xml");
-		// web services example
-		addTest("/examplesWebApp", "WebservicesEJB.jsp");
-		// enterprise java bean example
-		addTest("/examplesWebApp", "EJBeanManagedClient.jsp");
-		// JSP example
-		addTest("/examplesWebApp", "InteractiveQuery.jsp");
-		// servlet example
-		addTest("/examplesWebApp", "SessionServlet");
-
-		// ***********************
-
-		// WebLogic 8.1 Integration end-to-end examples
-
-		addTest("/e2ePortalProject", "Login.portal");
-
-		// WebLogic Administration portal - not an example
-		addTest("/portalAppAdmin", "login.jsp");
-
-		// weblogic Integration Administration console
-		addTest("/", "wliconsole");
+		addTest("/","crossdomain.xml");
 	}
-
 }

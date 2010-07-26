@@ -26,11 +26,6 @@ import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestCrossSiteScript extends AbstractAppParamPlugin {
 
 	private static final String[] XSS = {
@@ -39,9 +34,9 @@ public class TestCrossSiteScript extends AbstractAppParamPlugin {
 			"test@<SCRipt>alert(" + Constant.getEyeCatcher()	+ ")</scrIPT>.example.com" // XSS to fulfill email check
 	};
 
-	public int getId() {				return 40000; }
+	public int getId() {		return 40000; }
 	public int getCategory() {	return Category.HTML_INJECTION; }
-	public String getName() {		return "Cross site scripting"; }
+	public String getName() {	return "Cross site scripting"; }
 	
 	public String[] getDependency() {
 		return null;

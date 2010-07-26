@@ -23,46 +23,21 @@ package org.parosproxy.paros.core.scanner.plugin;
 import org.parosproxy.paros.core.scanner.AbstractDefaultFilePlugin;
 import org.parosproxy.paros.core.scanner.Category;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestDefaultFileTomcat extends AbstractDefaultFilePlugin {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getId()
-	 */
 	public int getId() {
-		return 20003;
+		return 30007;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getName()
-	 */
 	public String getName() {
 
 		return "Tomcat source file disclosure";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSummary()
-	 */
 	public String getDescription() {
 		return "Tomcat source file disclosed.";
 	}
