@@ -20,73 +20,46 @@
  */
 package org.parosproxy.paros.extension.encoder;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenuItem;
 
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class ExtensionEncoder extends ExtensionAdaptor {
 
-	private EncoderDialog encoderDialog = null; // @jve:decl-index=0:visual-constraint="63,19"
+	private EncoderDialog encoderDialog = null;
 	private JMenuItem menuItemEncoder = null;
 
-	/**
-     * 
-     */
 	public ExtensionEncoder() {
 		super();
 		initialize();
 	}
 
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
 	private void initialize() {
 		this.setName("ExtensionEncoder");
-
 	}
 
-	/**
-	 * This method initializes encoderDialog
-	 * 
-	 * @return com.proofsecure.paros.extension.encoder.EncoderDialog
-	 */
 	private EncoderDialog getEncoderDialog() {
 		if (encoderDialog == null) {
 			encoderDialog = new EncoderDialog(getView().getMainFrame(), false);
 			encoderDialog.setView(getView());
 			encoderDialog.setSize(480, 360);
-
 		}
 		return encoderDialog;
 	}
 
-	/**
-	 * This method initializes menuItemEncoder
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
 	private JMenuItem getMenuItemEncoder() {
 		if (menuItemEncoder == null) {
 			menuItemEncoder = new JMenuItem();
-			menuItemEncoder.setText("Encoder/Hash...");
-			menuItemEncoder
-					.addActionListener(new java.awt.event.ActionListener() {
-
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-
-							getEncoderDialog().setVisible(true);
-
-						}
-					});
-
+			menuItemEncoder.setText("En-/Decoder");
+			menuItemEncoder.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getEncoderDialog().setVisible(true);
+				}
+			});
 		}
 		return menuItemEncoder;
 	}

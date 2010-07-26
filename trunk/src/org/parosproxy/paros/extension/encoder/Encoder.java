@@ -26,11 +26,6 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class Encoder {
 
 	private final static String CODEPAGE = "8859_1";
@@ -52,6 +47,11 @@ public class Encoder {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	public String getIllegalUTF8Encode(String msg, int bytes) {
+		String result = IllegalUTF8.encode(msg, bytes);
 		return result;
 	}
 

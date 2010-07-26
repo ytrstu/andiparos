@@ -1,23 +1,21 @@
 /*
- *
- * Paros and its related class files.
+ * Copyright (C) 2010, Andiparos Project, Axel Neumann
  * 
- * Paros is an HTTP/HTTPS proxy for assessing web application security.
- * Copyright (C) 2003-2004 Chinotec Technologies Company
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the Clarified Artistic License
- * as published by the Free Software Foundation.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * Clarified Artistic License for more details.
+ * GNU General Public License for more details.
  * 
- * You should have received a copy of the Clarified Artistic License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see http://www.gnu.org/copyleft/
+ * 
  */
+
 package org.parosproxy.paros.extension.encoder;
 
 import java.awt.Frame;
@@ -32,7 +30,11 @@ import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import java.security.NoSuchAlgorithmException;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -45,20 +47,18 @@ import java.awt.event.ActionEvent;
 import org.parosproxy.paros.extension.AbstractDialog;
 import org.parosproxy.paros.extension.ViewDelegate;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
+
 public class EncoderDialog extends AbstractDialog {
 
 	private static final long serialVersionUID = 2733002714754868517L;
 	
 	private JPanel jPanel = null;
-	private JPanel jPanel1 = null;
-	private JPanel jPanel2 = null;
-	private JScrollPane jScrollPane = null;
-	private JScrollPane jScrollPane1 = null;
+	private JPanel jPanelEncodeText = null;
+	private JPanel jPanelDecodeText = null;
+	private JPanel jPanelEncodeButtons = null;
+	
+	private JScrollPane jScrollPaneEncode = null;
+	private JScrollPane jScrollPaneDecode = null;
 	private JTextArea txtEncode = null;
 	private JTextArea txtDecode = null;
 	private JButton btnMD5Hash = null;
@@ -67,16 +67,17 @@ public class EncoderDialog extends AbstractDialog {
 	private JButton btnSHA1Hash = null;
 	private JButton btnURLDecode = null;
 	private JButton btnBase64Decode = null;
-	private JPanel jPanel3 = null;
-	private JPanel jPanel4 = null;
+	private JButton btnIllegalUTF8Encode = null;
+	private JPanel jPanelEncode = null;
+	private JPanel jPanelDecodeButtons = null;
+	private JPanel jPanelUTF8EncodeButtons = null;
+	private JPanel jPanelDecode = null;
+	private JComboBox cboxIllegalUTF8Bytes = null;
 
 	private Encoder encoder = null;
 	private ViewDelegate view = null;
 
-	/**
-	 * This method initializes
-	 * 
-	 */
+
 	public EncoderDialog() {
 		super();
 		initialize();
@@ -87,46 +88,39 @@ public class EncoderDialog extends AbstractDialog {
 		initialize();
 	}
 
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
 	private void initialize() {
-		this.setTitle("Encode/Hash");
+		this.setTitle("Encode / Decode / Hash");
 		this.setContentPane(getJPanel());
-		this.setSize(415, 363);
-
+		this.setPreferredSize(new Dimension(800,600));
+		this.setMinimumSize(this.getPreferredSize());
 	}
 
-	/**
-	 * This method initializes jPanel
-	 * 
-	 * @return javax.swing.JPanel
-	 */
 	private JPanel getJPanel() {
 		if (jPanel == null) {
-			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
-			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
-
 			jPanel = new JPanel();
 			jPanel.setLayout(new GridBagLayout());
-			gridBagConstraints1.gridx = 0;
-			gridBagConstraints1.gridy = 0;
-			gridBagConstraints1.insets = new Insets(2, 2, 2, 2);
-			gridBagConstraints1.anchor = GridBagConstraints.NORTHWEST;
-			gridBagConstraints1.fill = GridBagConstraints.BOTH;
-			gridBagConstraints1.weightx = 1.0D;
-			gridBagConstraints1.weighty = 0.5D;
-			gridBagConstraints2.gridx = 0;
-			gridBagConstraints2.gridy = 1;
-			gridBagConstraints2.insets = new Insets(2, 2, 2, 2);
-			gridBagConstraints2.anchor = GridBagConstraints.NORTHWEST;
-			gridBagConstraints2.fill = GridBagConstraints.BOTH;
-			gridBagConstraints2.weightx = 1.0D;
-			gridBagConstraints2.weighty = 0.5D;
-			jPanel.add(getJPanel1(), gridBagConstraints1);
-			jPanel.add(getJPanel2(), gridBagConstraints2);
+			
+			GridBagConstraints gbcTextEncode = new GridBagConstraints();
+			GridBagConstraints gbcTextDecode = new GridBagConstraints();
+			
+			gbcTextDecode.gridx = 0;
+			gbcTextDecode.gridy = 0;
+			gbcTextDecode.weightx = 1.0D;
+			gbcTextDecode.weighty = 0.5D;
+			gbcTextDecode.insets = new Insets(2, 2, 2, 2);
+			gbcTextDecode.anchor = GridBagConstraints.NORTHWEST;
+			gbcTextDecode.fill = GridBagConstraints.BOTH;
+			
+			gbcTextEncode.gridx = 0;
+			gbcTextEncode.gridy = 1;
+			gbcTextEncode.weightx = 1.0D;
+			gbcTextEncode.weighty = 0.5D;
+			gbcTextEncode.insets = new Insets(2, 2, 2, 2);
+			gbcTextEncode.anchor = GridBagConstraints.NORTHWEST;
+			gbcTextEncode.fill = GridBagConstraints.BOTH;
+			
+			jPanel.add(getJPanelEncodeText(), gbcTextDecode);
+			jPanel.add(getJPanelDecodeText(), gbcTextEncode);
 		}
 		return jPanel;
 	}
@@ -136,37 +130,38 @@ public class EncoderDialog extends AbstractDialog {
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanel1() {
-		if (jPanel1 == null) {
-			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
-
-			GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
-
-			jPanel1 = new JPanel();
-			jPanel1.setLayout(new GridBagLayout());
-			jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+	private JPanel getJPanelEncodeText() {
+		if (jPanelEncodeText == null) {
+			jPanelEncodeText = new JPanel();
+			jPanelEncodeText.setLayout(new GridBagLayout());
+			jPanelEncodeText.setBorder(BorderFactory.createTitledBorder(
 					null, "Enter plain text below to be encoded/hashed",
 					TitledBorder.DEFAULT_JUSTIFICATION,
 					TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.PLAIN, 11),
 					Color.black));
-			jPanel1.setPreferredSize(new Dimension(135, 120));
-			gridBagConstraints3.weightx = 1.0;
-			gridBagConstraints3.weighty = 1.0;
-			gridBagConstraints3.fill = GridBagConstraints.BOTH;
-			gridBagConstraints3.anchor = GridBagConstraints.NORTHWEST;
-			gridBagConstraints3.gridheight = 1;
-			gridBagConstraints3.gridx = 0;
-			gridBagConstraints3.gridy = 0;
-			gridBagConstraints3.insets = new Insets(2, 2, 2, 2);
-			gridBagConstraints7.anchor = GridBagConstraints.NORTHWEST;
-			gridBagConstraints7.gridx = 1;
-			gridBagConstraints7.gridy = 0;
-			gridBagConstraints7.insets = new Insets(2, 2, 2, 2);
-			jPanel1.add(getJScrollPane(), gridBagConstraints3);
-			jPanel1.add(getJPanel3(), gridBagConstraints7);
+			
+			GridBagConstraints gbcEncodeScrollPane = new GridBagConstraints();
+			GridBagConstraints gbcButtonPlaceholder = new GridBagConstraints();
+			
+			gbcEncodeScrollPane.weightx = 1.0;
+			gbcEncodeScrollPane.weighty = 1.0;
+			gbcEncodeScrollPane.fill = GridBagConstraints.BOTH;
+			gbcEncodeScrollPane.anchor = GridBagConstraints.NORTHWEST;
+			gbcEncodeScrollPane.gridheight = 1;
+			gbcEncodeScrollPane.gridx = 0;
+			gbcEncodeScrollPane.gridy = 0;
+			gbcEncodeScrollPane.insets = new Insets(2, 2, 2, 2);
+			
+			gbcButtonPlaceholder.anchor = GridBagConstraints.NORTHWEST;
+			gbcButtonPlaceholder.gridx = 1;
+			gbcButtonPlaceholder.gridy = 0;
+			gbcButtonPlaceholder.insets = new Insets(2, 2, 2, 2);
+			
+			jPanelEncodeText.add(getJScrollPaneEncode(), gbcEncodeScrollPane);
+			jPanelEncodeText.add(getJPanelEncode(), gbcButtonPlaceholder);
 		}
-		return jPanel1;
+		return jPanelEncodeText;
 	}
 
 	/**
@@ -174,70 +169,60 @@ public class EncoderDialog extends AbstractDialog {
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanel2() {
-		if (jPanel2 == null) {
-			GridBagConstraints gridBagConstraints9 = new GridBagConstraints();
-			GridBagConstraints gridBagConstraints8 = new GridBagConstraints();
-
-			jPanel2 = new JPanel();
-			jPanel2.setLayout(new GridBagLayout());
-			jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+	private JPanel getJPanelDecodeText() {
+		if (jPanelDecodeText == null) {
+			jPanelDecodeText = new JPanel();
+			jPanelDecodeText.setLayout(new GridBagLayout());
+			jPanelDecodeText.setBorder(BorderFactory.createTitledBorder(
 				null, "Enter text below to be decoded",
 				TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION,
 				new Font("Dialog", Font.PLAIN, 11),
 				Color.black));
-			jPanel2.setPreferredSize(new Dimension(135, 120));
-			gridBagConstraints8.gridx = 0;
-			gridBagConstraints8.gridy = 0;
-			gridBagConstraints8.weightx = 1.0;
-			gridBagConstraints8.weighty = 1.0;
-			gridBagConstraints8.fill = GridBagConstraints.BOTH;
-			gridBagConstraints8.insets = new Insets(2, 2, 2, 2);
-			gridBagConstraints8.anchor = GridBagConstraints.NORTHWEST;
-			gridBagConstraints8.gridheight = 1;
+			
+			GridBagConstraints gbcDecodeScrollPane = new GridBagConstraints();
+			GridBagConstraints gridBagConstraints9 = new GridBagConstraints();
+			
+			gbcDecodeScrollPane.gridx = 0;
+			gbcDecodeScrollPane.gridy = 0;
+			gbcDecodeScrollPane.weightx = 1.0;
+			gbcDecodeScrollPane.weighty = 1.0;
+			gbcDecodeScrollPane.fill = GridBagConstraints.BOTH;
+			gbcDecodeScrollPane.insets = new Insets(2, 2, 2, 2);
+			gbcDecodeScrollPane.anchor = GridBagConstraints.NORTHWEST;
+			gbcDecodeScrollPane.gridheight = 1;
+			
 			gridBagConstraints9.gridx = 1;
 			gridBagConstraints9.gridy = 0;
 			gridBagConstraints9.insets = new Insets(2, 2, 2, 2);
 			gridBagConstraints9.anchor = GridBagConstraints.NORTHWEST;
-			jPanel2.add(getJScrollPane1(), gridBagConstraints8);
-			jPanel2.add(getJPanel4(), gridBagConstraints9);
+			
+			jPanelDecodeText.add(getJScrollPaneDecode(), gbcDecodeScrollPane);
+			jPanelDecodeText.add(getJPanelDecode(), gridBagConstraints9);
 		}
-		return jPanel2;
+		return jPanelDecodeText;
 	}
 
-	/**
-	 * This method initializes jScrollPane
-	 * 
-	 * @return JScrollPane
-	 */
-	private JScrollPane getJScrollPane() {
-		if (jScrollPane == null) {
-			jScrollPane = new JScrollPane();
-			jScrollPane.setViewportView(getTxtEncode());
-			jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+	private JScrollPane getJScrollPaneEncode() {
+		if (jScrollPaneEncode == null) {
+			jScrollPaneEncode = new JScrollPane();
+			jScrollPaneEncode.setViewportView(getTxtEncode());
+			jScrollPaneEncode.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		}
-		return jScrollPane;
+		return jScrollPaneEncode;
 	}
 
-	/**
-	 * This method initializes jScrollPane1
-	 * 
-	 * @return JScrollPane
-	 */
-	private JScrollPane getJScrollPane1() {
-		if (jScrollPane1 == null) {
-			jScrollPane1 = new JScrollPane();
-			jScrollPane1.setViewportView(getTxtDecode());
+
+	private JScrollPane getJScrollPaneDecode() {
+		if (jScrollPaneDecode == null) {
+			jScrollPaneDecode = new JScrollPane();
+			jScrollPaneDecode.setViewportView(getTxtDecode());
 		}
-		return jScrollPane1;
+		return jScrollPaneDecode;
 	}
 
-	/**
-	 * This method initializes txtEncode
-	 * 
-	 * @return javax.swing.JTextField
-	 */
+
 	private JTextArea getTxtEncode() {
 		if (txtEncode == null) {
 			txtEncode = new JTextArea();
@@ -257,11 +242,7 @@ public class EncoderDialog extends AbstractDialog {
 		return txtEncode;
 	}
 
-	/**
-	 * This method initializes txtDecode
-	 * 
-	 * @return javax.swing.JTextField
-	 */
+
 	private JTextArea getTxtDecode() {
 		if (txtDecode == null) {
 			txtDecode = new JTextArea();
@@ -271,11 +252,7 @@ public class EncoderDialog extends AbstractDialog {
 		return txtDecode;
 	}
 
-	/**
-	 * This method initializes btnMD5Hash
-	 * 
-	 * @return javax.swing.JButton
-	 */
+
 	private JButton getBtnMD5Hash() {
 		if (btnMD5Hash == null) {
 			btnMD5Hash = new JButton();
@@ -288,6 +265,7 @@ public class EncoderDialog extends AbstractDialog {
 										getEncoder().getHashMD5(
 										getEncoder().getBytes(
 										txtEncode.getText())));
+						
 						txtDecode.setText(result);
 					} catch (NoSuchAlgorithmException e1) {
 						e1.printStackTrace();
@@ -300,11 +278,6 @@ public class EncoderDialog extends AbstractDialog {
 		return btnMD5Hash;
 	}
 
-	/**
-	 * This method initializes btnURLEncode
-	 * 
-	 * @return javax.swing.JButton
-	 */
 	private JButton getBtnURLEncode() {
 		if (btnURLEncode == null) {
 			btnURLEncode = new JButton();
@@ -319,11 +292,6 @@ public class EncoderDialog extends AbstractDialog {
 		return btnURLEncode;
 	}
 
-	/**
-	 * This method initializes btnBase64Encode
-	 * 
-	 * @return javax.swing.JButton
-	 */
 	private JButton getBtnBase64Encode() {
 		if (btnBase64Encode == null) {
 			btnBase64Encode = new JButton();
@@ -339,11 +307,7 @@ public class EncoderDialog extends AbstractDialog {
 		return btnBase64Encode;
 	}
 
-	/**
-	 * This method initializes btnSHA1Hash
-	 * 
-	 * @return javax.swing.JButton
-	 */
+
 	private JButton getBtnSHA1Hash() {
 		if (btnSHA1Hash == null) {
 			btnSHA1Hash = new JButton();
@@ -356,6 +320,7 @@ public class EncoderDialog extends AbstractDialog {
 										getEncoder().getHashSHA1(
 										getEncoder().getBytes(
 										txtEncode.getText())));
+						
 						txtDecode.setText(result);
 					} catch (NoSuchAlgorithmException e1) {
 						e1.printStackTrace();
@@ -366,11 +331,7 @@ public class EncoderDialog extends AbstractDialog {
 		return btnSHA1Hash;
 	}
 
-	/**
-	 * This method initializes btnURLDecode
-	 * 
-	 * @return javax.swing.JButton
-	 */
+
 	private JButton getBtnURLDecode() {
 		if (btnURLDecode == null) {
 			btnURLDecode = new JButton();
@@ -386,11 +347,7 @@ public class EncoderDialog extends AbstractDialog {
 		return btnURLDecode;
 	}
 
-	/**
-	 * This method initializes btnBase64Decode
-	 * 
-	 * @return javax.swing.JButton
-	 */
+
 	private JButton getBtnBase64Decode() {
 		if (btnBase64Decode == null) {
 			btnBase64Decode = new JButton();
@@ -404,49 +361,152 @@ public class EncoderDialog extends AbstractDialog {
 		}
 		return btnBase64Decode;
 	}
+	
 
-	/**
-	 * This method initializes jPanel3
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJPanel3() {
-		if (jPanel3 == null) {
-			GridLayout gridLayout6 = new GridLayout();
-
-			jPanel3 = new JPanel();
-			jPanel3.setLayout(gridLayout6);
-			gridLayout6.setRows(4);
-			gridLayout6.setColumns(1);
-			gridLayout6.setVgap(3);
-			gridLayout6.setHgap(3);
-			jPanel3.add(getBtnURLEncode(), null);
-			jPanel3.add(getBtnBase64Encode(), null);
-			jPanel3.add(getBtnSHA1Hash(), null);
-			jPanel3.add(getBtnMD5Hash(), null);
+	private JButton getBtnIllegalUTF8Encode() {
+		if (btnIllegalUTF8Encode == null) {
+			btnIllegalUTF8Encode = new JButton();
+			btnIllegalUTF8Encode.setText("Illegal UTF8");
+			btnIllegalUTF8Encode.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					txtDecode.setText("");
+					Integer bytesToEncode = (Integer) cboxIllegalUTF8Bytes.getSelectedItem();
+					txtDecode.setText(getEncoder().getIllegalUTF8Encode(txtEncode.getText(), bytesToEncode));
+				}
+			});
 		}
-		return jPanel3;
+		return btnIllegalUTF8Encode;
+	}
+	
+	private JComboBox getCboxIllegalUTF8Bytes() {
+		if (cboxIllegalUTF8Bytes == null) {
+			Integer [] bytesCount = {2,3,4};
+			cboxIllegalUTF8Bytes = new JComboBox(bytesCount);
+			cboxIllegalUTF8Bytes.setSelectedIndex(0);
+			cboxIllegalUTF8Bytes.setMaximumSize(cboxIllegalUTF8Bytes.getPreferredSize()); 
+		}
+		return cboxIllegalUTF8Bytes;
 	}
 
-	/**
-	 * This method initializes jPanel4
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJPanel4() {
-		if (jPanel4 == null) {
-			GridLayout gridLayout11 = new GridLayout();
 
-			jPanel4 = new JPanel();
-			jPanel4.setLayout(gridLayout11);
-			gridLayout11.setRows(2);
-			gridLayout11.setColumns(1);
-			gridLayout11.setHgap(2);
-			gridLayout11.setVgap(3);
-			jPanel4.add(getBtnURLDecode(), null);
-			jPanel4.add(getBtnBase64Decode(), null);
+	private JPanel getJPanelEncode() {
+		if (jPanelEncode == null) {
+			GridBagLayout gbl = new GridBagLayout();
+			
+			jPanelEncode = new JPanel();
+			jPanelEncode.setLayout(gbl);
+			jPanelEncode.setPreferredSize(new Dimension(200, 200));
+			
+			GridBagConstraints gbcButtons = new GridBagConstraints();
+			GridBagConstraints gbcSpace = new GridBagConstraints();
+			
+			gbcButtons.gridx = 0;
+			gbcButtons.gridy = 0;
+			gbcButtons.weightx = 1.0;
+			gbcButtons.weighty = 1.0;
+			gbcButtons.insets = new Insets(2, 2, 2, 2);
+			gbcButtons.anchor = GridBagConstraints.NORTHWEST;
+			gbcButtons.fill = GridBagConstraints.BOTH;
+			
+			gbcSpace.gridx = 0;
+			gbcSpace.gridy = 1;
+			gbcSpace.insets = new Insets(2, 2, 2, 2);
+			gbcSpace.anchor = GridBagConstraints.NORTHWEST;
+			
+			
+			JLabel spaceLabel = new JLabel();
+	        spaceLabel.setText(" ");
+	        
+	        jPanelEncode.add(getJPanelEncodeButtons(), gbcButtons);
+	        jPanelEncode.add(spaceLabel, gbcSpace);
 		}
-		return jPanel4;
+		return jPanelEncode;
+	}
+	
+	private JPanel getJPanelEncodeButtons() {
+		if (jPanelEncodeButtons == null) {
+			jPanelEncodeButtons = new JPanel();
+			GridLayout gridLayout6 = new GridLayout();
+			jPanelEncodeButtons.setLayout(gridLayout6);
+			
+			gridLayout6.setRows(5);
+			gridLayout6.setColumns(1);
+			gridLayout6.setVgap(3);
+			gridLayout6.setHgap(3); 
+			
+			jPanelEncodeButtons.add(getBtnURLEncode(), null);
+			jPanelEncodeButtons.add(getBtnBase64Encode(), null);
+			jPanelEncodeButtons.add(getJPanelEncodeUTF8Buttons(), null);
+			jPanelEncodeButtons.add(getBtnSHA1Hash(), null);
+			jPanelEncodeButtons.add(getBtnMD5Hash(), null);
+		}
+		return jPanelEncodeButtons;
+	}
+
+	private JPanel getJPanelEncodeUTF8Buttons() {
+		if (jPanelUTF8EncodeButtons == null) {
+			jPanelUTF8EncodeButtons = new JPanel();
+			
+			jPanelUTF8EncodeButtons.setLayout(new BoxLayout(jPanelUTF8EncodeButtons, BoxLayout.X_AXIS));
+			jPanelUTF8EncodeButtons.setPreferredSize(new Dimension(200,200));
+			
+			jPanelUTF8EncodeButtons.add(getCboxIllegalUTF8Bytes(), null);
+			jPanelUTF8EncodeButtons.add(getBtnIllegalUTF8Encode(), null);
+			
+		}
+		return jPanelUTF8EncodeButtons;
+	}
+	
+	private JPanel getJPanelDecodeButtons() {
+		if (jPanelDecodeButtons == null) {
+			jPanelDecodeButtons = new JPanel();
+			GridLayout gl = new GridLayout();
+			jPanelDecodeButtons.setLayout(gl);
+			
+			gl.setRows(2);
+			gl.setColumns(1);
+			gl.setVgap(3);
+			gl.setHgap(3); 
+			
+			jPanelDecodeButtons.add(getBtnURLDecode(), null);
+			jPanelDecodeButtons.add(getBtnBase64Decode(), null);
+		}
+		return jPanelDecodeButtons;
+	}
+	
+	private JPanel getJPanelDecode() {
+		if (jPanelDecode == null) {
+			GridBagLayout gbl = new GridBagLayout();
+			
+			jPanelDecode = new JPanel();
+			jPanelDecode.setLayout(gbl);
+			jPanelDecode.setPreferredSize(new Dimension(200, 200));
+			
+			GridBagConstraints gbcButtons = new GridBagConstraints();
+			GridBagConstraints gbcSpace = new GridBagConstraints();
+			
+			gbcButtons.gridx = 0;
+			gbcButtons.gridy = 0;
+			gbcButtons.weightx = 1.0;
+			gbcButtons.weighty = 1.0;
+			gbcButtons.insets = new Insets(2, 2, 2, 2);
+			gbcButtons.anchor = GridBagConstraints.NORTHWEST;
+			gbcButtons.fill = GridBagConstraints.HORIZONTAL;
+			
+			
+			gbcSpace.gridx = 0;
+			gbcSpace.gridy = 1;
+			gbcSpace.insets = new Insets(2, 2, 2, 2);
+			gbcSpace.anchor = GridBagConstraints.NORTHWEST;
+			gbcSpace.fill = GridBagConstraints.BOTH;
+			
+			JLabel spaceLabel = new JLabel();
+	        spaceLabel.setText(" ");
+	        
+	        jPanelDecode.add(getJPanelDecodeButtons(), gbcButtons);
+	        jPanelDecode.add(spaceLabel, gbcSpace);
+		}
+		return jPanelDecode;
 	}
 
 	private Encoder getEncoder() {
