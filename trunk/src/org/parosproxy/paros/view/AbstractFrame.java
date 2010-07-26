@@ -22,48 +22,33 @@
 package org.parosproxy.paros.view;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
 import org.parosproxy.paros.Constant;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public abstract class AbstractFrame extends JFrame {
 
 	private static final long serialVersionUID = 7658476500356416014L;
 
-	/**
-	 * This is the default constructor
-	 */
 	public AbstractFrame() {
 		super();
 		initialize();
 	}
 
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
 	private void initialize() {
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				getClass().getResource("/resource/icons/andiparos-64.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(getClass().getResource("/resource/icons/andiparos-64.png")));
 		this.setVisible(false);
-		this.setTitle(Constant.PROGRAM_NAME + Constant.PROGRAM_VERSION);
+		this.setTitle(Constant.PROGRAM_NAME + " " + Constant.PROGRAM_VERSION);
 		this.setSize(800, 600);
-		this.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11));
+		this.setFont(new Font("Dialog", Font.PLAIN, 11));
 		centerFrame();
 	}
 
-	/**
-	 * Centre this frame.
-	 * 
-	 */
+	
 	public void centerFrame() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frameSize = this.getSize();
@@ -73,7 +58,6 @@ public abstract class AbstractFrame extends JFrame {
 		if (frameSize.width > screenSize.width) {
 			frameSize.width = screenSize.width;
 		}
-		this.setLocation((screenSize.width - frameSize.width) / 2,
-				(screenSize.height - frameSize.height) / 2);
+		this.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
 	}
-} // @jve:visual-info decl-index=0 visual-constraint="31,17"
+}
