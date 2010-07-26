@@ -29,11 +29,6 @@ import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpStatusCode;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestParameterTamper extends AbstractAppParamPlugin {
 
 	// private static final String[] PARAM_LIST = {"", "@", "+", "%A", "%1Z",
@@ -42,101 +37,61 @@ public class TestParameterTamper extends AbstractAppParamPlugin {
 	// on this.
 	// %0A not included as this is in CRLFInjection already.
 
-	private static String[] PARAM_LIST = { "", "", "@", "+",
-			AbstractPlugin.getURLDecode("%00"), "|" };
+	private static String[] PARAM_LIST = { "", "", "@", "+", AbstractPlugin.getURLDecode("%00"), "|" };
 
 	private static Pattern patternErrorJava1 = Pattern.compile(
-			"javax\\.servlet\\.\\S+", PATTERN_PARAM);
+		"javax\\.servlet\\.\\S+", PATTERN_PARAM);
 	private static Pattern patternErrorJava2 = Pattern.compile(
-			"invoke.+exception|exception.+invoke", PATTERN_PARAM);
+		"invoke.+exception|exception.+invoke", PATTERN_PARAM);
 
 	private static Pattern patternErrorVBScript = Pattern.compile(
-			"Microsoft(\\s+|&nbsp)*VBScript(\\s+|&nbsp)+error", PATTERN_PARAM);
+		"Microsoft(\\s+|&nbsp)*VBScript(\\s+|&nbsp)+error", PATTERN_PARAM);
 	private static Pattern patternErrorODBC1 = Pattern.compile(
-			"Microsoft OLE DB Provider for ODBC Drivers.*error", PATTERN_PARAM);
+		"Microsoft OLE DB Provider for ODBC Drivers.*error", PATTERN_PARAM);
 	private static Pattern patternErrorODBC2 = Pattern.compile(
-			"ODBC.*Drivers.*error", PATTERN_PARAM);
+		"ODBC.*Drivers.*error", PATTERN_PARAM);
 	private static Pattern patternErrorJet = Pattern.compile(
-			"Microsoft JET Database Engine.*error", PATTERN_PARAM);
-	private static Pattern patternErrorPHP = Pattern.compile(" on line <b>",
-			PATTERN_PARAM);
-	private static Pattern patternErrorTomcat = Pattern
-			.compile(
-					"(Apache Tomcat).*(^Caused by:|HTTP Status 500 - Internal Server Error)",
-					PATTERN_PARAM);
+		"Microsoft JET Database Engine.*error", PATTERN_PARAM);
+	private static Pattern patternErrorPHP = Pattern.compile(
+		" on line <b>", PATTERN_PARAM);
+	private static Pattern patternErrorTomcat = Pattern.compile(
+		"(Apache Tomcat).*(^Caused by:|HTTP Status 500 - Internal Server Error)", PATTERN_PARAM);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getId()
-	 */
 	public int getId() {
-		return 40010;
+		return 40005;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getName()
-	 */
 	public String getName() {
 		return "Parameter tampering";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getDependency()
-	 */
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getDescription()
-	 */
 	public String getDescription() {
-
-		String msg = "Certain parameter caused error page or Java stacktrace to be displayed.  This indicated lack of exception handling and potential areas for further exploit.";
+		String msg = "Certain parameter caused error page or Java stacktrace to be displayed. "
+			+ "This indicated lack of exception handling and potential areas for further exploit.";
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getCategory()
-	 */
 	public int getCategory() {
 		return Category.HTML_INJECTION;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getSolution()
-	 */
 	public String getSolution() {
-		return "Identify the cause of the error and fix it.  Do not trust client side input and enforece tight check in the server side.  Besides, catch the exception properly.  Use a generic 500 error page for internal server error.";
-
+		String msg = "Identify the cause of the error and fix it. Do not trust client side input "
+			+ "and enforce tight check in the server side. Besides, catch the exception properly. "
+			+ "Use a generic 500 error page for internal server error.";
+		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getReference()
-	 */
 	public String getReference() {
 		return "";
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractPlugin#init()
-	 */
+
 	public void init() {
 
 	}

@@ -12,7 +12,7 @@ public class TestCrossSiteScriptInPath extends AbstractAppPlugin {
 	private static final String XSS = "<SCRIPT>alert(\"XSS\");</SCRIPT>";
 
 	public int getId() {
-		return 40006;
+		return 40001;
 	}
 
 	public String getName() {

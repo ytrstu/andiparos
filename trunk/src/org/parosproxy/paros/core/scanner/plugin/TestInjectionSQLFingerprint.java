@@ -30,11 +30,6 @@ import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpStatusCode;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestInjectionSQLFingerprint extends AbstractAppParamPlugin {
 
 	private static final int TIME_SPREAD = 5000;
@@ -59,45 +54,32 @@ public class TestInjectionSQLFingerprint extends AbstractAppParamPlugin {
 	private static final Pattern patternErrorODBCMSSQL = Pattern.compile(
 			"ODBC SQL Server Driver", PATTERN_PARAM);
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getId()
-	 */
 	public int getId() {
-		return 50001;
+		return 50000;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getName()
-	 */
+
 	public String getName() {
 		return "SQL Injection Fingerprinting";
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
+
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getDescription()
-	 */
+
 	public String getDescription() {
 		String msg = "SQL injection may be possible.";
 		return msg;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getCategory()
-	 */
+
 	public int getCategory() {
 		return Category.SQL_INJECTION;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getSolution()
-	 */
+
 	public String getSolution() {
 		String msg = "Do not trust client side input even if there is client side validation.  In general, "
 				+ "<ul>"
@@ -112,11 +94,6 @@ public class TestInjectionSQLFingerprint extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getReference()
-	 */
 	public String getReference() {
 		String msg = "<ul><li>The OWASP guide at http://www.owasp.org/documentation/guide</li>"
 				+ "<li>http://www.sqlsecurity.com/DesktopDefault.aspx?tabid=23</li>"
@@ -126,11 +103,6 @@ public class TestInjectionSQLFingerprint extends AbstractAppParamPlugin {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractTest#init()
-	 */
 	public void init() {
 
 	}
@@ -143,13 +115,7 @@ public class TestInjectionSQLFingerprint extends AbstractAppParamPlugin {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.proofsecure.paros.core.scanner.AbstractAppParamTest#scan(com.proofsecure
-	 * .paros.network.HttpMessage, java.lang.String, java.lang.String)
-	 */
+
 	public void scanMSSQL(HttpMessage baseMsg, String param, String value)
 			throws HttpException, IOException {
 
@@ -161,15 +127,6 @@ public class TestInjectionSQLFingerprint extends AbstractAppParamPlugin {
 
 		HttpMessage msg = getNewMsg();
 
-		// always try normal query first
-		// lastTime = System.currentTimeMillis();
-		// sendAndReceive(msg);
-		// defaultTimeUsed = System.currentTimeMillis() - lastTime;
-		// if (msg.getResponseHeader().getStatusCode() != HttpStatusCode.OK) {
-		// return;
-		// }
-		//
-		// mResBodyNormal = msg.getResponseBody().toString();
 
 		// 2nd try an always error SQL query
 

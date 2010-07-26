@@ -30,90 +30,43 @@ import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpStatusCode;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestInjectionOracleSQLEnumeration extends AbstractAppParamPlugin {
 
-	private static final String[] dependency = { "TestInjectionSQLFingerprint",
-			"TestInjectionSQL" };
+	private static final String[] dependency = { "TestInjectionSQLFingerprint", "TestInjectionSQL" };
 	private String mResBodyNormal = ""; // normal response for comparison
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getId()
-	 */
 	public int getId() {
-		return 50005;
+		return 50003;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getName()
-	 */
 	public String getName() {
 		return "Oracle SQL Injection Enumeration";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
 	public String[] getDependency() {
-
 		return dependency;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDescription()
-	 */
 	public String getDescription() {
 		String msg = "The DB user name can be obtained.";
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getCategory()
-	 */
 	public int getCategory() {
 		return Category.SQL_INJECTION;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSolution()
-	 */
 	public String getSolution() {
 		String msg = "Refer SQL injection.";
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getReference()
-	 */
 	public String getReference() {
 		String msg = "Refer SQL injection.";
 		return msg;
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractTest#init()
-	 */
 	public void init() {
 
 	}
@@ -123,8 +76,7 @@ public class TestInjectionOracleSQLEnumeration extends AbstractAppParamPlugin {
 			return;
 		}
 
-		if (getKb().getString("sql/oracle/username") != null
-				&& getKb().getString("sql/oracle/tablename") != null) {
+		if (getKb().getString("sql/oracle/username") != null && getKb().getString("sql/oracle/tablename") != null) {
 			return;
 		}
 
@@ -135,18 +87,9 @@ public class TestInjectionOracleSQLEnumeration extends AbstractAppParamPlugin {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.proofsecure.paros.core.scanner.AbstractAppParamTest#scan(com.proofsecure
-	 * .paros.network.HttpMessage, java.lang.String, java.lang.String)
-	 */
+
 	public void scanSQL(HttpMessage baseMsg, String param, String value)
 			throws HttpException, IOException {
-
-		// protected void check(boolean isBody, String paramKey, String
-		// paramValue, String query, int insertPos) throws IOException {
 
 		HttpMessage msg = getNewMsg();
 
@@ -232,16 +175,12 @@ public class TestInjectionOracleSQLEnumeration extends AbstractAppParamPlugin {
 			String value, int charPos, int charCode) throws HttpException,
 			IOException {
 
-		// linear search - inefficient
-		// String s1 = "' AND ASCII(SUBSTR(USER_NAME()," + (charPos +1) +
-		// ",1)) = " + charCode + " AND '1'='1";
 		String s1 = "' AND ASCII(SUBSTR(USER," + (charPos + 1) + ",1))>"
 				+ charCode + " AND '1'='1";
 
 		String resBodyAND = "";
 		boolean is1 = false;
 
-		// setParameter(msg, param, value + getURLEncode(s1));
 		setParameter(msg, param, value + s1);
 
 		sendAndReceive(msg);

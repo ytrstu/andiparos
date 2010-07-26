@@ -28,47 +28,27 @@ import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestCrossSiteScriptNoBracket extends AbstractAppParamPlugin {
 
-	// should not be changed to static as Global may not be ready
-
-	// private static final String XSS3 = "paros\" style=\"background:url("
-	// + "javascript:alert('" + Constant.getEyeCatcher() + "'))";
 	private static final String XSS3 = "paros\" style=\"background:url("
 			+ "javascript:alert('" + Constant.getEyeCatcher() + "'))";
 
-	private static final Pattern patternXSS3 = Pattern
-			.compile("<\\w+ +[^>]+paros\" style=\"background:url\\("
-					+ "javascript:alert\\('" + Constant.getEyeCatcher()
-					+ "'\\)\\)\".*>");
+	private static final Pattern patternXSS3 = Pattern.compile(
+		"<\\w+ +[^>]+paros\" style=\"background:url\\("
+		+ "javascript:alert\\('" + Constant.getEyeCatcher() + "'\\)\\)\".*>");
 
 	public int getId() {
-		return 40005;
+		return 40003;
 	}
 
 	public String getName() {
 		return "Cross site scripting without brackets";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getDescription()
-	 */
 	public String getDescription() {
 		String msg = "Cross-site scripting or HTML injection is possible without '<' and '>'.  Malicious script may be injected into the browser which appeared to be genuine content from the original site.  "
 				+ "These scripts can be used to execute arbitrary code or steal customer sensitive information such as user password or cookies.\r\n"
@@ -79,20 +59,10 @@ public class TestCrossSiteScriptNoBracket extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getCategory()
-	 */
 	public int getCategory() {
 		return Category.HTML_INJECTION;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getSolution()
-	 */
 	public String getSolution() {
 		String msg = "Do not trust client side input even if there is client side validation.  Sanitize potentially danger characters in the server side.  Very often filtering the <, >, \" characters prevented injected script to be executed in most cases.  "
 				+ "However, sometimes other danger meta-characters such as ' , (, ), /, &, ; etc are also needed.\r\n"
@@ -100,11 +70,6 @@ public class TestCrossSiteScriptNoBracket extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Test#getReference()
-	 */
 	public String getReference() {
 		String msg = "<ul><li>The OWASP guide at http://www.owasp.org/documentation/guide</li>"
 				+ "<li>http://www.technicalinfo.net/papers/CSS.html</li>"
@@ -115,11 +80,6 @@ public class TestCrossSiteScriptNoBracket extends AbstractAppParamPlugin {
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractTest#init()
-	 */
 	public void init() {
 
 	}
@@ -135,16 +95,10 @@ public class TestCrossSiteScriptNoBracket extends AbstractAppParamPlugin {
 			e.printStackTrace();
 		}
 
-		// no need to have 200 response
-		// if (getResponseHeader().getStatusCode() != HttpStatusCode.OK) {
-		// return;
-		// }
-
 		StringBuffer sb = new StringBuffer();
-		// result = msg.getResponseBody().toString();
+		
 		if (matchBodyPattern(msg, patternXSS3, sb)) {
-			bingo(Alert.RISK_MEDIUM, Alert.SUSPICIOUS, null,
-					param + "=" + XSS3, null, msg);
+			bingo(Alert.RISK_MEDIUM, Alert.SUSPICIOUS, null, param + "=" + XSS3, null, msg);
 			return;
 		}
 

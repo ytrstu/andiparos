@@ -27,17 +27,7 @@ import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.core.scanner.Category;
 import org.parosproxy.paros.network.HttpMessage;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class TestServerSideInclude extends AbstractAppParamPlugin {
-
-	// private static final String SSI_UNIX = "<!--#EXEC%20cmd=\"ls%20/\"-->";
-	// private static final String SSI_UNIX2 = "\">" +SSI_UNIX + "<";
-	// private static final String SSI_WIN = "<!--#EXEC%20cmd=\"dir%20\\\"-->";
-	// private static final String SSI_WIN2 = "\">" +SSI_WIN + "<";
 
 	private static final String SSI_UNIX = "<!--#EXEC cmd=\"ls /\"-->";
 	private static final String SSI_UNIX2 = "\">" + SSI_UNIX + "<";
@@ -50,66 +40,43 @@ public class TestServerSideInclude extends AbstractAppParamPlugin {
 			"\\bprogram files\\b.*\\b(WINDOWS|WINNT)\\b", PATTERN_PARAM);
 
 	public int getId() {
-		return 40007;
+		return 40004;
 	}
 
 	public String getName() {
 		return "Server Side Include";
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getDependency()
-	 */
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getDescription()
-	 */
 	public String getDescription() {
 		String msg = "Certain parameters may cause Server Side Include commands to be executed.  This may allow database connection or arbitrary code to be executed.";
 		return msg;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getCategory()
-	 */
 	public int getCategory() {
 		return Category.HTML_INJECTION;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getSolution()
-	 */
 	public String getSolution() {
-		String msg = "Do not trust client side input and enforece tight check in the server side.  Disable server side include."
-				+ CRLF
-				+ ". Refer to manual to disable Sever Side Include."
-				+ CRLF
-				+ ". Use least privilege to run your web server or application server."
-				+ CRLF
-				+ "For Apache, disable the following:"
-				+ CRLF
-				+ "Options Indexes FollowSymLinks Includes"
-				+ CRLF
-				+ "AddType application/x-httpd-cgi .cgi"
-				+ CRLF
-				+ "AddType text/x-server-parsed-html .html" + CRLF;
+		String msg = "Do not trust client side input and enforece tight check in the server side. "
+			+ "Disable server side include. Refer to manual to disable Sever Side Include. Use least "
+			+ "privilege to run your web server or application server.\n"
+			+ "For Apache, disable the following:\n"
+			+ "Options Indexes FollowSymLinks Includes\n"
+			+ "AddType application/x-httpd-cgi .cgi\n"
+			+ "AddType text/x-server-parsed-html .html";
 		return msg;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.Test#getReference()
-	 */
 	public String getReference() {
 		String msg = "http://www.carleton.ca/~dmcfet/html/ssi.html";
 		return msg;
 	}
 
-	/*
-	 * @see com.proofsecure.paros.core.scanner.AbstractTest#init()
-	 */
+
 	public void init() {
 
 	}

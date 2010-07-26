@@ -36,104 +36,58 @@ import org.parosproxy.paros.network.HttpMessage;
 public class TestClientBrowserCache extends AbstractAppPlugin {
 
 	public final static Pattern patternNoCache = Pattern.compile(
-			"\\QNo-cache\\E|\\QNo-store\\E", PATTERN_PARAM);
+		"\\QNo-cache\\E|\\QNo-store\\E", PATTERN_PARAM);
 
 	// <meta http-equiv="Pragma" content="no-cache">
 	// <meta http-equiv="Cache-Control" content="no-cache">
-	public final static Pattern patternHtmlNoCache = Pattern
-			.compile(
-					"<META[^>]+(Pragma|\\QCache-Control\\E)[^>]+(\\QNo-cache\\E|\\QNo-store\\E)[^>]*>",
-					PATTERN_PARAM);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getId()
-	 */
+	public final static Pattern patternHtmlNoCache = Pattern.compile(
+		"<META[^>]+(Pragma|\\QCache-Control\\E)[^>]+(\\QNo-cache\\E|\\QNo-store\\E)[^>]*>", PATTERN_PARAM);
+	
 	public int getId() {
-		return 10002;
+		return 20001;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getName()
-	 */
 	public String getName() {
 		return "Secure page browser cache";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getDependency()
-	 */
 	public String[] getDependency() {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getDescription()
-	 */
+	
 	public String getDescription() {
-		return "Secure page can be cached in browser.  Cache control is not set in HTTP header nor HTML header.  Sensitive content can be recovered from browser storage.";
+		String msg = "Secure pages can be cached by the browser. Appropriate cache control settings are "
+			+ "neither set in the HTTP header nor in the HTML header. Therefore, sensitive content can be "
+			+ "recovered from browser's cache.";
+		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getCategory()
-	 */
 	public int getCategory() {
 		return Category.BROWSER;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getSolution()
-	 */
 	public String getSolution() {
-		String msg = "The best way is to set HTTP header with: 'Pragma: No-cache' and 'Cache-control: No-cache'."
-				+ CRLF
-				+ "Alternatively, this can be set in the HTML header by:"
-				+ CRLF
-				+ "<META HTTP-EQUIV='Pragma' CONTENT='no-cache'>"
-				+ CRLF
-				+ "<META HTTP-EQUIV='Cache-Control' CONTENT='no-cache'>"
-				+ CRLF
-				+ "but some browsers may have problem using this method.";
+		String msg = "Set a HTTP header with: 'Cache-control: no-cache, no-store'. Additionally, "
+			+ "but not preferably as the one and only solution you can set the HTML headers: "
+			+ "\n<META HTTP-EQUIV='Pragma' CONTENT='no-cache'>"
+			+ "\n<META HTTP-EQUIV='Cache-Control' CONTENT='no-cache'>";
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#getReference()
-	 */
+
 	public String getReference() {
-		String msg = ". How to prevent caching in Internet Explorer - http://support.microsoft.com/default.aspx?kbid=234067"
-				+ CRLF
-				+ ". Pragma: No-cache Tag May Not Prevent Page from Being Cached - http://support.microsoft.com/default.aspx?kbid=222064";
+		String msg = "How to prevent caching in Internet Explorer: "
+			+ "http://support.microsoft.com/default.aspx?kbid=234067 "
+			+ "\n\"Pragma: No-cache\" Tag May Not Prevent Page from Being Cached: "
+			+ "http://support.microsoft.com/default.aspx?kbid=222064";
 		return msg;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.AbstractPlugin#init()
-	 */
 	public void init() {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.proofsecure.paros.core.scanner.Plugin#scan()
-	 */
 	public void scan() {
 
 		HttpMessage msg = getBaseMsg();

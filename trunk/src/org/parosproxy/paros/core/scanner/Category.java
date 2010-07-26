@@ -21,23 +21,34 @@
 package org.parosproxy.paros.core.scanner;
 
 /**
- * 00000 - 09999 : information gathering 10000 - 19999 : default files 20000 -
- * 29999 : 30000 - 39999 :
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ * 00000 - 09999 : Information gathering
+ * 10000 - 19999 : Information disclosure
+ * 20000 - 29999 : Client browser
+ * 30000 - 39999 : Server security (Default files)
+ * 40000 - 49999 : HTML injection
+ * 50000 - 59999 : SQL injection
+ * 60000 - 69999 : Miscellaneous
  */
+
 public class Category {
 	public static final int INFO_GATHER = 0;
-	public static final int BROWSER = 1;
-	public static final int SERVER = 2;
-	public static final int MISC = 3;
+	public static final int INFO_DISCLOSURE = 1;
+	public static final int BROWSER = 2;
+	public static final int SERVER = 3;
 	public static final int HTML_INJECTION = 4;
 	public static final int SQL_INJECTION = 5;
+	public static final int MISC = 6;
 
-	private static String[] names = { "Information gathering",
-			"Client browser", "Server security", "Miscellaneous",
-			"HTML injection", "SQL injection" };
+
+	private static String[] names = {
+		"Information gathering",
+		"Information disclosure",
+		"Client browser",
+		"Server security",
+		"HTML injection",
+		"SQL injection",
+		"Miscellaneous"
+	};
 
 	public static String getName(int category) {
 		String result = "Undefined";
