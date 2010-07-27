@@ -20,6 +20,8 @@
  */
 package org.parosproxy.paros.extension.report;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -84,6 +86,7 @@ public class ExtensionReport extends ExtensionAdaptor implements CommandLineList
 		if (menuReport == null) {
 			menuReport = new JMenu();
 			menuReport.setText("Report");
+			menuReport.setMnemonic(KeyEvent.VK_R);
 			menuReport.add(getMenuItemLastScanReport());
 		}
 		return menuReport;

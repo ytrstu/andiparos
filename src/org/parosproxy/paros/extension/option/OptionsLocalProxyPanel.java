@@ -82,10 +82,10 @@ public class OptionsLocalProxyPanel extends AbstractParamPanel {
 					Color.black));
 			
 			JLabel addressLabel = new JLabel();
-			addressLabel.setText("Address (eg localhost, 127.0.0.1)");
+			addressLabel.setText("Address/Domain Name:");
 			
 			JLabel portLabel = new JLabel();
-			portLabel.setText("Port (eg 8080)");
+			portLabel.setText("Port:");
 
 			JLabel descLabel = new JLabel();
 			descLabel.setText("<html><body><br><p>Set your browser proxy setting using the above. The http port and https port must be the same port as above.</p></body></html>");
@@ -104,11 +104,11 @@ public class OptionsLocalProxyPanel extends AbstractParamPanel {
 			gbcAddressText.weightx = 0.5D;
 			gbcAddressText.insets = new Insets(2, 2, 2, 2);
 			gbcAddressText.anchor = GridBagConstraints.WEST;
-			gbcAddressText.fill = GridBagConstraints.HORIZONTAL;
+			//gbcAddressText.fill = GridBagConstraints.HORIZONTAL;
 			
 			gbcAddress.gridx = 1;
 			gbcAddress.gridy = 0;
-			gbcAddress.ipadx = 50;
+			gbcAddress.ipadx = 200;
 			gbcAddress.ipady = 0;
 			gbcAddress.weightx = 0.5D;
 			gbcAddress.insets = new Insets(2, 2, 2, 2);
@@ -122,11 +122,11 @@ public class OptionsLocalProxyPanel extends AbstractParamPanel {
 			gbcPortText.weightx = 0.5D;
 			gbcPortText.insets = new Insets(2, 2, 2, 2);
 			gbcPortText.anchor = GridBagConstraints.WEST;
-			gbcPortText.fill = GridBagConstraints.HORIZONTAL;
+			//gbcPortText.fill = GridBagConstraints.HORIZONTAL;
 						
 			gbcPort.gridx = 1;
 			gbcPort.gridy = 1;
-			gbcPort.ipadx = 50;
+			gbcPort.ipadx = 200;
 			gbcPort.ipady = 0;
 			gbcPort.weightx = 0.5D;
 			gbcPort.insets = new Insets(2, 2, 2, 2);
