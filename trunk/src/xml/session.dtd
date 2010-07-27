@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!ELEMENT host (#PCDATA)>
-<!ELEMENT session (sessionName,sessionId,sessionDesc,host*,processImages)>
 <!ELEMENT sessionId (#PCDATA)>
 <!ELEMENT sessionName (#PCDATA)>
-<!ELEMENT sessioniDesc (#PCDATA)>
+<!ELEMENT sessionDesc (#PCDATA)>
+<!ELEMENT session (sessionName,sessionId,sessionDesc,host*)>
 

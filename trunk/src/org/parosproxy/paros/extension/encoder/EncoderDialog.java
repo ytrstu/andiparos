@@ -406,12 +406,13 @@ public class EncoderDialog extends AbstractDialog {
 			gbcButtons.weighty = 1.0;
 			gbcButtons.insets = new Insets(2, 2, 2, 2);
 			gbcButtons.anchor = GridBagConstraints.NORTHWEST;
-			gbcButtons.fill = GridBagConstraints.BOTH;
+			gbcButtons.fill = GridBagConstraints.HORIZONTAL;
 			
 			gbcSpace.gridx = 0;
 			gbcSpace.gridy = 1;
 			gbcSpace.insets = new Insets(2, 2, 2, 2);
 			gbcSpace.anchor = GridBagConstraints.NORTHWEST;
+			gbcSpace.fill = GridBagConstraints.BOTH;
 			
 			
 			JLabel spaceLabel = new JLabel();
