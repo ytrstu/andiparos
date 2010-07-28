@@ -20,6 +20,7 @@
  */
 package org.parosproxy.paros.view;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -60,6 +61,7 @@ public class AboutDialog extends AbstractDialog {
 
 	private void initialize() {
 		this.setContentPane(getJPanel());
+		this.setResizable(false);
 		this.pack();
 	}
 
