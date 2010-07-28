@@ -48,7 +48,7 @@ public class ExtensionUpdate extends ExtensionAdaptor {
 	private static final String ANDIPAROS_FILES = "http://code.google.com/p/andiparos/downloads/list";
 	private HttpSender httpSender = null;
 	
-	private Pattern patternNewestVersionArchive = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.(\\d+)\\.tar\\.gz", Pattern.MULTILINE);
+	private Pattern patternNewestVersionArchive = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.(\\d+)\\.zip", Pattern.MULTILINE);
 	private Pattern patternNewestVersionMacOsX = Pattern.compile("Andiparos-v(\\d+)\\.(\\d+)\\.(\\d+)\\.dmg", Pattern.MULTILINE);
 
 
@@ -109,7 +109,7 @@ public class ExtensionUpdate extends ExtensionAdaptor {
 									} else if (newestVersionName.equals("")) {
 										getView().showWarningDialog("Error encountered. Please check manually for new updates.");
 									} else {
-										newestVersionName = newestVersionName.replaceAll("\\.tar\\.gz", "");
+										newestVersionName = newestVersionName.replaceAll("\\.zip", "");
 										newestVersionName = newestVersionName.replaceAll("\\.dmg", "");
 										getView().showMessageDialog("A new version of "
 											+ Constant.PROGRAM_NAME + " is available: "
