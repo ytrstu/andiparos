@@ -50,6 +50,7 @@ public class AboutPanel extends JPanel {
 				+ "<p>Copyright (C) 2007-2010 Andiparos Project</p>"
 				+ "<p>Copyright (C) 2007-2010 Compass Security AG</p>"
 				+ "<p>Copyright (C) 2003-2005 Chinotec Technologies Company</p></body></html>";
+	
 	private static final String DISCLAIMER = "<html><body><p>Disclaimer: You should only use this software to "
 				+ "test the security of your own web application or those you are authorized to do so. "
 				+ "The creators of this software do not take responsibility for any problems "
@@ -116,6 +117,7 @@ public class AboutPanel extends JPanel {
 	 */
 	private void initialize() {
 		GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+		GridBagLayout gbl = new GridBagLayout();
 		
 		JLabel lblDisclaimer = new JLabel();
 		JLabel lblCopyright = new JLabel();
@@ -124,9 +126,12 @@ public class AboutPanel extends JPanel {
 		JLabel lblCopyrightDetail = new JLabel();
 		JLabel lblLogo = new JLabel();
 
-		this.setLayout(new GridBagLayout());
+		this.setLayout(gbl);
 		this.setBackground(Color.white);
 		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+		this.setPreferredSize(new Dimension(470, 550));
+		
+		
 		lblLogo.setText("");
 		lblLogo.setIcon(new ImageIcon(getClass().getResource("/resource/logos/andiparos-logo.png")));
 		lblLogo.setName("lblLogo");
@@ -142,19 +147,16 @@ public class AboutPanel extends JPanel {
 		lblCopyright.setBackground(Color.white);
 		
 		lblDisclaimer.setText(DISCLAIMER);
-		lblDisclaimer.setPreferredSize(new Dimension(450, 100));
 		lblDisclaimer.setName("lblDisclaimer");
 		lblDisclaimer.setFont(new Font("Dialog", Font.PLAIN, 11));
 		lblDisclaimer.setBackground(Color.white);
 		
 		lblCopyrightDetail.setText(LICENSE_DETAIL);
-		lblCopyrightDetail.setPreferredSize(new Dimension(450, 140));
 		lblCopyrightDetail.setFont(new Font("Default", Font.PLAIN, 11));
 		lblCopyrightDetail.setName("lblCopyrightDetail");
 		lblCopyrightDetail.setBackground(Color.white);
 		
 		lblOtherCopyright.setText(OTHER_LICENSE);
-		lblOtherCopyright.setPreferredSize(new Dimension(450, 110));
 		lblOtherCopyright.setName("lblOtherCopyright");
 		lblOtherCopyright.setFont(new Font("Dialog", Font.PLAIN, 11));
 		lblOtherCopyright.setBackground(Color.white);
@@ -202,7 +204,6 @@ public class AboutPanel extends JPanel {
 		gridBagConstraints1.insets = new Insets(5, 15, 5, 15);
 		gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
 		this.add(lblOtherCopyright, gridBagConstraints1);
-		
 		
 	}
 }

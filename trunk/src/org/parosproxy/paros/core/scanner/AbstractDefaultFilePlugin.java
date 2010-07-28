@@ -49,8 +49,7 @@ abstract public class AbstractDefaultFilePlugin extends AbstractHostPlugin {
 		directories = directories.trim();
 		files = files.trim();
 		for (int i = 0; i < SPECIAL_TAG_LIST.length; i++) {
-			directories = directories.replaceAll(SPECIAL_TAG_LIST[i],
-					TAG_REPLACE_LIST[i]);
+			directories = directories.replaceAll(SPECIAL_TAG_LIST[i], TAG_REPLACE_LIST[i]);
 		}
 
 		try {
@@ -119,8 +118,7 @@ abstract public class AbstractDefaultFilePlugin extends AbstractHostPlugin {
 				msg.getRequestBody().setLength(0);
 				sendAndReceive(msg);
 				if (isFileExist(msg)) {
-					bingo(Alert.RISK_MEDIUM, Alert.SUSPICIOUS, uri.toString(),
-							"", "", msg);
+					bingo(Alert.RISK_MEDIUM, Alert.SUSPICIOUS, uri.toString(), "", "", msg);
 				}
 			} catch (Exception e) {
 			}
