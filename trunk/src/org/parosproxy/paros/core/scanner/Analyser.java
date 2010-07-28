@@ -36,11 +36,6 @@ import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpSender;
 import org.parosproxy.paros.network.HttpStatusCode;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class Analyser {
 
 	/** remove HTML HEAD as this may contain expiry time which dynamic changes */
@@ -50,12 +45,20 @@ public class Analyser {
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
 	private static Random staticRandomGenerator = new Random();
-	private static final String[] staticSuffixList = { ".cfm", ".jsp", ".php",
-			".asp", ".aspx", ".dll", ".exe", ".pl" };
+	private static final String[] staticSuffixList = {
+		".cfm",
+		".jsp",
+		".php",
+		".asp",
+		".aspx",
+		".dll",
+		".exe",
+		".pl"
+	};
 
 	private HttpSender httpSender = null;
 	private TreeMap<String, SampleResponse> mapVisited = new TreeMap<String, SampleResponse>();
-	private boolean isStop = false;
+	private boolean isSkipOrStop = false;
 
 	public Analyser() {
 
@@ -65,12 +68,12 @@ public class Analyser {
 		this.httpSender = httpSender;
 	}
 
-	public boolean isStop() {
-		return isStop;
+	public boolean isSkipOrStop() {
+		return isSkipOrStop;
 	}
-
-	public void stop() {
-		isStop = true;
+	
+	public void skipOrStop() {
+		isSkipOrStop = true;
 	}
 
 	public void start(SiteNode node) {
@@ -93,8 +96,7 @@ public class Analyser {
 			return;
 		}
 
-		HttpMessage baseMsg = (HttpMessage) node.getHistoryReference()
-				.getHttpMessage();
+		HttpMessage baseMsg = (HttpMessage) node.getHistoryReference().getHttpMessage();
 		URI baseUri = (URI) baseMsg.getRequestHeader().getURI().clone();
 
 		baseUri.setQuery(null);
@@ -122,8 +124,7 @@ public class Analyser {
 			return;
 		}
 
-		if (HttpStatusCode.isRedirection(msg.getResponseHeader()
-				.getStatusCode())) {
+		if (HttpStatusCode.isRedirection(msg.getResponseHeader().getStatusCode())) {
 			addAnalysedHost(baseUri, msg, SampleResponse.ERROR_PAGE_REDIRECT);
 			return;
 		}
@@ -143,10 +144,8 @@ public class Analyser {
 
 		// remove HTML HEAD as this may contain expiry time which dynamic
 		// changes
-		String resBody1 = msg.getResponseBody().toString().replaceAll(
-				p_REMOVE_HEADER, "");
-		String resBody2 = msg2.getResponseBody().toString().replaceAll(
-				p_REMOVE_HEADER, "");
+		String resBody1 = msg.getResponseBody().toString().replaceAll(p_REMOVE_HEADER, "");
+		String resBody2 = msg2.getResponseBody().toString().replaceAll(p_REMOVE_HEADER, "");
 
 		// check if page is static. If so, remember this static page
 		if (resBody1.equals(resBody2)) {
@@ -156,14 +155,13 @@ public class Analyser {
 		}
 
 		// else check if page is dynamic but deterministic
-		resBody1 = resBody1.replaceAll(getPathRegex(uri), "").replaceAll(
-				"\\s[012]\\d:[0-5]\\d:[0-5]\\d\\s", "");
-		resBody2 = resBody2.replaceAll(getPathRegex(uri2), "").replaceAll(
-				"\\s[012]\\d:[0-5]\\d:[0-5]\\d\\s", "");
+		resBody1 = resBody1.replaceAll(getPathRegex(uri), "")
+			.replaceAll("\\s[012]\\d:[0-5]\\d:[0-5]\\d\\s", "");
+		resBody2 = resBody2.replaceAll(getPathRegex(uri2), "")
+			.replaceAll("\\s[012]\\d:[0-5]\\d:[0-5]\\d\\s", "");
 		if (resBody1.equals(resBody2)) {
 			msg.getResponseBody().setBody(resBody1);
-			addAnalysedHost(baseUri, msg,
-					SampleResponse.ERROR_PAGE_DYNAMIC_BUT_DETERMINISTIC);
+			addAnalysedHost(baseUri, msg, SampleResponse.ERROR_PAGE_DYNAMIC_BUT_DETERMINISTIC);
 			return;
 		}
 
@@ -200,8 +198,7 @@ public class Analyser {
 					ref = child.getHistoryReference();
 					try {
 						msg = ref.getHttpMessage();
-						if (msg.getRequestHeader().getURI().getPath().endsWith(
-								suffix)) {
+						if (msg.getRequestHeader().getURI().getPath().endsWith(suffix)) {
 							return suffix;
 						}
 					} catch (Exception e) {
@@ -211,9 +208,7 @@ public class Analyser {
 
 			if (performRecursiveCheck) {
 				for (int j = 0; j < node.getChildCount(); j++) {
-					resultSuffix = getChildSuffix(
-							(SiteNode) node.getChildAt(j),
-							performRecursiveCheck);
+					resultSuffix = getChildSuffix((SiteNode) node.getChildAt(j),performRecursiveCheck);
 					if (!resultSuffix.equals("")) {
 						return resultSuffix;
 					}
@@ -264,8 +259,7 @@ public class Analyser {
 
 		String path = "";
 		path = (uri.getPath() == null) ? "" : uri.getPath();
-		path = path + (path.endsWith("/") ? "" : "/")
-				+ Long.toString(Math.abs(staticRandomGenerator.nextLong()));
+		path = path + (path.endsWith("/") ? "" : "/") + Long.toString(Math.abs(staticRandomGenerator.nextLong()));
 		path = path + resultSuffix;
 
 		return path;
@@ -279,9 +273,10 @@ public class Analyser {
 
 		SiteNode tmp = null;
 
-		if (isStop) {
+		if (isSkipOrStop) {
 			return;
 		}
+		
 
 		if (node == null) {
 			return;
@@ -292,8 +287,7 @@ public class Analyser {
 		// if path exist.
 		try {
 			if (!node.isRoot()) {
-				if (!node.isLeaf() || node.isLeaf()
-						&& ((SiteNode) node.getParent()).isRoot()) {
+				if (!node.isLeaf() || node.isLeaf() && ((SiteNode) node.getParent()).isRoot()) {
 					analyse(node);
 				}
 			}
@@ -301,7 +295,7 @@ public class Analyser {
 
 		}
 
-		for (int i = 0; i < node.getChildCount() && !isStop(); i++) {
+		for (int i = 0; i < node.getChildCount() && !isSkipOrStop(); i++) {
 			try {
 				tmp = (SiteNode) node.getChildAt(i);
 				inOrderAnalyse(tmp);
@@ -359,17 +353,12 @@ public class Analyser {
 
 		// check for redirect response. If redirect to same location, then file
 		// does not exist
-		if (HttpStatusCode.isRedirection(msg.getResponseHeader()
-				.getStatusCode())) {
+		if (HttpStatusCode.isRedirection(msg.getResponseHeader().getStatusCode())) {
 			try {
-				if (sample.getMessage().getResponseHeader().getStatusCode() == msg
-						.getResponseHeader().getStatusCode()) {
-					String location = msg.getResponseHeader().getHeader(
-							HttpHeader.LOCATION);
-					if (location != null
-							&& location.equals(sample.getMessage()
-									.getResponseHeader().getHeader(
-											HttpHeader.LOCATION))) {
+				if (sample.getMessage().getResponseHeader().getStatusCode() == msg.getResponseHeader().getStatusCode()) {
+					String location = msg.getResponseHeader().getHeader(HttpHeader.LOCATION);
+					if (location != null && location.equals(sample.getMessage().getResponseHeader().getHeader(HttpHeader.LOCATION)))
+					{
 						return false;
 					}
 				}
@@ -387,15 +376,13 @@ public class Analyser {
 		// remain only OK response here
 
 		// nothing more to determine. Check for possible not found page pattern.
-		Matcher matcher = patternNotFound.matcher(msg.getResponseBody()
-				.toString());
+		Matcher matcher = patternNotFound.matcher(msg.getResponseBody().toString());
 		if (matcher.find()) {
 			return false;
 		}
 
 		// static response
-		String body = msg.getResponseBody().toString().replaceAll(
-				p_REMOVE_HEADER, "");
+		String body = msg.getResponseBody().toString().replaceAll(p_REMOVE_HEADER, "");
 		if (sample.getErrorPageType() == SampleResponse.ERROR_PAGE_STATIC) {
 			if (sample.getMessage().getResponseBody().toString().equals(body)) {
 				return false;
@@ -406,9 +393,11 @@ public class Analyser {
 		uri = msg.getRequestHeader().getURI();
 		try {
 			if (sample.getErrorPageType() == SampleResponse.ERROR_PAGE_DYNAMIC_BUT_DETERMINISTIC) {
-				body = msg.getResponseBody().toString().replaceAll(
-						getPathRegex(uri), "").replaceAll(
-						"\\s[012]\\d:[0-5]\\d:[0-5]\\d\\s", "");
+				
+				body = msg.getResponseBody().toString()
+					.replaceAll(getPathRegex(uri), "")
+					.replaceAll("\\s[012]\\d:[0-5]\\d:[0-5]\\d\\s", "");
+					
 				if (sample.getMessage().getResponseBody().equals(body)) {
 					return false;
 				}
@@ -422,8 +411,7 @@ public class Analyser {
 		return true;
 	}
 
-	private void sendAndReceive(HttpMessage msg) throws HttpException,
-			IOException {
+	private void sendAndReceive(HttpMessage msg) throws HttpException, IOException {
 		httpSender.sendAndReceive(msg, true);
 	}
 

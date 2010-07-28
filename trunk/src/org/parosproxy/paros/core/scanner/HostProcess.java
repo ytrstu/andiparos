@@ -39,11 +39,11 @@ import org.parosproxy.paros.network.HttpSender;
 public class HostProcess implements Runnable {
 
 	private static Log log = LogFactory.getLog(HostProcess.class);
-	private static DecimalFormat decimalFormat = new java.text.DecimalFormat(
-			"###0.###");
+	private static DecimalFormat decimalFormat = new DecimalFormat("###0.###");
 
 	private SiteNode startNode = null;
 	private boolean isStop = false;
+	private boolean isSkipPlugin = false;
 	private PluginFactory pluginFactory = null;
 	@SuppressWarnings("unused")
 	private ScannerParam scannerParam = null;
@@ -61,8 +61,7 @@ public class HostProcess implements Runnable {
 	/**
      * 
      */
-	public HostProcess(String hostAndPort, Scanner parentScanner,
-			ScannerParam scannerParam, ConnectionParam connectionParam) {
+	public HostProcess(String hostAndPort, Scanner parentScanner, ScannerParam scannerParam, ConnectionParam connectionParam) {
 		super();
 		this.hostAndPort = hostAndPort;
 		this.parentScanner = parentScanner;
@@ -77,7 +76,12 @@ public class HostProcess implements Runnable {
 
 	public void stop() {
 		isStop = true;
-		getAnalyser().stop();
+		getAnalyser().skipOrStop();
+	}
+	
+	public void skipPlugin() {
+		isSkipPlugin = true;
+		getAnalyser().skipOrStop();
 	}
 
 	public void run() {
@@ -88,6 +92,7 @@ public class HostProcess implements Runnable {
 		Plugin plugin = null;
 		while (!isStop && getPluginFactory().existPluginToRun()) {
 			plugin = getPluginFactory().nextPlugin();
+				
 			if (plugin != null) {
 				processPlugin(plugin);
 			} else {
@@ -95,6 +100,7 @@ public class HostProcess implements Runnable {
 				Util.sleep(1000);
 			}
 		}
+		
 		threadPool.waitAllThreadComplete(300000);
 		notifyHostProgress(null);
 		notifyHostComplete();
@@ -103,12 +109,17 @@ public class HostProcess implements Runnable {
 
 	private void processPlugin(Plugin plugin) {
 		log.info("start host " + hostAndPort + " | " + plugin.getCodeName());
-		mapPluginStartTime.put(new Long(plugin.getId()), new Long(System
-				.currentTimeMillis()));
+		mapPluginStartTime.put(new Long(plugin.getId()), new Long(System.currentTimeMillis()));
 		if (plugin instanceof AbstractHostPlugin) {
 			scanSingleNode(plugin, startNode);
 		} else if (plugin instanceof AbstractAppPlugin) {
 			traverse(plugin, startNode);
+			
+			/*  Has to be set to false in order not to skip all plugins if the
+			 *  scanners "Skip plugin" button was pressed
+			 */
+			isSkipPlugin = false;
+			
 			threadPool.waitAllThreadComplete(600000);
 			pluginCompleted(plugin);
 
@@ -125,7 +136,7 @@ public class HostProcess implements Runnable {
 
 	private void traverse(Plugin plugin, SiteNode node) {
 
-		if (node == null || plugin == null) {
+		if (node == null || plugin == null || isSkipPlugin) {
 			return;
 		}
 
@@ -193,24 +204,26 @@ public class HostProcess implements Runnable {
 	public boolean isStop() {
 		return (isStop || parentScanner.isStop());
 	}
+	
+	public boolean isSkipPlugin() {
+		return isSkipPlugin;
+	}
 
 	private void notifyHostProgress(String msg) {
 		int percentage = 0;
 		if (getPluginFactory().totalPluginToRun() == 0) {
 			percentage = 100;
 		} else {
-			percentage = (100 * getPluginFactory().totalPluginCompleted() / getPluginFactory()
-					.totalPluginToRun());
+			percentage = (100 * getPluginFactory().totalPluginCompleted()
+					/ getPluginFactory().totalPluginToRun());
 		}
 		parentScanner.notifyHostProgress(hostAndPort, msg, percentage);
 	}
 
 	private void notifyHostComplete() {
 		long diffTimeMillis = System.currentTimeMillis() - hostProcessStartTime;
-		String diffTimeString = decimalFormat
-				.format((double) (diffTimeMillis / 1000.0))
-				+ "s";
-		log.info("completed host " + hostAndPort + " in " + diffTimeString);
+		String diffTimeString = decimalFormat.format((double) (diffTimeMillis / 1000.0))+ "s";
+		log.info("Completed host " + hostAndPort + " in " + diffTimeString);
 		parentScanner.notifyHostComplete(hostAndPort);
 	}
 
@@ -229,17 +242,17 @@ public class HostProcess implements Runnable {
 		Object obj = mapPluginStartTime.get(new Long(plugin.getId()));
 		StringBuffer sb = new StringBuffer();
 		if (isStop) {
-			sb.append("stopped host/plugin ");
+			sb.append("Stopped host/plugin ");
+		} else if (isSkipPlugin){
+			sb.append("Skipped plugin ");
 		} else {
-			sb.append("completed host/plugin ");
+			sb.append("Completed host plugin ");
 		}
 		sb.append(hostAndPort + " | " + plugin.getCodeName());
 		if (obj != null) {
 			long startTimeMillis = ((Long) obj).longValue();
 			long diffTimeMillis = System.currentTimeMillis() - startTimeMillis;
-			String diffTimeString = decimalFormat
-					.format((double) (diffTimeMillis / 1000.0))
-					+ "s";
+			String diffTimeString = decimalFormat.format((double) (diffTimeMillis / 1000.0)) + "s";
 			sb.append(" in " + diffTimeString);
 		}
 		log.info(sb.toString());

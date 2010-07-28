@@ -29,11 +29,6 @@ import org.parosproxy.paros.common.ThreadPool;
 import org.parosproxy.paros.model.SiteNode;
 import org.parosproxy.paros.network.ConnectionParam;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class Scanner implements Runnable {
 
 	private static Log log = LogFactory.getLog(Scanner.class);
@@ -42,7 +37,7 @@ public class Scanner implements Runnable {
 	private Vector<ScannerListener> listenerList = new Vector<ScannerListener>();
 	private ScannerParam scannerParam = null;
 	private ConnectionParam connectionParam = null;
-	// private HttpSender httpSender = null;
+
 	private boolean isStop = false;
 	private ThreadPool pool = null;
 	private SiteNode startNode = null;
@@ -54,13 +49,12 @@ public class Scanner implements Runnable {
 	public Scanner(ScannerParam scannerParam, ConnectionParam param) {
 		this.connectionParam = param;
 		this.scannerParam = scannerParam;
-		// httpSender = new HttpSender(param);
 		pool = new ThreadPool(scannerParam.getHostPerScan());
 	}
 
 	public void start(SiteNode startNode) {
 		isStop = false;
-		log.info("scanner started");
+		log.info("Scanner started");
 		startTimeMillis = System.currentTimeMillis();
 		this.startNode = startNode;
 		Thread thread = new Thread(this);
@@ -69,10 +63,8 @@ public class Scanner implements Runnable {
 	}
 
 	public void stop() {
-		log.info("scanner stopped");
-
+		log.info("Scanner stopped");
 		isStop = true;
-
 	}
 
 	public void addScannerListener(ScannerListener listener) {
@@ -85,10 +77,6 @@ public class Scanner implements Runnable {
 
 	public void run() {
 		scan(startNode);
-
-		// while (pool.isAllThreadComplete()) {
-		// Util.sleep(4000);
-		// }
 		pool.waitAllThreadComplete(0);
 		notifyScannerComplete();
 	}
@@ -102,14 +90,16 @@ public class Scanner implements Runnable {
 			for (int i = 0; i < node.getChildCount() && !isStop(); i++) {
 				SiteNode child = (SiteNode) node.getChildAt(i);
 				String hostAndPort = getHostAndPort(child);
-				hostProcess = new HostProcess(hostAndPort, this, scannerParam,
-						connectionParam);
+				hostProcess = new HostProcess(hostAndPort, this, scannerParam, connectionParam);
 				hostProcess.setStartNode(child);
+				
 				do {
 					thread = pool.getFreeThreadAndRun(hostProcess);
-					if (thread == null)
+					if (thread == null) {
 						Util.sleep(500);
+					}
 				} while (thread == null && !isStop());
+				
 				if (thread != null) {
 					notifyHostNewScan(hostAndPort, hostProcess);
 				}
@@ -117,18 +107,16 @@ public class Scanner implements Runnable {
 		} else {
 			String hostAndPort = getHostAndPort(node);
 
-			hostProcess = new HostProcess(hostAndPort, this, scannerParam,
-					connectionParam);
+			hostProcess = new HostProcess(hostAndPort, this, scannerParam, connectionParam);
 			hostProcess.setStartNode(node);
+			
 			thread = pool.getFreeThreadAndRun(hostProcess);
 			notifyHostNewScan(hostAndPort, hostProcess);
-
 		}
 
 	}
 
 	public boolean isStop() {
-
 		return isStop;
 	}
 
@@ -171,9 +159,7 @@ public class Scanner implements Runnable {
 			listener.scannerComplete();
 		}
 		long diffTimeMillis = System.currentTimeMillis() - startTimeMillis;
-		String diffTimeString = decimalFormat
-				.format((double) (diffTimeMillis / 1000.0))
-				+ "s";
+		String diffTimeString = decimalFormat.format((double) (diffTimeMillis / 1000.0)) + "s";
 		log.info("scanner completed in " + diffTimeString);
 		isStop = true;
 	}
@@ -183,7 +169,6 @@ public class Scanner implements Runnable {
 			ScannerListener listener = (ScannerListener) listenerList.get(i);
 			listener.alertFound(alert);
 		}
-
 	}
 
 	void notifyHostNewScan(String hostAndPort, HostProcess hostThread) {
@@ -191,7 +176,6 @@ public class Scanner implements Runnable {
 			ScannerListener listener = (ScannerListener) listenerList.get(i);
 			listener.hostNewScan(hostAndPort, hostThread);
 		}
-
 	}
 
 }

@@ -10,6 +10,7 @@
 		Reorganized and updated scanner plugins
 		Added crossdomain.xml scanner plugin
 		Added robots.txt scanner plugin
+		Added "Skip plugin" functionality in the scanner
 		
 --
 1.0.2	Initial Release of Andiparos Proxy
