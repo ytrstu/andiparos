@@ -283,9 +283,9 @@ public class SSLContextManager {
             
             // Set up a virtual config file
             StringBuffer cardConfig = new StringBuffer();
-            cardConfig.append("name = ").append(name).append("\n");
-            cardConfig.append("library = ").append(library).append("\n");
-            cardConfig.append("slot = ").append(3).append("\n");
+            cardConfig.append("name=").append(name).append("\n");
+            cardConfig.append("library=").append(library).append("\n");
+            cardConfig.append("slot=").append(slot).append("\n");
             InputStream is = new ByteArrayInputStream(cardConfig.toString().getBytes());
             
             // create the provider
