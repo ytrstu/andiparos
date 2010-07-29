@@ -5,4 +5,5 @@ following directory...
 Windows 7 Users:	"C:/Users/<your_user_name>/Andiparos"
 Windows XP Users:	"C:/Documents and Settings/<your_user_name>/Andiparos"
 Linux Users:		"~/Andiparos"
+Mac OS X Users:		"~/Library/Application Support/Andiparos"
 

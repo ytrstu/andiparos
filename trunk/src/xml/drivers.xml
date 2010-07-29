@@ -11,8 +11,13 @@
 		<slot>0</slot>
 	</driver>
 	<driver>
-		<name>SwissPostCertificate</name>
+		<name>SuisseID</name>
 		<path>C:\WINDOWS\System32\siecap11.dll</path>
 		<slot>3</slot>
+	</driver>
+	<driver>
+		<name>Aladdin eToken</name>
+		<path>C:\WINDOWS\System32\eTPKCS11.dll</path>
+		<slot>0</slot>
 	</driver>
 </driverConfiguration>
