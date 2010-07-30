@@ -1,5 +1,9 @@
 = Changelog for Andiparos releases =
 
+== 1.0.4 ==
+
+  * Fixed a serious bug, preventing from using different slots on smartcards
+
 == 1.0.3 ==
 
   * Added BeanShell support (Code contribution of Stephen de Vries)
