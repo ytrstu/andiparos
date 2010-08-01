@@ -50,6 +50,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
+import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.AbstractPanel;
 import org.parosproxy.paros.model.HistoryReference;
 import org.parosproxy.paros.network.HttpMalformedHeaderException;
@@ -99,6 +100,7 @@ public class LogPanel extends AbstractPanel implements Runnable {
 		gridBagConstraints0.gridx = 0;
 		gridBagConstraints0.gridy = 0;
 		gridBagConstraints0.weightx = 1.0;
+		
 		gridBagConstraints1.gridx = 0;
 		gridBagConstraints1.gridy = 1;
 		gridBagConstraints1.weightx = 1.0;
@@ -263,8 +265,7 @@ public class LogPanel extends AbstractPanel implements Runnable {
 					}
 
 					if (e.getKeyCode() == KeyEvent.VK_T) {
-						if (e.isControlDown()) {
-
+						if (isMetaCtrlDown(e)) {
 							HistoryReference ref = (HistoryReference) listLog.getSelectedValue();
 							HttpMessage msg = null;
 							try {
@@ -279,10 +280,10 @@ public class LogPanel extends AbstractPanel implements Runnable {
 
 								extension.getHistoryList().notifyItemChanged(ref);
 
-							} catch (HttpMalformedHeaderException e1) {
-								e1.printStackTrace();
-							} catch (SQLException e1) {
-								e1.printStackTrace();
+							} catch (HttpMalformedHeaderException ex) {
+								ex.printStackTrace();
+							} catch (SQLException ex) {
+								ex.printStackTrace();
 							}
 						}
 					}
@@ -293,6 +294,16 @@ public class LogPanel extends AbstractPanel implements Runnable {
 		return listLog;
 	}
 
+	public boolean isMetaCtrlDown(KeyEvent ke) {
+		boolean keyDown;
+		if (Constant.isOSX()) {
+			keyDown = ke.isMetaDown();
+		} else {
+			keyDown = ke.isControlDown();
+		}
+		return keyDown;
+	}
+	
 	private Vector<HistoryReference> displayQueue = new Vector<HistoryReference>();
 	private Thread thread = null;
 	private LogPanelCellRenderer logPanelCellRenderer = null;

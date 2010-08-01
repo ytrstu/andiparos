@@ -20,19 +20,21 @@
  */
 package org.parosproxy.paros.extension.edit;
 
+import java.awt.Event;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
+import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.parosproxy.paros.view.FindDialog;
 
-/**
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
- */
 public class ExtensionEdit extends ExtensionAdaptor {
 
 	private FindDialog findDialog = null;
@@ -70,7 +72,6 @@ public class ExtensionEdit extends ExtensionAdaptor {
 		if (getView() != null) {
 			extensionHook.getHookMenu().addEditMenuItem(getMenuFind());
 			extensionHook.getHookMenu().addPopupMenuItem(getPopupMenuFind());
-
 		}
 
 	}
@@ -93,12 +94,15 @@ public class ExtensionEdit extends ExtensionAdaptor {
 		if (menuFind == null) {
 			menuFind = new JMenuItem();
 			menuFind.setText("Find...");
-			menuFind.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
-					java.awt.event.KeyEvent.VK_F, java.awt.Event.CTRL_MASK,
-					false));
+			
+			if (Constant.isOSX()) {
+				menuFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.META_MASK, false));
+			} else {
+				menuFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.CTRL_MASK, false));
+			}
 
-			menuFind.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			menuFind.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					showFindDialog(getView().getMainFrame(), null);
 				}
 			});
@@ -115,14 +119,11 @@ public class ExtensionEdit extends ExtensionAdaptor {
 		if (popupFindMenu == null) {
 			popupFindMenu = new PopupFindMenu();
 			popupFindMenu.setText("Find...");
-			popupFindMenu
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							showFindDialog(popupFindMenu.getParentFrame(),
-									popupFindMenu.getLastInvoker());
-
-						}
-					});
+			popupFindMenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showFindDialog(popupFindMenu.getParentFrame(), popupFindMenu.getLastInvoker());
+				}
+			});
 		}
 		return popupFindMenu;
 	}

@@ -1,3 +1,8 @@
+1.0.5
+		Undo/Redo/Find is now mapped to the specific operating systems default (OSX Meta Keys)
+
+--
+
 1.0.4	Fixed serious bug preventing smartcards to work with different slots
 
 --

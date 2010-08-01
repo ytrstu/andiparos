@@ -27,6 +27,7 @@ import java.awt.EventQueue;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
