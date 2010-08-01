@@ -52,6 +52,7 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoManager;
 
+import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.AbstractPanel;
 import org.parosproxy.paros.network.HttpMessage;
 
@@ -121,11 +122,13 @@ public class HttpPanel extends AbstractPanel {
 		gridBagConstraints1.fill = GridBagConstraints.BOTH;
 		gridBagConstraints1.ipadx = 0;
 		gridBagConstraints1.ipady = 0;
+		
 		gridBagConstraints4.anchor = GridBagConstraints.SOUTHWEST;
 		gridBagConstraints4.fill = GridBagConstraints.HORIZONTAL;
 		gridBagConstraints4.gridx = 0;
 		gridBagConstraints4.gridy = 1;
 		gridBagConstraints4.weightx = 1.0D;
+		
 		this.add(getSplitVert(), gridBagConstraints1);
 		this.add(getJPanel(), gridBagConstraints4);
 	}
@@ -230,8 +233,9 @@ public class HttpPanel extends AbstractPanel {
 			});
 
 			// Add key-bindings
-			txtHeader.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "Undo");
-			txtHeader.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
+			txtHeader.getInputMap().put(KeyStroke.getKeyStroke(Constant.ACCELERATOR_UNDO), "Undo");
+			txtHeader.getInputMap().put(KeyStroke.getKeyStroke(Constant.ACCELERATOR_REDO), "Redo");
+			
 
 		}
 		return txtHeader;
@@ -291,8 +295,8 @@ public class HttpPanel extends AbstractPanel {
 			});
 
 			// Add key-bindings
-			txtBody.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "Undo");
-			txtBody.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
+			txtBody.getInputMap().put(KeyStroke.getKeyStroke(Constant.ACCELERATOR_UNDO), "Undo");
+			txtBody.getInputMap().put(KeyStroke.getKeyStroke(Constant.ACCELERATOR_REDO), "Redo");
 
 		}
 
@@ -336,19 +340,19 @@ public class HttpPanel extends AbstractPanel {
 
 			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
 			GridBagConstraints gridBagConstraints6 = new GridBagConstraints();
-			GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
+			GridBagConstraints gbcComboBox = new GridBagConstraints();
 
 			jPanel = new JPanel();
 			jPanel.setLayout(new GridBagLayout());
 
-			gridBagConstraints5.gridx = 0;
-			gridBagConstraints5.gridy = 0;
-			gridBagConstraints5.weightx = 0.0D;
-			gridBagConstraints5.fill = GridBagConstraints.NONE;
-			gridBagConstraints5.ipadx = 0;
-			gridBagConstraints5.anchor = GridBagConstraints.WEST;
-
-			gridBagConstraints5.insets = new Insets(2, 0, 2, 0);
+			gbcComboBox.gridx = 0;
+			gbcComboBox.gridy = 0;
+			gbcComboBox.weightx = 0.0D;
+			gbcComboBox.fill = GridBagConstraints.NONE;
+			gbcComboBox.ipadx = 0;
+			gbcComboBox.anchor = GridBagConstraints.WEST;
+			gbcComboBox.insets = new Insets(2, 0, 2, 0);
+			
 			gridBagConstraints6.anchor = GridBagConstraints.SOUTHEAST;
 			gridBagConstraints6.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints6.gridx = 2;
@@ -359,7 +363,7 @@ public class HttpPanel extends AbstractPanel {
 			gridBagConstraints7.gridy = 0;
 			gridBagConstraints7.insets = new Insets(2, 2, 2, 2);
 			gridBagConstraints7.anchor = GridBagConstraints.WEST;
-			jPanel.add(getComboView(), gridBagConstraints5);
+			jPanel.add(getComboView(), gbcComboBox);
 			jPanel.add(jLabel, gridBagConstraints7);
 			jPanel.add(getPanelOption(), gridBagConstraints6);
 		}

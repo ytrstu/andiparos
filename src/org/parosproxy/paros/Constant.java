@@ -26,6 +26,8 @@ import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.KeyStroke;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
@@ -43,34 +45,41 @@ public final class Constant {
 
 	// ************************************************************
 	// the version String in the config.xml MUST be set to be the same
-	// as the version_tag otherwise the config.xml will be overwritten everytime.
+	// as the version_tag otherwise the config.xml will be overwritten
+	// everytime.
 	// ************************************************************
-	public static final String PROGRAM_VERSION = "1.0.4";
-	public static final long VERSION_TAG = 1000004;
+	public static final String PROGRAM_VERSION = "1.0.5";
+	public static final long VERSION_TAG = 1000005;
 	// ************************************************************
 	// note the above
 	// ************************************************************
 
 	public static final String PROGRAM_TITLE = PROGRAM_NAME + " " + PROGRAM_VERSION;
 	public static final String PROGRAM_LICENSE = "GPLv2";
+	
 	public static final String SYSTEM_PAROS_USER_LOG = "andiparos.user.log";
 	
 	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-
 	public static final String FILE_CONFIG_DEFAULT = "xml/config.xml";
 	public static String FILE_CONFIG = "config.xml";
+	
 	public static final String FOLDER_PLUGIN = "plugin";
 	public static final String FOLDER_FILTER = "filter";
 	public static final String FOLDER_SESSION_DEFAULT = "session";
 	public String FOLDER_SESSION = "session";
+	
 	public static final String DBNAME_TEMPLATE = "db" + FILE_SEPARATOR + "andiparosdb";
-
 	public static final String DBNAME_UNTITLED_DEFAULT = FOLDER_SESSION_DEFAULT + FILE_SEPARATOR + "untitled";
-
 	public String DBNAME_UNTITLED = FOLDER_SESSION + FILE_SEPARATOR + "untitled";
+	
 	public String ACCEPTED_LICENSE_DEFAULT = "AcceptedLicense";
 	public String ACCEPTED_LICENSE = ACCEPTED_LICENSE_DEFAULT;
 
+	// Accelerator keys - Default: Windows
+	public static String ACCELERATOR_UNDO = "control Z";
+	public static String ACCELERATOR_REDO = "control Y";
+	public static String ACCELERATOR_TRIGGER_KEY = "Control";
+	
 	private static Constant instance = null;
 
 	public static final int MAX_HOST_CONNECTION = 5;
@@ -101,6 +110,12 @@ public final class Constant {
 	}
 
 	public Constant() {
+		initializeFilesAndDirectories();
+		setAcceleratorKeys();
+	}
+	
+	private void initializeFilesAndDirectories() {
+	
 		FileCopier copier = new FileCopier();
 		File f = null;
 		Log log = null;
@@ -205,6 +220,20 @@ public final class Constant {
 		}
 		return instance;
 
+	}
+	
+	private void setAcceleratorKeys() {
+
+		// Undo/Redo
+		if (Constant.isOSX()) {
+			ACCELERATOR_UNDO = "meta Z";
+			ACCELERATOR_REDO = "meta shift Z";
+			ACCELERATOR_TRIGGER_KEY = "Meta";
+		} else {
+			ACCELERATOR_UNDO = "control Z";
+			ACCELERATOR_REDO = "control Y";
+			ACCELERATOR_TRIGGER_KEY = "Control";
+		}
 	}
 
 	public static boolean isWindows() {

@@ -75,10 +75,9 @@ public class LogPanelCellRenderer extends JPanel implements ListCellRenderer {
 		gridBagConstraints4.anchor = GridBagConstraints.WEST;
 		gridBagConstraints4.gridx = 8;
 		gridBagConstraints4.gridy = 0;
-		gridBagConstraints4.weightx = 0.25D;
+		gridBagConstraints4.weightx = 0.0D;
 		gridBagConstraints4.ipadx = 4;
 		gridBagConstraints4.ipady = 1;
-		gridBagConstraints4.insets = new Insets(0, 2, 0, 0);
 		gridBagConstraints4.fill = GridBagConstraints.HORIZONTAL;
 		
 		GridBagConstraints gbc_timestamp = new GridBagConstraints();
@@ -86,9 +85,8 @@ public class LogPanelCellRenderer extends JPanel implements ListCellRenderer {
 		gbc_timestamp.gridx = 7;
 		gbc_timestamp.gridy = 0;
 		gbc_timestamp.weightx = 0.15D;
-		gbc_timestamp.ipadx = 4;
+		gbc_timestamp.ipadx = 10;
 		gbc_timestamp.ipady = 1;
-		gbc_timestamp.insets = new Insets(0, 2, 0, 0);
 		gbc_timestamp.fill = GridBagConstraints.HORIZONTAL;
 
 		GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
