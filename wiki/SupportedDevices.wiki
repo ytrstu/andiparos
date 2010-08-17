@@ -1,6 +1,7 @@
 = Smartcard devices that are known to work with Andiparos =
 
   * Aladdin eToken
+  * Aladdin eToken Pro
   * Gemalto Reflex 20 V2
   * Swiss Stick
   * Omnikey CardMan 6121
